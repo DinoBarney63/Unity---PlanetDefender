@@ -7,7 +7,7 @@ public class MainGun : MonoBehaviour
     public Camera mainCamera;
     public bool isActive = true;
     public float rotation;
-    public GameObject playerBulletPrefab;
+    public GameObject bulletPrefab;
 
 
     // Start is called before the first frame update
@@ -44,7 +44,7 @@ public class MainGun : MonoBehaviour
 
     public void Shoot()
     {
-        GameObject newBullet = Instantiate(playerBulletPrefab);
+        GameObject newBullet = Instantiate(bulletPrefab);
         newBullet.transform.position = transform.position;
         newBullet.transform.rotation = transform.localRotation;
     }

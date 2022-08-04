@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 26176509}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -153,6 +153,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ead04dd9981984449fdd11b7aad09ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 0}
+  powerPercentage: 0
+  health: 50
+  guns:
+  - {fileID: 2005434381}
+  - {fileID: 2027556045}
+  - {fileID: 2073721864}
+  - {fileID: 458071729}
+  - {fileID: 1232528287}
 --- !u!135 &26176510
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -161,7 +170,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 26176508}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1.5
@@ -355,6 +364,51 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &267609289
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 267609290}
+  - component: {fileID: 267609291}
+  m_Layer: 0
+  m_Name: GameMananger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &267609290
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 267609289}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &267609291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 267609289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7793d554df3c0cb469384cf74cdc89fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  difficultyPercentage: 1
 --- !u!1 &458071729
 GameObject:
   m_ObjectHideFlags: 0
@@ -366,7 +420,7 @@ GameObject:
   - component: {fileID: 458071730}
   - component: {fileID: 458071731}
   m_Layer: 0
-  m_Name: EnemyGun (3)
+  m_Name: EnemyGunS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -401,12 +455,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82c5a1dcdf962f945a45a6876eb334dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   distanceToPlayer: 0
   between: 0
   point1: 80
   point2: 280
   toRotate: 0
+  shootOffset: 5
+  bulletPrefab: {fileID: 146110498514957662, guid: 1bfb93396e4fc1c429edeb5259c30c69, type: 3}
+  shootDelaySeconds: 2
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -753,9 +809,10 @@ GameObject:
   m_Component:
   - component: {fileID: 846919646}
   - component: {fileID: 846919647}
+  - component: {fileID: 846919648}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -785,11 +842,28 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 846919645}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &846919648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 846919645}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf0ab39a7fc253346996869dab5737e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerMaxHealth: 100
+  playerHealth: 0
+  regenCountingDown: 1
+  regenCountdown: 0
+  regenTime: 0
 --- !u!1 &863989269
 GameObject:
   m_ObjectHideFlags: 0
@@ -1137,7 +1211,7 @@ GameObject:
   - component: {fileID: 1232528288}
   - component: {fileID: 1232528289}
   m_Layer: 0
-  m_Name: EnemyGun (4)
+  m_Name: EnemyGunW
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1172,12 +1246,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82c5a1dcdf962f945a45a6876eb334dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   distanceToPlayer: 0
   between: 0
-  point1: 190
-  point2: 350
+  point1: 10
+  point2: 190
   toRotate: 0
+  shootOffset: 5
+  bulletPrefab: {fileID: 146110498514957662, guid: 1bfb93396e4fc1c429edeb5259c30c69, type: 3}
+  shootDelaySeconds: 2
 --- !u!1 &1351108066
 GameObject:
   m_ObjectHideFlags: 0
@@ -1694,12 +1770,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82c5a1dcdf962f945a45a6876eb334dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   distanceToPlayer: 0
   between: 1
   point1: 0
   point2: 360
   toRotate: 0
+  shootOffset: 5
+  bulletPrefab: {fileID: 146110498514957662, guid: 1bfb93396e4fc1c429edeb5259c30c69, type: 3}
+  shootDelaySeconds: 2
 --- !u!1 &2027556045
 GameObject:
   m_ObjectHideFlags: 0
@@ -1711,7 +1789,7 @@ GameObject:
   - component: {fileID: 2027556046}
   - component: {fileID: 2027556047}
   m_Layer: 0
-  m_Name: EnemyGun (1)
+  m_Name: EnemyGunN
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1746,12 +1824,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82c5a1dcdf962f945a45a6876eb334dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   distanceToPlayer: 0
   between: 1
   point1: 100
   point2: 260
   toRotate: 0
+  shootOffset: 5
+  bulletPrefab: {fileID: 146110498514957662, guid: 1bfb93396e4fc1c429edeb5259c30c69, type: 3}
+  shootDelaySeconds: 2
 --- !u!1 &2073721864
 GameObject:
   m_ObjectHideFlags: 0
@@ -1763,7 +1843,7 @@ GameObject:
   - component: {fileID: 2073721865}
   - component: {fileID: 2073721866}
   m_Layer: 0
-  m_Name: EnemyGun (2)
+  m_Name: EnemyGunE
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1798,9 +1878,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82c5a1dcdf962f945a45a6876eb334dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   distanceToPlayer: 0
   between: 1
   point1: 10
   point2: 170
   toRotate: 0
+  shootOffset: 5
+  bulletPrefab: {fileID: 146110498514957662, guid: 1bfb93396e4fc1c429edeb5259c30c69, type: 3}
+  shootDelaySeconds: 2

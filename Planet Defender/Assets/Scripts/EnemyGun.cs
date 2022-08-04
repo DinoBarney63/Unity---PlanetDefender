@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyGun : MonoBehaviour
 {
-    public GameObject player;
+    private GameObject player;
     public float distanceToPlayer;
     private float rotationSpeed = 0.004f;
     public bool between = true;
@@ -12,7 +12,9 @@ public class EnemyGun : MonoBehaviour
     public float point2 = 360;
     public float toRotate;
     public float shootOffset = 5;
-    public GameObject enemyBulletPrefab;
+    public GameObject bulletPrefab;
+    public float shootDelaySeconds = 2;
+    private float shootDelay;
 
     // Start is called before the first frame update
     void Start()
@@ -35,16 +37,19 @@ public class EnemyGun : MonoBehaviour
             if ((toRotate >= point1 && toRotate <= point2) == between)
                 transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, Time.time * rotationSpeed);
 
-            if (transform.rotation.eulerAngles.z == toRotate)
+            if ((transform.rotation.eulerAngles.z + 5 > toRotate) && (transform.rotation.eulerAngles.z - 5 < toRotate) && shootDelay < 0)
             {
                 Shoot();
+                shootDelay = shootDelaySeconds;
             }
+
+            shootDelay -= Time.deltaTime;
         }
     }
 
     public void Shoot()
     {
-        GameObject newBullet = Instantiate(enemyBulletPrefab);
+        GameObject newBullet = Instantiate(bulletPrefab);
         newBullet.transform.position = transform.position;
         newBullet.transform.rotation = transform.localRotation;
     }
