@@ -20,6 +20,8 @@ public class EnemyGun : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("Player");
+
+        
     }
 
     // Update is called once per frame
@@ -45,6 +47,27 @@ public class EnemyGun : MonoBehaviour
 
             shootDelay -= Time.deltaTime;
         }
+    }
+
+    public void Spawned(float startingAngle)
+    {
+        transform.Rotate(0, 0, startingAngle);
+
+        point1 = startingAngle - 100;
+        if (point1 < 0)
+            point1 += 360;
+        point2 = startingAngle + 100;
+        if (point2 > 360)
+            point2 -= 360;
+
+        if (point1 > point2)
+        {
+            float temp = point1;
+            point1 = point2;
+            point2 = temp;
+            between = false;
+        }
+        
     }
 
     public void Shoot()
