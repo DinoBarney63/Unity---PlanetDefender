@@ -6,10 +6,10 @@ public class Player : MonoBehaviour
 {
     public int playerMaxHealth = 100;
     public int playerHealth;
-    public bool regenCountingDown = true;
-    public float regenCountdown;
+    private bool regenCountingDown = true;
+    private float regenCountdown;
     private float regenCountdownMax = 5;
-    public float regenTime;
+    private float regenTime;
     private float regenTimeMax = 2;
 
     // Start is called before the first frame update

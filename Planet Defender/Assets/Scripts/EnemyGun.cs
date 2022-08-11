@@ -7,10 +7,10 @@ public class EnemyGun : MonoBehaviour
     private GameObject player;
     public float distanceToPlayer;
     private float rotationSpeed = 0.004f;
-    public bool between = true;
-    public float point1 = 0;
-    public float point2 = 360;
-    public float toRotate;
+    private bool between = true;
+    private float point1 = 0;
+    private float point2 = 360;
+    private float toRotate;
     public float shootOffset = 5;
     public GameObject bulletPrefab;
     public float shootDelaySeconds = 2;
@@ -44,19 +44,19 @@ public class EnemyGun : MonoBehaviour
                 Shoot();
                 shootDelay = shootDelaySeconds;
             }
-
-            shootDelay -= Time.deltaTime;
         }
+        shootDelay -= Time.deltaTime;
     }
 
-    public void Spawned(float startingAngle)
+    public void Spawned(float startingAngleRad, float startingAngleDeg, Vector3 enemyPos)
     {
-        transform.Rotate(0, 0, startingAngle);
+        transform.Rotate(0, 0, startingAngleDeg);
+        transform.position = new Vector3 (enemyPos.x + 1.5f * Mathf.Cos(startingAngleRad), enemyPos.y + 1.5f * Mathf.Sin(startingAngleRad), 0);
 
-        point1 = startingAngle - 100;
+        point1 = startingAngleDeg - 100;
         if (point1 < 0)
             point1 += 360;
-        point2 = startingAngle + 100;
+        point2 = startingAngleDeg + 100;
         if (point2 > 360)
             point2 -= 360;
 

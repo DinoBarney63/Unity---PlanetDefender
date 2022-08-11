@@ -7,7 +7,7 @@ public class Bullets : MonoBehaviour
     private Rigidbody bulletRb;
     private float bulletSpeed = 10.0f;
     private GameObject player;
-    public float age;
+    private float age;
     
     // Start is called before the first frame update
     void Start()
