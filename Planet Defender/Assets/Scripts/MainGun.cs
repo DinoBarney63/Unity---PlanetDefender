@@ -48,4 +48,9 @@ public class MainGun : MonoBehaviour
         newBullet.transform.position = transform.position;
         newBullet.transform.rotation = transform.localRotation;
     }
+
+    public void Toggle(bool OnOff)
+    {
+        isActive = OnOff;
+    }
 }

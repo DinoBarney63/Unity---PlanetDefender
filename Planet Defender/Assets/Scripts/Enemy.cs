@@ -12,25 +12,13 @@ public class Enemy : MonoBehaviour
     private float spreadDeg = 0;
     private float gunAngleRad = 0;
     private float gunAngleDeg = 90;
+    public GameObject orbit;
+    public float distanceFromOrbit = 25.0f;
 
     // Start is called before the first frame update
     void Start()
     {
-        //gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        //int difficulty = gameManager.difficultyWhat();
-
-
-        
-        spreadRad = Mathf.PI * 2 / gunCount;
-        spreadDeg = 360 / gunCount;
-        for(int i = 0; i < gunCount; i++)
-        {
-            gunAngleRad += spreadRad;
-            gunAngleDeg += spreadDeg;
-            GameObject newGun = Instantiate(enemyGunPrefab);
-            newGun.transform.parent = transform;
-            newGun.GetComponent<EnemyGun>().Spawned(gunAngleRad, gunAngleDeg, transform.position);
-        }
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -44,7 +32,25 @@ public class Enemy : MonoBehaviour
         health -= damageTaken;
         if (health <= 0)
         {
-            Destroy(gameObject);
+            Destroy(orbit);
         }
+    }
+
+    public void SetUp(float orbitDistance, int gunCount)
+    {
+        spreadRad = Mathf.PI * 2 / gunCount;
+        spreadDeg = 360 / gunCount;
+        for (int i = 0; i < gunCount; i++)
+        {
+            gunAngleRad += spreadRad;
+            gunAngleDeg += spreadDeg;
+            GameObject newGun = Instantiate(enemyGunPrefab);
+            newGun.transform.parent = transform;
+            newGun.GetComponent<EnemyGun>().Spawned(gunAngleRad, gunAngleDeg, transform.position);
+        }
+
+        distanceFromOrbit = orbitDistance;
+        transform.position = orbit.transform.position + new Vector3(0, distanceFromOrbit, 0);
+        orbit.GetComponent<Orbit>().Beguin();
     }
 }
