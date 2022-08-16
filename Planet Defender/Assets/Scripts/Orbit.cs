@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Orbit : MonoBehaviour
 {
-    private GameObject player;
+    public GameObject player;
     public bool rotating = false;
     public float speed = 1.0f;
     public bool clockwise = true;
@@ -15,6 +15,13 @@ public class Orbit : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("Player");
+
+        Vector3 playerDirection = transform.position - player.transform.position;
+        Quaternion desiredRotation = Quaternion.LookRotation(Vector3.forward, playerDirection);
+        transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, 1);
+        startingAngle = transform.rotation.eulerAngles.z;
+        clockwise = Random.value > 0.5f;
+        rotating = true;
     }
 
     // Update is called once per frame
@@ -37,6 +44,8 @@ public class Orbit : MonoBehaviour
         Quaternion desiredRotation = Quaternion.LookRotation(Vector3.forward, playerDirection);
         transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, 1);
         startingAngle = transform.rotation.eulerAngles.z;
+        speed = Random.Range(0.5f, 1.5f);
+        clockwise = Random.value > 0.5f;
         rotating = true;
     }
 }

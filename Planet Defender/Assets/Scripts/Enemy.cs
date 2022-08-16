@@ -24,7 +24,7 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        transform.eulerAngles = new Vector3(0, 0, 0);
     }
 
     public void Damage(int damageTaken)
@@ -48,9 +48,6 @@ public class Enemy : MonoBehaviour
             newGun.transform.parent = transform;
             newGun.GetComponent<EnemyGun>().Spawned(gunAngleRad, gunAngleDeg, transform.position);
         }
-
-        distanceFromOrbit = orbitDistance;
-        transform.position = orbit.transform.position + new Vector3(0, distanceFromOrbit, 0);
-        orbit.GetComponent<Orbit>().Beguin();
+        transform.position = orbit.transform.position + new Vector3(0, orbitDistance + Random.Range(-25, 25), 0);
     }
 }
