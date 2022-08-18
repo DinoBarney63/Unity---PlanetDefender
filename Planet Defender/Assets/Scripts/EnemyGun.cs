@@ -15,6 +15,7 @@ public class EnemyGun : MonoBehaviour
     public GameObject bulletPrefab;
     public float shootDelaySeconds = 2;
     private float shootDelay;
+    public bool main = true;
 
     // Start is called before the first frame update
     void Start()
@@ -75,5 +76,9 @@ public class EnemyGun : MonoBehaviour
         GameObject newBullet = Instantiate(bulletPrefab);
         newBullet.transform.position = transform.position;
         newBullet.transform.rotation = transform.localRotation;
+        if(main)
+            newBullet.GetComponent<Bullets>().damage = 2;
+        else
+            newBullet.GetComponent<Bullets>().damage = 1;
     }
 }

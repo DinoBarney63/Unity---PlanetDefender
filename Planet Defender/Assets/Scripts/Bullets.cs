@@ -8,6 +8,7 @@ public class Bullets : MonoBehaviour
     private float bulletSpeed = 10.0f;
     private GameObject player;
     private float age;
+    public int damage = 1;
     
     // Start is called before the first frame update
     void Start()
@@ -37,11 +38,11 @@ public class Bullets : MonoBehaviour
         {
             if (other.tag == "Player")
             {
-                player.GetComponent<Player>().Damage(1);
+                player.GetComponent<Player>().Damage(damage);
             }else if (other.tag == "Enemy")
             {
                 GameObject enemy = other.gameObject;
-                enemy.GetComponent<Enemy>().Damage(1);
+                enemy.GetComponent<Enemy>().Damage(damage);
             }
             Destroy(gameObject);
         }

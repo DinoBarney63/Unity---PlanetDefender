@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     private float regenCountdownMax = 5;
     private float regenTime;
     private float regenTimeMax = 2;
+    public GameObject mainGun;
+    public bool mainGunEnabled;
 
     // Start is called before the first frame update
     void Start()

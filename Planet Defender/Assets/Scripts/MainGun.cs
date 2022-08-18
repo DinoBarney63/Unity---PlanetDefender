@@ -8,6 +8,7 @@ public class MainGun : MonoBehaviour
     public bool isActive = true;
     public float rotation;
     public GameObject bulletPrefab;
+    public GameObject nearestEnemy;
 
 
     // Start is called before the first frame update
@@ -19,25 +20,22 @@ public class MainGun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isActive)
+        if (isActive)
         {
             Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
             Vector3 perpendicular = transform.position - mousePos;
             transform.rotation = Quaternion.LookRotation(Vector3.forward, perpendicular);
-
             if (transform.localRotation.eulerAngles.z <= 180f)
-            {
                 rotation = transform.localRotation.eulerAngles.z;
-            }
             else
-            {
                 rotation = transform.localRotation.eulerAngles.z - 360f;
-            }
-
             if (Input.GetMouseButtonDown(0))
             {
                 Shoot();
             }
+        }else
+        {
+            // to find out the closest enemy i will have all the enemies on a list and use a for loop to compare the playes coords to the enmeis
         }
         
     }
@@ -47,6 +45,7 @@ public class MainGun : MonoBehaviour
         GameObject newBullet = Instantiate(bulletPrefab);
         newBullet.transform.position = transform.position;
         newBullet.transform.rotation = transform.localRotation;
+        newBullet.GetComponent<Bullets>().damage = 1;
     }
 
     public void Toggle(bool OnOff)

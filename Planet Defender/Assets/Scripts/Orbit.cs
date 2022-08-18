@@ -20,6 +20,8 @@ public class Orbit : MonoBehaviour
         Quaternion desiredRotation = Quaternion.LookRotation(Vector3.forward, playerDirection);
         transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, 1);
         startingAngle = transform.rotation.eulerAngles.z;
+        double speedOffset = Random.Range(-10, 10) * 0.1;
+        speed = 1.5f + (float)speedOffset;
         clockwise = Random.value > 0.5f;
         rotating = true;
     }
@@ -36,16 +38,5 @@ public class Orbit : MonoBehaviour
 
             transform.Rotate(0, 0, speed * direction * Time.deltaTime);
         }
-    }
-
-    public void Beguin()
-    {
-        Vector3 playerDirection = transform.position - player.transform.position;
-        Quaternion desiredRotation = Quaternion.LookRotation(Vector3.forward, playerDirection);
-        transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, 1);
-        startingAngle = transform.rotation.eulerAngles.z;
-        speed = Random.Range(0.5f, 1.5f);
-        clockwise = Random.value > 0.5f;
-        rotating = true;
     }
 }

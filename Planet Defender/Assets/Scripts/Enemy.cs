@@ -47,6 +47,7 @@ public class Enemy : MonoBehaviour
             GameObject newGun = Instantiate(enemyGunPrefab);
             newGun.transform.parent = transform;
             newGun.GetComponent<EnemyGun>().Spawned(gunAngleRad, gunAngleDeg, transform.position);
+            newGun.GetComponent<EnemyGun>().main = false;
         }
         transform.position = orbit.transform.position + new Vector3(0, orbitDistance + Random.Range(-25, 25), 0);
     }

@@ -485,6 +485,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerMaxHealth: 100
   playerHealth: 0
+  mainGun: {fileID: 1673588654}
+  mainGunEnabled: 0
 --- !u!1 &1081196174
 GameObject:
   m_ObjectHideFlags: 0
@@ -619,3 +621,4 @@ MonoBehaviour:
   isActive: 1
   rotation: 0
   bulletPrefab: {fileID: 146110498514957662, guid: 1bfb93396e4fc1c429edeb5259c30c69, type: 3}
+  nearestEnemy: {fileID: 0}
