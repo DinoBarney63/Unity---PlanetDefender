@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     public GameObject enemyInOrbitPrefab;
     public int enemyCount;
     public bool spawn = false;
+    public int enemyCountMax = 10;
 
     // Start is called before the first frame update
     void Start()
@@ -19,7 +20,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(spawn || enemyCount < 5)
+        if(spawn || enemyCount < enemyCountMax)
         {
             spawn = false;
             SpawnEnemy();
@@ -31,7 +32,7 @@ public class GameManager : MonoBehaviour
     public void SpawnEnemy()
     {
         GameObject NewEnemyOrbit = Instantiate(enemyInOrbitPrefab);
-        Vector3 offset = randomSpawnPos(30, 50);
+        Vector3 offset = randomSpawnPos(50, 70);
         float distanceToPlayer = Mathf.Sqrt(Mathf.Pow(offset.x, 2) + Mathf.Pow(offset.y, 2));
         NewEnemyOrbit.transform.position = player.transform.position + offset;
         NewEnemyOrbit.GetComponentInChildren<Enemy>().SetUp(distanceToPlayer, 3);

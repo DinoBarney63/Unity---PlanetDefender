@@ -12,7 +12,9 @@ public class Player : MonoBehaviour
     private float regenTime;
     private float regenTimeMax = 2;
     public GameObject mainGun;
-    public bool mainGunEnabled;
+    public bool mainGunEnabled = true;
+    public GameObject[] subGuns;
+    public bool switchGuns;
 
     // Start is called before the first frame update
     void Start()
@@ -52,6 +54,12 @@ public class Player : MonoBehaviour
                     playerHealth += 1;
             }
         }
+
+        if (switchGuns)
+        {
+            switchGuns = false;
+            SwitchGuns();
+        }
     }
 
     public void Damage(int damageTaken)
@@ -62,5 +70,23 @@ public class Player : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void SwitchGuns()
+    {
+        if (mainGunEnabled)
+        {
+            mainGunEnabled = false;
+            mainGun.GetComponent<MainGun>().Toggle(false);
+            foreach(GameObject i in subGuns)
+                i.GetComponent<SubGun>().Toggle(true);
+        }else
+        {
+            mainGunEnabled = true;
+            mainGun.GetComponent<MainGun>().Toggle(true);
+            foreach (GameObject i in subGuns)
+                i.GetComponent<SubGun>().Toggle(false);
+        }
+            
     }
 }

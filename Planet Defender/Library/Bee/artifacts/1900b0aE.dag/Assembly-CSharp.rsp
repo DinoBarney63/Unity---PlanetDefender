@@ -374,6 +374,7 @@
 "Assets/Scripts/MainGun.cs"
 "Assets/Scripts/Orbit.cs"
 "Assets/Scripts/Player.cs"
+"Assets/Scripts/SubGun.cs"
 -langversion:9.0
 
 /deterministic

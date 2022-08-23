@@ -9,6 +9,7 @@ public class Bullets : MonoBehaviour
     private GameObject player;
     private float age;
     public int damage = 1;
+    public bool playerBullet;
     
     // Start is called before the first frame update
     void Start()
@@ -21,10 +22,10 @@ public class Bullets : MonoBehaviour
     void Update()
     {
         bulletRb.AddForce(transform.up * -1 * bulletSpeed);
-        if (Mathf.Abs(transform.position.x) > player.transform.position.x + 40)
+        if (Mathf.Abs(transform.position.x) > player.transform.position.x + 60)
         {
             Destroy(gameObject);
-        }else if (Mathf.Abs(transform.position.y) > player.transform.position.y + 40)
+        }else if (Mathf.Abs(transform.position.y) > player.transform.position.y + 60)
         {
             Destroy(gameObject);
         }
@@ -44,7 +45,21 @@ public class Bullets : MonoBehaviour
                 GameObject enemy = other.gameObject;
                 enemy.GetComponent<Enemy>().Damage(damage);
             }
-            Destroy(gameObject);
+
+            if (other.tag == "Bullet")
+            {
+                if(playerBullet == other.GetComponent<Bullets>().playerBullet)
+                {
+
+                }else
+                {
+                    Destroy(gameObject);
+                }
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }

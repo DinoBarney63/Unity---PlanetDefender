@@ -11,6 +11,7 @@ public class EnemyGun : MonoBehaviour
     private float point1 = 0;
     private float point2 = 360;
     private float toRotate;
+    public float shootRange = 20;
     public float shootOffset = 5;
     public GameObject bulletPrefab;
     public float shootDelaySeconds = 2;
@@ -32,7 +33,7 @@ public class EnemyGun : MonoBehaviour
         float distanceToPlayery = player.transform.position.y - transform.position.y;
         distanceToPlayer = Mathf.Sqrt(Mathf.Pow(distanceToPlayerx, 2f) + Mathf.Pow(distanceToPlayery, 2f));
 
-        if (distanceToPlayer <= 10)
+        if (distanceToPlayer <= shootRange)
         {
             Vector3 playerDirection = transform.position - player.transform.position;
             Quaternion desiredRotation = Quaternion.LookRotation(Vector3.forward, playerDirection);
@@ -40,7 +41,7 @@ public class EnemyGun : MonoBehaviour
             if ((toRotate >= point1 && toRotate <= point2) == between)
                 transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, Time.time * rotationSpeed);
 
-            if ((transform.rotation.eulerAngles.z + 5 > toRotate) && (transform.rotation.eulerAngles.z - 5 < toRotate) && shootDelay < 0)
+            if ((transform.rotation.eulerAngles.z + shootOffset > toRotate) && (transform.rotation.eulerAngles.z - shootOffset < toRotate) && shootDelay < 0)
             {
                 Shoot();
                 shootDelay = shootDelaySeconds;
