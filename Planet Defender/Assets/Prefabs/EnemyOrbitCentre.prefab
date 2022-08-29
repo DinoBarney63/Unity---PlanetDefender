@@ -47,9 +47,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distanceToPlayer: 0
+  shootRange: 20
   shootOffset: 5
   bulletPrefab: {fileID: 146110498514957662, guid: 1bfb93396e4fc1c429edeb5259c30c69, type: 3}
+  lazerPrefab: {fileID: 146110498514957662, guid: 1ed296057a7dbdc4ab05c995d6798cd9, type: 3}
   shootDelaySeconds: 2
+  main: 1
 --- !u!1 &1227927319051693226
 GameObject:
   m_ObjectHideFlags: 0

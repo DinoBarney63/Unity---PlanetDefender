@@ -8,7 +8,7 @@ public class SubGun : MonoBehaviour
     public bool isActive = false;
     public GameObject bulletPrefab;
     public Enemy[] enemyList;
-    public float distanceToEnemy;
+    private float distanceToEnemy;
     public float distanceToClosestEnemy;
     public Enemy nearestEnemy;
     private float rotationSpeed = 0.004f;
@@ -16,16 +16,16 @@ public class SubGun : MonoBehaviour
     private float point1 = 0;
     private float point2 = 360;
     private float toRotate;
-    public float shootRange = 20;
-    public float shootOffset = 5;
-    public float shootDelaySeconds = 2;
+    private float shootRange = 20;
+    private float shootOffset = 5;
+    private float shootDelaySeconds = 2;
     private float shootDelay;
-    public bool falseActive;
 
 
     // Start is called before the first frame update
     void Start()
     {
+        // Sets the gun restrictions based on the starting rotation
         float startingAngleDeg = transform.rotation.eulerAngles.z;
 
         point1 = startingAngleDeg - 100;
@@ -47,6 +47,7 @@ public class SubGun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Gose through each enemy and figures out which enemy is the closest to the player
         enemyList = FindObjectsOfType<Enemy>();
 
         distanceToEnemy = 1000;
@@ -64,7 +65,8 @@ public class SubGun : MonoBehaviour
                 nearestEnemy = i;
             }
         }
-
+        
+        // If enabled it finds the mouse location and trys to point towards it, if it can then the gun will rotate towards the mouse.
         if (isActive)
         {
             Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
@@ -74,7 +76,7 @@ public class SubGun : MonoBehaviour
             if ((toRotate >= point1 && toRotate <= point2) == between)
                 transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, Time.time * rotationSpeed);
 
-
+            // If the gun is pointed close to where the mouse is and the mouse is clicked then the gun fires.
             if ((transform.rotation.eulerAngles.z + shootOffset > toRotate) && (transform.rotation.eulerAngles.z - shootOffset < toRotate) && Input.GetMouseButton(0) && shootDelay < 0)
             {
                 Shoot();
@@ -83,6 +85,8 @@ public class SubGun : MonoBehaviour
         }
         else
         {
+            // If the gun is disabled it checks if the glosest enemy is inside it's shooting range
+            // If so it rotates to point it, if it can. Once pointing in the right direction it can fire
             if (distanceToClosestEnemy <= shootRange)
             {
                 Vector3 playerDirection = transform.position - nearestEnemy.transform.position;
@@ -104,6 +108,7 @@ public class SubGun : MonoBehaviour
 
     public void Shoot()
     {
+        // Creates a new bullet and sets its rotation and position to the guns
         GameObject newBullet = Instantiate(bulletPrefab);
         newBullet.transform.position = transform.position;
         newBullet.transform.rotation = transform.localRotation;

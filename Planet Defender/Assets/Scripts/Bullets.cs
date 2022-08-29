@@ -21,6 +21,7 @@ public class Bullets : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Moves forward until far distanced from the player
         bulletRb.AddForce(transform.up * -1 * bulletSpeed);
         if (Mathf.Abs(transform.position.x) > player.transform.position.x + 60)
         {
@@ -35,8 +36,10 @@ public class Bullets : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        // Waits a small delay so it dosent collide with it's inital shooter
         if (age > 0.05)
         {
+            // When collides with a player or a enemy it deals damage
             if (other.tag == "Player")
             {
                 player.GetComponent<Player>().Damage(damage);
@@ -46,6 +49,7 @@ public class Bullets : MonoBehaviour
                 enemy.GetComponent<Enemy>().Damage(damage);
             }
 
+            // If the bullet collides with a bullet shot by the same charcter nothing happens
             if (other.tag == "Bullet")
             {
                 if(playerBullet == other.GetComponent<Bullets>().playerBullet)

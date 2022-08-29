@@ -38,6 +38,7 @@ public class Enemy : MonoBehaviour
 
     public void SetUp(float orbitDistance, int gunCount)
     {
+        // Spawns in sub-guns based on gunCount
         spreadRad = Mathf.PI * 2 / gunCount;
         spreadDeg = 360 / gunCount;
         for (int i = 0; i < gunCount; i++)
@@ -49,6 +50,6 @@ public class Enemy : MonoBehaviour
             newGun.GetComponent<EnemyGun>().Spawned(gunAngleRad, gunAngleDeg, transform.position);
             newGun.GetComponent<EnemyGun>().main = false;
         }
-        transform.position = orbit.transform.position + new Vector3(0, orbitDistance + Random.Range(-25, 25), 0);
+        transform.position = orbit.transform.position + new Vector3(0, orbitDistance + Random.Range(-20, 20), 0);
     }
 }

@@ -14,7 +14,9 @@ public class EnemyGun : MonoBehaviour
     public float shootRange = 20;
     public float shootOffset = 5;
     public GameObject bulletPrefab;
-    public float shootDelaySeconds = 2;
+    public GameObject lazerPrefab;
+    public float shootDelaySecondsMain = 2;
+    public float shootDelaySecondsSub = 10;
     private float shootDelay;
     public bool main = true;
 
@@ -33,6 +35,7 @@ public class EnemyGun : MonoBehaviour
         float distanceToPlayery = player.transform.position.y - transform.position.y;
         distanceToPlayer = Mathf.Sqrt(Mathf.Pow(distanceToPlayerx, 2f) + Mathf.Pow(distanceToPlayery, 2f));
 
+        // Checks if the player is within firing range. If so the the gun is pointed at the player and once pointed it fires
         if (distanceToPlayer <= shootRange)
         {
             Vector3 playerDirection = transform.position - player.transform.position;
@@ -43,15 +46,25 @@ public class EnemyGun : MonoBehaviour
 
             if ((transform.rotation.eulerAngles.z + shootOffset > toRotate) && (transform.rotation.eulerAngles.z - shootOffset < toRotate) && shootDelay < 0)
             {
-                Shoot();
-                shootDelay = shootDelaySeconds;
+                // Main gun shoots lazers and sub-gun shoots bullets
+                if (main)
+                {
+                    Shoot(lazerPrefab);
+                    shootDelay = shootDelaySecondsMain;
+                }else
+                {
+                    Shoot(bulletPrefab);
+                    shootDelay = shootDelaySecondsSub;
+                }
             }
         }
         shootDelay -= Time.deltaTime;
     }
 
+    // Sub gun spawning
     public void Spawned(float startingAngleRad, float startingAngleDeg, Vector3 enemyPos)
     {
+        // Sets position and rotation restrictions based on starting rotation
         transform.Rotate(0, 0, startingAngleDeg);
         transform.position = new Vector3 (enemyPos.x + 1.5f * Mathf.Cos(startingAngleRad), enemyPos.y + 1.5f * Mathf.Sin(startingAngleRad), 0);
 
@@ -72,13 +85,14 @@ public class EnemyGun : MonoBehaviour
         
     }
 
-    public void Shoot()
+    public void Shoot(GameObject projectile)
     {
-        GameObject newBullet = Instantiate(bulletPrefab);
+        // Creates a new bullet and sets its rotation and position to the guns
+        GameObject newBullet = Instantiate(projectile);
         newBullet.transform.position = transform.position;
         newBullet.transform.rotation = transform.localRotation;
         if(main)
-            newBullet.GetComponent<Bullets>().damage = 2;
+            newBullet.GetComponent<Bullets>().damage = 5;
         else
             newBullet.GetComponent<Bullets>().damage = 1;
     }

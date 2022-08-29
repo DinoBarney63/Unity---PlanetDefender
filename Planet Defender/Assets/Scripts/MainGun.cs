@@ -6,16 +6,16 @@ public class MainGun : MonoBehaviour
 {
     public Camera mainCamera;
     public bool isActive = true;
-    public GameObject bulletPrefab;
+    public GameObject lazerPrefab;
     public Enemy[] enemyList;
-    public float distanceToEnemy;
+    private float distanceToEnemy;
     public float distanceToClosestEnemy;
     public Enemy nearestEnemy;
     private float rotationSpeed = 0.004f;
     private float toRotate;
-    public float shootRange = 30;
-    public float shootOffset = 5;
-    public float shootDelaySeconds = 20;
+    private float shootRange = 30;
+    private float shootOffset = 5;
+    private float shootDelaySeconds = 10;
     private float shootDelay;
 
 
@@ -28,6 +28,7 @@ public class MainGun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Gose through each enemy and figures out which enemy is the closest to the player
         enemyList = FindObjectsOfType<Enemy>();
 
         distanceToEnemy = 1000;
@@ -46,6 +47,7 @@ public class MainGun : MonoBehaviour
             }
         }
 
+        // If enabled it finds the mouse location and trys to point towards it, if it can then the gun will rotate towards the mouse.
         if (isActive)
         {
             Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
@@ -53,6 +55,7 @@ public class MainGun : MonoBehaviour
             Quaternion desiredRotation = Quaternion.LookRotation(Vector3.forward, perpendicular);
             transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, Time.time * rotationSpeed);
 
+            // If  the mouse is clicked then the gun fires.
             if (Input.GetMouseButton(0) && shootDelay < 0)
             {
                 Shoot();
@@ -60,6 +63,8 @@ public class MainGun : MonoBehaviour
             }
         }else
         {
+            // If the gun is disabled it checks if the glosest enemy is inside it's shooting range
+            // If so it rotates to point it. Once pointing in the right direction it can fire
             if (distanceToClosestEnemy <= shootRange)
             {
                 Vector3 playerDirection = transform.position - nearestEnemy.transform.position;
@@ -80,7 +85,8 @@ public class MainGun : MonoBehaviour
 
     public void Shoot()
     {
-        GameObject newBullet = Instantiate(bulletPrefab);
+        // Creates a new bullet and sets its rotation and position to the guns
+        GameObject newBullet = Instantiate(lazerPrefab);
         newBullet.transform.position = transform.position;
         newBullet.transform.rotation = transform.localRotation;
         newBullet.GetComponent<Bullets>().damage = 10;

@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,23 +13,45 @@ public class GameManager : MonoBehaviour
     public int enemyCount;
     public bool spawn = false;
     public int enemyCountMax = 10;
+    private bool playing = false;
+    public bool startGame = false;
+    private bool breaker = true;
+    public TextMeshProUGUI titleText;
+    public Button startButton;
+    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI playerHealthText;
+    public TextMeshProUGUI gameOverText;
+    public Button restartButton;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("Player");
+
+        titleText.gameObject.SetActive(true);
+        startButton.gameObject.SetActive(true);
+        scoreText.gameObject.SetActive(true);
+        playerHealthText.gameObject.SetActive(true);
+        gameOverText.gameObject.SetActive(false);
+        restartButton.gameObject.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(spawn || enemyCount < enemyCountMax)
+        enemyCount = FindObjectsOfType<Enemy>().Length;
+
+        if ((spawn || enemyCount < enemyCountMax) && playing)
         {
             spawn = false;
             SpawnEnemy();
         }
 
-        enemyCount = FindObjectsOfType<Enemy>().Length;
+        if (startGame && breaker)
+        {
+            breaker = false;
+            BeguinGame();
+        }
     }
 
     public void SpawnEnemy()
@@ -59,5 +84,30 @@ public class GameManager : MonoBehaviour
 
         Vector3 position = new (x, y, 0);
         return position;
+    }
+
+    public void BeguinGame()
+    {
+        playing = true;
+        player.GetComponent<Player>().BeguinGame();
+        titleText.gameObject.SetActive(false);
+        startButton.gameObject.SetActive(false);
+    }
+
+    public void GameOver()
+    {
+        playing = false;
+        gameOverText.gameObject.SetActive(true);
+        restartButton.gameObject.SetActive(true);
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void DisplayPlayerHealth(int playerHealth)
+    {
+        playerHealthText.text = "Health: " + playerHealth;
     }
 }

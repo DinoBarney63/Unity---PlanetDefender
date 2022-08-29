@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    private GameManager gameManager;
     public int playerMaxHealth = 100;
     public int playerHealth;
     private bool regenCountingDown = true;
@@ -15,11 +16,18 @@ public class Player : MonoBehaviour
     public bool mainGunEnabled = true;
     public GameObject[] subGuns;
     public bool switchGuns;
+    private bool playing = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         playerHealth = playerMaxHealth;
+
+        //Disables guns until the game beguins
+        mainGun.GetComponent<MainGun>().Toggle(false);
+        foreach (GameObject i in subGuns)
+            i.GetComponent<SubGun>().Toggle(false);
     }
 
     // Update is called once per frame
@@ -52,10 +60,13 @@ public class Player : MonoBehaviour
                 regenTime = regenTimeMax;
                 if (playerHealth < playerMaxHealth)
                     playerHealth += 1;
+                // Player health is displayed
+                gameManager.GetComponent<GameManager>().DisplayPlayerHealth(playerHealth);
             }
         }
 
-        if (switchGuns)
+        // Temprary way to switch player's guns
+        if (switchGuns && playing)
         {
             switchGuns = false;
             SwitchGuns();
@@ -64,16 +75,20 @@ public class Player : MonoBehaviour
 
     public void Damage(int damageTaken)
     {
+        // Reduce players health and if below or equal to 0 then the player is dead
         playerHealth -= damageTaken;
         regenCountingDown = true;
+        gameManager.GetComponent<GameManager>().DisplayPlayerHealth(playerHealth);
         if (playerHealth <= 0)
         {
             Destroy(gameObject);
+            gameManager.GetComponent<GameManager>().GameOver();
         }
     }
 
     public void SwitchGuns()
     {
+        // Switches between main gun and sub-guns
         if (mainGunEnabled)
         {
             mainGunEnabled = false;
@@ -88,5 +103,11 @@ public class Player : MonoBehaviour
                 i.GetComponent<SubGun>().Toggle(false);
         }
             
+    }
+
+    public void BeguinGame()
+    {
+        playing = true;
+        mainGun.GetComponent<MainGun>().Toggle(true);
     }
 }
