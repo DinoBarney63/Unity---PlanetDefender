@@ -7,6 +7,7 @@ public class Orbit : MonoBehaviour
     public GameObject player;
     public bool rotating = false;
     public float speed = 1.0f;
+    public float speedySpeed = 10.0f;
     public bool clockwise = true;
     private int direction;
     public float startingAngle;
@@ -38,5 +39,10 @@ public class Orbit : MonoBehaviour
 
             transform.Rotate(0, 0, speed * direction * Time.deltaTime);
         }
+    }
+
+    public void SpeedUp()
+    {
+       transform.Rotate(0, 0, speedySpeed * direction * Time.deltaTime);
     }
 }

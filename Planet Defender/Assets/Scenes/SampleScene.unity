@@ -256,9 +256,7 @@ MonoBehaviour:
   mainCamera: {fileID: 519420031}
   isActive: 0
   bulletPrefab: {fileID: 146110498514957662, guid: 1bfb93396e4fc1c429edeb5259c30c69, type: 3}
-  enemyList: []
   distanceToClosestEnemy: 0
-  nearestEnemy: {fileID: 0}
 --- !u!1 &177719135
 GameObject:
   m_ObjectHideFlags: 0
@@ -636,9 +634,7 @@ MonoBehaviour:
   mainCamera: {fileID: 519420031}
   isActive: 0
   bulletPrefab: {fileID: 146110498514957662, guid: 1bfb93396e4fc1c429edeb5259c30c69, type: 3}
-  enemyList: []
   distanceToClosestEnemy: 0
-  nearestEnemy: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1110,10 +1106,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 267609291}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: BeguinGame
-        m_Mode: 3
+      - m_Target: {fileID: 846919648}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: EnableSubGuns
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1244,10 +1240,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 267609291}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: BeguinGame
-        m_Mode: 3
+      - m_Target: {fileID: 846919648}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: EnableMainGun
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1361,18 +1357,17 @@ MonoBehaviour:
   playerMaxHealth: 100
   playerHealth: 0
   mainGun: {fileID: 1673588654}
-  mainGunEnabled: 1
   subGuns:
   - {fileID: 170015123}
   - {fileID: 516232641}
   - {fileID: 1713067934}
   - {fileID: 1337500647}
-  switchGuns: 0
   alive: 1
   mainGunButton: {fileID: 703826627}
   mainGunText: {fileID: 1178689749}
   subGunButton: {fileID: 608927796}
   subGunText: {fileID: 1469247163}
+  distanceToClosestEnemy: 0
 --- !u!1 &915498246
 GameObject:
   m_ObjectHideFlags: 0
@@ -2054,9 +2049,7 @@ MonoBehaviour:
   mainCamera: {fileID: 519420031}
   isActive: 0
   bulletPrefab: {fileID: 146110498514957662, guid: 1bfb93396e4fc1c429edeb5259c30c69, type: 3}
-  enemyList: []
   distanceToClosestEnemy: 0
-  nearestEnemy: {fileID: 0}
 --- !u!1 &1434803173
 GameObject:
   m_ObjectHideFlags: 0
@@ -2576,9 +2569,7 @@ MonoBehaviour:
   mainCamera: {fileID: 519420031}
   isActive: 1
   lazerPrefab: {fileID: 146110498514957662, guid: 1ed296057a7dbdc4ab05c995d6798cd9, type: 3}
-  enemyList: []
   distanceToClosestEnemy: 100
-  nearestEnemy: {fileID: 0}
 --- !u!1 &1713067934
 GameObject:
   m_ObjectHideFlags: 0
@@ -2628,9 +2619,7 @@ MonoBehaviour:
   mainCamera: {fileID: 519420031}
   isActive: 0
   bulletPrefab: {fileID: 146110498514957662, guid: 1bfb93396e4fc1c429edeb5259c30c69, type: 3}
-  enemyList: []
   distanceToClosestEnemy: 0
-  nearestEnemy: {fileID: 0}
 --- !u!1 &1728342821
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,15 +15,14 @@ public class Player : MonoBehaviour
     private float regenTime;
     private float regenTimeMax = 2;
     public GameObject mainGun;
-    public bool mainGunEnabled = true;
     public GameObject[] subGuns;
-    public bool switchGuns;
     private bool playing = false;
     public bool alive = true;
     public Button mainGunButton;
     public TextMeshProUGUI mainGunText;
     public Button subGunButton;
     public TextMeshProUGUI subGunText;
+    public float distanceToClosestEnemy;
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +40,32 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (playing)
+        {
+            // Gose through each enemy and figures out which enemy is the closest to the player
+            Enemy[] enemyList = FindObjectsOfType<Enemy>();
+            float distanceToEnemy = 1000;
+            distanceToClosestEnemy = 1000;
+            Enemy nearestEnemy = null;
+
+            foreach (Enemy i in enemyList)
+            {
+                float distanceToEnemyx = i.transform.position.x - transform.position.x;
+                float distanceToEnemyy = i.transform.position.y - transform.position.y;
+                distanceToEnemy = Mathf.Sqrt(Mathf.Pow(distanceToEnemyx, 2f) + Mathf.Pow(distanceToEnemyy, 2f));
+                if (distanceToEnemy < distanceToClosestEnemy)
+                {
+                    distanceToClosestEnemy = distanceToEnemy;
+                    nearestEnemy = i;
+                }
+            }
+            
+            if (distanceToClosestEnemy > 55)
+            {
+                nearestEnemy.GetComponent<Enemy>().SpeedUp();
+            }
+        }
+
         // Health regen timer
         // If the inital timer is counting down...
         if (regenCountingDown && playerHealth != playerMaxHealth)
@@ -72,13 +97,6 @@ public class Player : MonoBehaviour
                 gameManager.GetComponent<GameManager>().DisplayPlayerHealth(playerHealth);
             }
         }
-
-        // Temprary way to switch player's guns
-        if (switchGuns && playing)
-        {
-            switchGuns = false;
-            SwitchGuns();
-        }
     }
 
     public void Damage(int damageTaken)
@@ -89,6 +107,7 @@ public class Player : MonoBehaviour
         if (playerHealth <= 0)
         {
             alive = false;
+            playing = false;
             gameObject.SetActive(false);
             gameManager.GetComponent<GameManager>().GameOver();
             playerHealth = 0;
@@ -96,28 +115,34 @@ public class Player : MonoBehaviour
         gameManager.GetComponent<GameManager>().DisplayPlayerHealth(playerHealth);
     }
 
-    public void SwitchGuns()
+    public void EnableMainGun()
     {
-        // Switches between main gun and sub-guns
-        if (mainGunEnabled)
+        if (playing)
         {
-            mainGunEnabled = false;
-            mainGun.GetComponent<MainGun>().Toggle(false);
-            foreach(GameObject i in subGuns)
-                i.GetComponent<SubGun>().Toggle(true);
-        }else
-        {
-            mainGunEnabled = true;
             mainGun.GetComponent<MainGun>().Toggle(true);
             foreach (GameObject i in subGuns)
                 i.GetComponent<SubGun>().Toggle(false);
+            mainGunText.fontStyle = FontStyles.Bold;
+            subGunText.fontStyle = FontStyles.Normal;
         }
-            
+    }
+
+    public void EnableSubGuns()
+    {
+        if (playing)
+        {
+            mainGun.GetComponent<MainGun>().Toggle(false);
+            foreach (GameObject i in subGuns)
+                i.GetComponent<SubGun>().Toggle(true);
+            subGunText.fontStyle = FontStyles.Bold;
+            mainGunText.fontStyle = FontStyles.Normal;
+        }
     }
 
     public void BeguinGame()
     {
         playing = true;
         mainGun.GetComponent<MainGun>().Toggle(true);
+        mainGunText.fontStyle = FontStyles.Bold;
     }
 }

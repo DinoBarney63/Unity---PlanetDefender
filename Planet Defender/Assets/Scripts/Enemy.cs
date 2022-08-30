@@ -53,4 +53,9 @@ public class Enemy : MonoBehaviour
         }
         transform.position = orbit.transform.position + new Vector3(0, orbitDistance + Random.Range(-20, 20), 0);
     }
+
+    public void SpeedUp()
+    {
+        orbit.GetComponent<Orbit>().SpeedUp();
+    }
 }

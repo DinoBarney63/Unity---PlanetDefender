@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
     {
         enemyCount = FindObjectsOfType<Enemy>().Length;
 
-        if ((spawn || enemyCount < playerDifficulty) && playing)
+        if ((spawn || enemyCount < Mathf.FloorToInt(playerDifficulty / 10)) && playing)
         {
             spawn = false;
             SpawnEnemy();
@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
         Vector3 offset = randomSpawnPos(50, 70);
         float distanceToPlayer = Mathf.Sqrt(Mathf.Pow(offset.x, 2) + Mathf.Pow(offset.y, 2));
         NewEnemyOrbit.transform.position = player.transform.position + offset;
-        NewEnemyOrbit.GetComponentInChildren<Enemy>().SetUp(distanceToPlayer, Random.Range(playerDifficulty - 1, playerDifficulty + 1));
+        NewEnemyOrbit.GetComponentInChildren<Enemy>().SetUp(distanceToPlayer, Mathf.FloorToInt(playerDifficulty / 10));
     }
 
     public Vector3 randomSpawnPos(int low, int high)
@@ -91,7 +91,7 @@ public class GameManager : MonoBehaviour
         startButtonEasy.gameObject.SetActive(false);
         startButtonMedium.gameObject.SetActive(false);
         startButtonHard.gameObject.SetActive(false);
-        playerDifficulty = Random.Range(0, difficulty) + Random.Range(0, difficulty) + difficulty;
+        playerDifficulty = Random.Range(difficulty, difficulty * Random.Range(1, difficulty + 1)) + 3 * (difficulty + 1) + 25;
     }
 
     public void GameOver()

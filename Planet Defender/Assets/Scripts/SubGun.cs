@@ -7,10 +7,7 @@ public class SubGun : MonoBehaviour
     public Camera mainCamera;
     public bool isActive = false;
     public GameObject bulletPrefab;
-    public Enemy[] enemyList;
-    private float distanceToEnemy;
     public float distanceToClosestEnemy;
-    public Enemy nearestEnemy;
     private float rotationSpeed = 0.004f;
     private bool between = true;
     private float point1 = 0;
@@ -18,7 +15,7 @@ public class SubGun : MonoBehaviour
     private float toRotate;
     private float shootRange = 20;
     private float shootOffset = 5;
-    private float shootDelaySeconds = 2;
+    private float shootDelaySeconds = 1;
     private float shootDelay;
 
 
@@ -48,11 +45,10 @@ public class SubGun : MonoBehaviour
     void Update()
     {
         // Gose through each enemy and figures out which enemy is the closest to the player
-        enemyList = FindObjectsOfType<Enemy>();
-
-        distanceToEnemy = 1000;
+        Enemy[] enemyList = FindObjectsOfType<Enemy>();
+        float distanceToEnemy = 1000;
         distanceToClosestEnemy = 1000;
-        nearestEnemy = null;
+        Enemy nearestEnemy = null;
 
         foreach (Enemy i in enemyList)
         {

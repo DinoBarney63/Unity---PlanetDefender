@@ -7,15 +7,12 @@ public class MainGun : MonoBehaviour
     public Camera mainCamera;
     public bool isActive = true;
     public GameObject lazerPrefab;
-    public Enemy[] enemyList;
-    private float distanceToEnemy;
     public float distanceToClosestEnemy;
-    public Enemy nearestEnemy;
     private float rotationSpeed = 0.004f;
     private float toRotate;
     private float shootRange = 30;
     private float shootOffset = 5;
-    private float shootDelaySeconds = 10;
+    private float shootDelaySeconds = 5;
     private float shootDelay;
 
 
@@ -29,11 +26,10 @@ public class MainGun : MonoBehaviour
     void Update()
     {
         // Gose through each enemy and figures out which enemy is the closest to the player
-        enemyList = FindObjectsOfType<Enemy>();
-
-        distanceToEnemy = 1000;
+        Enemy[] enemyList = FindObjectsOfType<Enemy>();
+        float distanceToEnemy = 1000;
         distanceToClosestEnemy = 1000;
-        nearestEnemy = null;
+        Enemy nearestEnemy = null;
 
         foreach (Enemy i in enemyList)
         {
