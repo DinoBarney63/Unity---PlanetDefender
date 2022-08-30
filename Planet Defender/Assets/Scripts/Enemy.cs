@@ -33,6 +33,7 @@ public class Enemy : MonoBehaviour
         if (health <= 0)
         {
             Destroy(orbit);
+            gameManager.GetComponent<GameManager>().UpdatePlayerScore(5);
         }
     }
 

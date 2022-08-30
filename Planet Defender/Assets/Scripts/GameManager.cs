@@ -8,20 +8,21 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     private GameObject player;
-    public int difficultyPercentage = 25;
     public GameObject enemyInOrbitPrefab;
     public int enemyCount;
     public bool spawn = false;
-    public int enemyCountMax = 10;
     private bool playing = false;
     public bool startGame = false;
-    private bool breaker = true;
+    public int playerScore;
     public TextMeshProUGUI titleText;
-    public Button startButton;
+    public Button startButtonEasy;
+    public Button startButtonMedium;
+    public Button startButtonHard;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI playerHealthText;
     public TextMeshProUGUI gameOverText;
     public Button restartButton;
+    public int playerDifficulty;
 
     // Start is called before the first frame update
     void Start()
@@ -29,7 +30,9 @@ public class GameManager : MonoBehaviour
         player = GameObject.Find("Player");
 
         titleText.gameObject.SetActive(true);
-        startButton.gameObject.SetActive(true);
+        startButtonEasy.gameObject.SetActive(true);
+        startButtonMedium.gameObject.SetActive(true);
+        startButtonHard.gameObject.SetActive(true);
         scoreText.gameObject.SetActive(true);
         playerHealthText.gameObject.SetActive(true);
         gameOverText.gameObject.SetActive(false);
@@ -41,16 +44,10 @@ public class GameManager : MonoBehaviour
     {
         enemyCount = FindObjectsOfType<Enemy>().Length;
 
-        if ((spawn || enemyCount < enemyCountMax) && playing)
+        if ((spawn || enemyCount < playerDifficulty) && playing)
         {
             spawn = false;
             SpawnEnemy();
-        }
-
-        if (startGame && breaker)
-        {
-            breaker = false;
-            BeguinGame();
         }
     }
 
@@ -60,7 +57,7 @@ public class GameManager : MonoBehaviour
         Vector3 offset = randomSpawnPos(50, 70);
         float distanceToPlayer = Mathf.Sqrt(Mathf.Pow(offset.x, 2) + Mathf.Pow(offset.y, 2));
         NewEnemyOrbit.transform.position = player.transform.position + offset;
-        NewEnemyOrbit.GetComponentInChildren<Enemy>().SetUp(distanceToPlayer, 3);
+        NewEnemyOrbit.GetComponentInChildren<Enemy>().SetUp(distanceToPlayer, Random.Range(playerDifficulty - 1, playerDifficulty + 1));
     }
 
     public Vector3 randomSpawnPos(int low, int high)
@@ -86,12 +83,15 @@ public class GameManager : MonoBehaviour
         return position;
     }
 
-    public void BeguinGame()
+    public void BeguinGame(int difficulty)
     {
         playing = true;
         player.GetComponent<Player>().BeguinGame();
         titleText.gameObject.SetActive(false);
-        startButton.gameObject.SetActive(false);
+        startButtonEasy.gameObject.SetActive(false);
+        startButtonMedium.gameObject.SetActive(false);
+        startButtonHard.gameObject.SetActive(false);
+        playerDifficulty = Random.Range(0, difficulty) + Random.Range(0, difficulty) + difficulty;
     }
 
     public void GameOver()
@@ -109,5 +109,12 @@ public class GameManager : MonoBehaviour
     public void DisplayPlayerHealth(int playerHealth)
     {
         playerHealthText.text = "Health: " + playerHealth;
+    }
+
+    public void UpdatePlayerScore(int scoreToAdd)
+    {
+        playerScore += scoreToAdd;
+        scoreText.text = "Score: " + playerScore;
+        playerDifficulty += Random.Range(0, 1);
     }
 }

@@ -24,8 +24,6 @@ public class EnemyGun : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("Player");
-
-        
     }
 
     // Update is called once per frame
@@ -35,8 +33,8 @@ public class EnemyGun : MonoBehaviour
         float distanceToPlayery = player.transform.position.y - transform.position.y;
         distanceToPlayer = Mathf.Sqrt(Mathf.Pow(distanceToPlayerx, 2f) + Mathf.Pow(distanceToPlayery, 2f));
 
-        // Checks if the player is within firing range. If so the the gun is pointed at the player and once pointed it fires
-        if (distanceToPlayer <= shootRange)
+        // Checks if the player is within firing range. If so the the gun is pointed towards the player and once pointed it fires
+        if (distanceToPlayer <= shootRange && player.GetComponent<Player>().alive)
         {
             Vector3 playerDirection = transform.position - player.transform.position;
             Quaternion desiredRotation = Quaternion.LookRotation(Vector3.forward, playerDirection);
@@ -44,7 +42,7 @@ public class EnemyGun : MonoBehaviour
             if ((toRotate >= point1 && toRotate <= point2) == between)
                 transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, Time.time * rotationSpeed);
 
-            if ((transform.rotation.eulerAngles.z + shootOffset > toRotate) && (transform.rotation.eulerAngles.z - shootOffset < toRotate) && shootDelay < 0)
+            if ((transform.rotation.eulerAngles.z + shootOffset > toRotate) && (transform.rotation.eulerAngles.z - shootOffset < toRotate) && shootDelay < 0 && player.GetComponent<Player>().alive)
             {
                 // Main gun shoots lazers and sub-gun shoots bullets
                 if (main)

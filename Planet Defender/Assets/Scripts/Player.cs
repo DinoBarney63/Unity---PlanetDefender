@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -17,12 +19,18 @@ public class Player : MonoBehaviour
     public GameObject[] subGuns;
     public bool switchGuns;
     private bool playing = false;
+    public bool alive = true;
+    public Button mainGunButton;
+    public TextMeshProUGUI mainGunText;
+    public Button subGunButton;
+    public TextMeshProUGUI subGunText;
 
     // Start is called before the first frame update
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         playerHealth = playerMaxHealth;
+        alive = true;
 
         //Disables guns until the game beguins
         mainGun.GetComponent<MainGun>().Toggle(false);
@@ -78,12 +86,14 @@ public class Player : MonoBehaviour
         // Reduce players health and if below or equal to 0 then the player is dead
         playerHealth -= damageTaken;
         regenCountingDown = true;
-        gameManager.GetComponent<GameManager>().DisplayPlayerHealth(playerHealth);
         if (playerHealth <= 0)
         {
-            Destroy(gameObject);
+            alive = false;
+            gameObject.SetActive(false);
             gameManager.GetComponent<GameManager>().GameOver();
+            playerHealth = 0;
         }
+        gameManager.GetComponent<GameManager>().DisplayPlayerHealth(playerHealth);
     }
 
     public void SwitchGuns()
