@@ -372,6 +372,7 @@
 "Assets/Scripts/EnemyGun.cs"
 "Assets/Scripts/GameManager.cs"
 "Assets/Scripts/MainGun.cs"
+"Assets/Scripts/Neutral.cs"
 "Assets/Scripts/Orbit.cs"
 "Assets/Scripts/Player.cs"
 "Assets/Scripts/SubGun.cs"

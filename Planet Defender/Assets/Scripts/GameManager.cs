@@ -9,7 +9,9 @@ public class GameManager : MonoBehaviour
 {
     private GameObject player;
     public GameObject enemyInOrbitPrefab;
+    public GameObject neutralInOrbitPrefab;
     public int enemyCount;
+    public int neutralCount;
     public bool spawn = false;
     private bool playing = false;
     public bool startGame = false;
@@ -43,11 +45,17 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         enemyCount = FindObjectsOfType<Enemy>().Length;
+        neutralCount = FindObjectsOfType<Neutral>().Length;
 
         if ((spawn || enemyCount < Mathf.FloorToInt(playerDifficulty / 10)) && playing)
         {
             spawn = false;
             SpawnEnemy();
+        }
+
+        if ((neutralCount < Mathf.FloorToInt(playerDifficulty / 50)) && playing)
+        {
+            SpawnNeutral();
         }
     }
 
@@ -58,6 +66,15 @@ public class GameManager : MonoBehaviour
         float distanceToPlayer = Mathf.Sqrt(Mathf.Pow(offset.x, 2) + Mathf.Pow(offset.y, 2));
         NewEnemyOrbit.transform.position = player.transform.position + offset;
         NewEnemyOrbit.GetComponentInChildren<Enemy>().SetUp(distanceToPlayer, Mathf.FloorToInt(playerDifficulty / 10));
+    }
+
+    public void SpawnNeutral()
+    {
+        GameObject NewNeutralOrbit = Instantiate(neutralInOrbitPrefab);
+        Vector3 offset = randomSpawnPos(50, 70);
+        float distanceToPlayer = Mathf.Sqrt(Mathf.Pow(offset.x, 2) + Mathf.Pow(offset.y, 2));
+        NewNeutralOrbit.transform.position = player.transform.position + offset;
+        NewNeutralOrbit.GetComponentInChildren<Neutral>().SetUp(distanceToPlayer);
     }
 
     public Vector3 randomSpawnPos(int low, int high)
@@ -91,7 +108,7 @@ public class GameManager : MonoBehaviour
         startButtonEasy.gameObject.SetActive(false);
         startButtonMedium.gameObject.SetActive(false);
         startButtonHard.gameObject.SetActive(false);
-        playerDifficulty = Random.Range(difficulty, difficulty * Random.Range(1, difficulty + 1)) + 3 * (difficulty + 1) + 25;
+        playerDifficulty = Random.Range(difficulty + 2, difficulty * Random.Range(1, difficulty + 2)) + 3 * (difficulty + 2) + 25;
     }
 
     public void GameOver()
@@ -115,6 +132,6 @@ public class GameManager : MonoBehaviour
     {
         playerScore += scoreToAdd;
         scoreText.text = "Score: " + playerScore;
-        playerDifficulty += Random.Range(0, 1);
+        playerDifficulty += Random.Range(1, 3);
     }
 }

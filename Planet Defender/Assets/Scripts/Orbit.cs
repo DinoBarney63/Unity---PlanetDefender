@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Orbit : MonoBehaviour
 {
-    public GameObject player;
+    private GameObject player;
     public bool rotating = false;
     public float speed = 1.0f;
-    public float speedySpeed = 10.0f;
+    private float speedySpeed = 20.0f;
     public bool clockwise = true;
     private int direction;
     public float startingAngle;

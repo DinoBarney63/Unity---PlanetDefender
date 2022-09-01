@@ -51,7 +51,8 @@ MonoBehaviour:
   shootOffset: 5
   bulletPrefab: {fileID: 146110498514957662, guid: 1bfb93396e4fc1c429edeb5259c30c69, type: 3}
   lazerPrefab: {fileID: 146110498514957662, guid: 1ed296057a7dbdc4ab05c995d6798cd9, type: 3}
-  shootDelaySeconds: 2
+  shootDelaySecondsMain: 2
+  shootDelaySecondsSub: 10
   main: 1
 --- !u!1 &1227927319051693226
 GameObject:
@@ -182,7 +183,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da370400c25720447b93db9045252bc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   rotating: 0
   speed: 1
   clockwise: 1
@@ -415,9 +415,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ead04dd9981984449fdd11b7aad09ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 0}
-  health: 50
+  health: 25
   enemyGunPrefab: {fileID: 5200114918343956249, guid: 11978f8832e8ba84e81c1ab1577fc3d1, type: 3}
-  gunCount: 9
+  gunCount: 0
   orbit: {fileID: 1227927319272014001}
-  distanceFromOrbit: 25

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    public GameManager gameManager;
-    public int health = 50;
+    private GameManager gameManager;
+    public int health = 25;
     public GameObject enemyGunPrefab;
     public int gunCount = 3;
     private float spreadRad = 0;
@@ -13,7 +13,6 @@ public class Enemy : MonoBehaviour
     private float gunAngleRad = 0;
     private float gunAngleDeg = 90;
     public GameObject orbit;
-    public float distanceFromOrbit = 25.0f;
 
     // Start is called before the first frame update
     void Start()

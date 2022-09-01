@@ -39,7 +39,7 @@ public class Bullets : MonoBehaviour
         // Waits a small delay so it dosent collide with it's inital shooter
         if (age > 0.05)
         {
-            // When collides with a player or a enemy it deals damage
+            // When collides with a player, a enemy or a neutral it deals damage to them
             if (other.tag == "Player")
             {
                 player.GetComponent<Player>().Damage(damage);
@@ -47,6 +47,10 @@ public class Bullets : MonoBehaviour
             {
                 GameObject enemy = other.gameObject;
                 enemy.GetComponent<Enemy>().Damage(damage);
+            } else if (other.tag == "Neutral")
+            {
+                GameObject neutral = other.gameObject;
+                neutral.GetComponent<Neutral>().Damage(damage);
             }
 
             // If the bullet collides with a bullet shot by the same charcter nothing happens
