@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     public GameObject[] subGuns;
     private bool playing = false;
     public bool alive = true;
+    private bool mainGunActive = false;
     public Button mainGunButton;
     public TextMeshProUGUI mainGunText;
     public Button subGunButton;
@@ -59,43 +60,47 @@ public class Player : MonoBehaviour
                     nearestEnemy = i;
                 }
             }
-            
+
+            // If the closest enemy is further than 55 its rotation speed is increased until in range 
             if (distanceToClosestEnemy > 55)
             {
                 nearestEnemy.GetComponent<Enemy>().SpeedUp();
             }
-        }
 
-        // Health regen timer
-        // If the inital timer is counting down...
-        if (regenCountingDown && playerHealth != playerMaxHealth)
-        {
-            // If the timer is above 0 then the timer is decreased by time
-            if (regenCountdown > 0)
-                regenCountdown -= Time.deltaTime;
+            // Health regen timer
+            // If the inital timer is counting down...
+            if (regenCountingDown && playerHealth != playerMaxHealth)
+            {
+                // If the timer is above 0 then the timer is decreased by time
+                if (regenCountdown > 0)
+                    regenCountdown -= Time.deltaTime;
+                else
+                {
+                    // Otherwise the timer is set to 0 and the inital timer is deactivated
+                    regenCountdown = regenCountdownMax;
+                    regenTime = regenTimeMax;
+                    regenCountingDown = false;
+                }
+            }
             else
             {
-                // Otherwise the timer is set to 0 and the inital timer is deactivated
-                regenCountdown = regenCountdownMax;
-                regenTime = regenTimeMax;
-                regenCountingDown = false;
+                // Since the initial timer is deactivated then the second timer can run
+                // If this timer is above 0 then the timer is decreased by time
+                if (regenTime > 0)
+                    regenTime -= Time.deltaTime;
+                else
+                {
+                    // Once the timer is up then the timer is reset and the health is increased by 1
+                    regenTime = regenTimeMax;
+                    if (playerHealth < playerMaxHealth)
+                        playerHealth += 1;
+                    // Player health is displayed
+                    gameManager.GetComponent<GameManager>().DisplayPlayerHealth(playerHealth);
+                }
             }
-        }
-        else
-        {
-            // Since the initial timer is deactivated then the second timer can run
-            // If this timer is above 0 then the timer is decreased by time
-            if (regenTime > 0)
-                regenTime -= Time.deltaTime;
-            else
-            {
-                // Once the timer is up then the timer is reset and the health is increased by 1
-                regenTime = regenTimeMax;
-                if (playerHealth < playerMaxHealth)
-                    playerHealth += 1;
-                // Player health is displayed
-                gameManager.GetComponent<GameManager>().DisplayPlayerHealth(playerHealth);
-            }
+
+            if (Input.GetKeyDown(KeyCode.W))
+                SwapGuns();
         }
     }
 
@@ -120,6 +125,7 @@ public class Player : MonoBehaviour
         if (playing)
         {
             mainGun.GetComponent<MainGun>().Toggle(true);
+            mainGunActive = true;
             foreach (GameObject i in subGuns)
                 i.GetComponent<SubGun>().Toggle(false);
             mainGunText.fontStyle = FontStyles.Bold;
@@ -132,6 +138,7 @@ public class Player : MonoBehaviour
         if (playing)
         {
             mainGun.GetComponent<MainGun>().Toggle(false);
+            mainGunActive = false;
             foreach (GameObject i in subGuns)
                 i.GetComponent<SubGun>().Toggle(true);
             subGunText.fontStyle = FontStyles.Bold;
@@ -139,10 +146,33 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void SwapGuns()
+    {
+        if (mainGunActive)
+        {
+            mainGun.GetComponent<MainGun>().Toggle(false);
+            mainGunActive = false;
+            foreach (GameObject i in subGuns)
+                i.GetComponent<SubGun>().Toggle(true);
+            subGunText.fontStyle = FontStyles.Bold;
+            mainGunText.fontStyle = FontStyles.Normal;
+        }
+        else
+        {
+            mainGun.GetComponent<MainGun>().Toggle(true);
+            mainGunActive = true;
+            foreach (GameObject i in subGuns)
+                i.GetComponent<SubGun>().Toggle(false);
+            mainGunText.fontStyle = FontStyles.Bold;
+            subGunText.fontStyle = FontStyles.Normal;
+        }
+    }
+
     public void BeguinGame()
     {
         playing = true;
         mainGun.GetComponent<MainGun>().Toggle(true);
+        mainGunActive = true;
         mainGunText.fontStyle = FontStyles.Bold;
     }
 }

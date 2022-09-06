@@ -25,6 +25,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI gameOverText;
     public Button restartButton;
     public int playerDifficulty;
+    public Slider progressBar;
+    public TextMeshPro Text;
 
     // Start is called before the first frame update
     void Start()
