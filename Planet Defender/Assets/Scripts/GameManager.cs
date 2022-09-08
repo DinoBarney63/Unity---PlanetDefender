@@ -26,7 +26,8 @@ public class GameManager : MonoBehaviour
     public Button restartButton;
     public int playerDifficulty;
     public Slider progressBar;
-    public TextMeshPro Text;
+    public TextMeshProUGUI progressBarText;
+    public float levelingPercentage = 0.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -135,5 +136,9 @@ public class GameManager : MonoBehaviour
         playerScore += scoreToAdd;
         scoreText.text = "Score: " + playerScore;
         playerDifficulty += Random.Range(1, 3);
+
+        //levelingPercentage += scoreToAdd / 1000;
+        //progressBar.value = levelingPercentage;
+        //progressBarText.text = (progressBar.value * 100).ToString("0.00") + "%";
     }
 }

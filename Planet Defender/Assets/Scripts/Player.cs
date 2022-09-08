@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     private bool playing = false;
     public bool alive = true;
     private bool mainGunActive = false;
+    private bool subGunActive = false;
     public Button mainGunButton;
     public TextMeshProUGUI mainGunText;
     public Button subGunButton;
@@ -33,9 +34,16 @@ public class Player : MonoBehaviour
         alive = true;
 
         //Disables guns until the game beguins
+        mainGunActive = false;
+        subGunActive = false;
         mainGun.GetComponent<MainGun>().Toggle(false);
         foreach (GameObject i in subGuns)
             i.GetComponent<SubGun>().Toggle(false);
+
+        mainGunText.text = "Main: Disabled";
+        mainGunText.color = Color.red;
+        subGunText.text = "Sub: Disabled";
+        subGunText.color = Color.red;
     }
 
     // Update is called once per frame
@@ -59,12 +67,16 @@ public class Player : MonoBehaviour
                     distanceToClosestEnemy = distanceToEnemy;
                     nearestEnemy = i;
                 }
+                if (distanceToEnemy > 55)
+                {
+                    i.GetComponent<Enemy>().SpeedUp(10);
+                }
             }
 
             // If the closest enemy is further than 55 its rotation speed is increased until in range 
             if (distanceToClosestEnemy > 55)
             {
-                nearestEnemy.GetComponent<Enemy>().SpeedUp();
+                nearestEnemy.GetComponent<Enemy>().SpeedUp(30);
             }
 
             // Health regen timer
@@ -99,8 +111,10 @@ public class Player : MonoBehaviour
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.W))
-                SwapGuns();
+            if (Input.GetKeyDown(KeyCode.G))
+                ToggleMainGun();
+            if (Input.GetKeyDown(KeyCode.H))
+                ToggleSubGuns();
         }
     }
 
@@ -120,59 +134,53 @@ public class Player : MonoBehaviour
         gameManager.GetComponent<GameManager>().DisplayPlayerHealth(playerHealth);
     }
 
-    public void EnableMainGun()
+    public void ToggleMainGun()
     {
         if (playing)
         {
-            mainGun.GetComponent<MainGun>().Toggle(true);
-            mainGunActive = true;
-            foreach (GameObject i in subGuns)
-                i.GetComponent<SubGun>().Toggle(false);
-            mainGunText.fontStyle = FontStyles.Bold;
-            subGunText.fontStyle = FontStyles.Normal;
+            if(!mainGunActive)
+            {
+                mainGun.GetComponent<MainGun>().Toggle(true);
+                mainGunActive = true;
+                mainGunText.text = "Main: Manual";
+                mainGunText.color = Color.green;
+            }else
+            {
+                mainGun.GetComponent<MainGun>().Toggle(false);
+                mainGunActive = false;
+                mainGunText.text = "Main: Auto";
+                mainGunText.color = Color.red;
+            }
         }
     }
 
-    public void EnableSubGuns()
+    public void ToggleSubGuns()
     {
         if (playing)
         {
-            mainGun.GetComponent<MainGun>().Toggle(false);
-            mainGunActive = false;
-            foreach (GameObject i in subGuns)
-                i.GetComponent<SubGun>().Toggle(true);
-            subGunText.fontStyle = FontStyles.Bold;
-            mainGunText.fontStyle = FontStyles.Normal;
-        }
-    }
-
-    public void SwapGuns()
-    {
-        if (mainGunActive)
-        {
-            mainGun.GetComponent<MainGun>().Toggle(false);
-            mainGunActive = false;
-            foreach (GameObject i in subGuns)
-                i.GetComponent<SubGun>().Toggle(true);
-            subGunText.fontStyle = FontStyles.Bold;
-            mainGunText.fontStyle = FontStyles.Normal;
-        }
-        else
-        {
-            mainGun.GetComponent<MainGun>().Toggle(true);
-            mainGunActive = true;
-            foreach (GameObject i in subGuns)
-                i.GetComponent<SubGun>().Toggle(false);
-            mainGunText.fontStyle = FontStyles.Bold;
-            subGunText.fontStyle = FontStyles.Normal;
+           if (!subGunActive)
+            {
+                foreach (GameObject i in subGuns)
+                    i.GetComponent<SubGun>().Toggle(true);
+                subGunActive = true;
+                subGunText.text = "Sub: Manual";
+                subGunText.color = Color.green;
+            }
+            else
+            {
+                foreach (GameObject i in subGuns)
+                    i.GetComponent<SubGun>().Toggle(false);
+                subGunActive = false;
+                subGunText.text = "Sub: Auto";
+                subGunText.color = Color.red;
+            }
         }
     }
 
     public void BeguinGame()
     {
         playing = true;
-        mainGun.GetComponent<MainGun>().Toggle(true);
-        mainGunActive = true;
-        mainGunText.fontStyle = FontStyles.Bold;
+        ToggleMainGun();
+        ToggleSubGuns();
     }
 }
