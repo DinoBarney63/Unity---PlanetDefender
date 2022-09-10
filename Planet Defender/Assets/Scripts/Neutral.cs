@@ -26,7 +26,7 @@ public class Neutral : MonoBehaviour
         if (health <= 0)
         {
             Destroy(orbit);
-            gameManager.GetComponent<GameManager>().UpdatePlayerScore(2);
+            gameManager.GetComponent<GameManager>().UpdatePlayerScore(2, 0);
         }
     }
 

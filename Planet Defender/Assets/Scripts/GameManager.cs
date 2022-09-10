@@ -27,7 +27,8 @@ public class GameManager : MonoBehaviour
     public int playerDifficulty;
     public Slider progressBar;
     public TextMeshProUGUI progressBarText;
-    public float levelingPercentage = 0.0f;
+    public float levelingCount = 0.0f;
+    public float levelingMax = 100.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -42,6 +43,9 @@ public class GameManager : MonoBehaviour
         playerHealthText.gameObject.SetActive(true);
         gameOverText.gameObject.SetActive(false);
         restartButton.gameObject.SetActive(false);
+
+        levelingCount = 0;
+        levelingMax = 100;
     }
 
     // Update is called once per frame
@@ -131,14 +135,19 @@ public class GameManager : MonoBehaviour
         playerHealthText.text = "Health: " + playerHealth;
     }
 
-    public void UpdatePlayerScore(int scoreToAdd)
+    public void UpdatePlayerScore(int scoreToAdd, int enemyGunCount)
     {
         playerScore += scoreToAdd;
         scoreText.text = "Score: " + playerScore;
-        playerDifficulty += Random.Range(1, 3);
+        playerDifficulty += Random.Range(1, enemyGunCount);
 
-        //levelingPercentage += scoreToAdd / 1000;
-        //progressBar.value = levelingPercentage;
-        //progressBarText.text = (progressBar.value * 100).ToString("0.00") + "%";
+        
+    }
+
+    public void UpdatePlayerLeveling(int leveingAmount)
+    {
+        levelingCount += leveingAmount;
+        progressBar.value = levelingCount / levelingMax;
+        progressBarText.text = (progressBar.value * 100).ToString("0.0") + "%";
     }
 }

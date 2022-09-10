@@ -15,7 +15,7 @@ public class SubGun : MonoBehaviour
     private float toRotate;
     private float shootRange = 20;
     private float shootOffset = 5;
-    private float shootDelaySeconds = 1;
+    private float shootDelaySeconds = 0.75f;
     private float shootDelay;
 
 
@@ -73,7 +73,7 @@ public class SubGun : MonoBehaviour
                 transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, Time.time * rotationSpeed);
 
             // If the gun is pointed close to where the mouse is and the mouse is clicked then the gun fires.
-            if ((transform.rotation.eulerAngles.z + shootOffset > toRotate) && (transform.rotation.eulerAngles.z - shootOffset < toRotate) && Input.GetMouseButton(1) && shootDelay < 0)
+            if ((transform.rotation.eulerAngles.z + shootOffset > toRotate) && (transform.rotation.eulerAngles.z - shootOffset < toRotate) && Input.GetMouseButton(0) && shootDelay < 0)
             {
                 Shoot();
                 shootDelay = shootDelaySeconds;

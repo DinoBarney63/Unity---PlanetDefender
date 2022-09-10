@@ -163,7 +163,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1227927319272014001}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -30, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -417,5 +417,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 25
   enemyGunPrefab: {fileID: 5200114918343956249, guid: 11978f8832e8ba84e81c1ab1577fc3d1, type: 3}
-  gunCount: 0
   orbit: {fileID: 1227927319272014001}
+  partsPrefab: {fileID: 6147294305763868589, guid: 99e040cd005524a48b585e0be83bca61, type: 3}

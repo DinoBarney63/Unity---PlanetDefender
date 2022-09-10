@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     private float regenCountdown;
     private float regenCountdownMax = 5;
     private float regenTime;
-    private float regenTimeMax = 2;
+    private float regenTimeMax = 1;
     public GameObject mainGun;
     public GameObject[] subGuns;
     private bool playing = false;
@@ -73,8 +73,8 @@ public class Player : MonoBehaviour
                 }
             }
 
-            // If the closest enemy is further than 55 its rotation speed is increased until in range 
-            if (distanceToClosestEnemy > 55)
+            // If the closest enemy is further than 50 its rotation speed is increased until in range 
+            if (distanceToClosestEnemy > 50)
             {
                 nearestEnemy.GetComponent<Enemy>().SpeedUp(30);
             }
@@ -131,6 +131,8 @@ public class Player : MonoBehaviour
             gameManager.GetComponent<GameManager>().GameOver();
             playerHealth = 0;
         }
+        else if (playerHealth >= 100)
+            playerHealth = 100;
         gameManager.GetComponent<GameManager>().DisplayPlayerHealth(playerHealth);
     }
 

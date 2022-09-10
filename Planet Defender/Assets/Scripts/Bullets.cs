@@ -5,7 +5,7 @@ using UnityEngine;
 public class Bullets : MonoBehaviour
 {
     private Rigidbody bulletRb;
-    private float bulletSpeed = 10.0f;
+    private float bulletSpeed = 15.0f;
     private GameObject player;
     private float age;
     public int damage = 1;

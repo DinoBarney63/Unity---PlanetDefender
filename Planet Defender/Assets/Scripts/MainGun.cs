@@ -52,7 +52,7 @@ public class MainGun : MonoBehaviour
             transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, Time.time * rotationSpeed);
 
             // If  the mouse is clicked then the gun fires.
-            if (Input.GetMouseButton(0) && shootDelay < 0)
+            if (Input.GetMouseButton(1) && shootDelay < 0)
             {
                 Shoot();
                 shootDelay = shootDelaySeconds;

@@ -545,7 +545,8 @@ MonoBehaviour:
   playerDifficulty: 0
   progressBar: {fileID: 37263501}
   progressBarText: {fileID: 1206667201}
-  levelingPercentage: 0
+  levelingCount: 0
+  levelingMax: 100
 --- !u!1 &470000080
 GameObject:
   m_ObjectHideFlags: 0
@@ -2951,7 +2952,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 519420031}
-  isActive: 1
+  isActive: 0
   lazerPrefab: {fileID: 146110498514957662, guid: 1ed296057a7dbdc4ab05c995d6798cd9, type: 3}
   distanceToClosestEnemy: 100
 --- !u!1 &1713067934
