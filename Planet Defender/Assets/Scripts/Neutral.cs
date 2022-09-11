@@ -34,4 +34,9 @@ public class Neutral : MonoBehaviour
     {
         transform.position = orbit.transform.position + new Vector3(0, orbitDistance + Random.Range(-20, 20), 0);
     }
+
+    public void SpeedUp(float speeding)
+    {
+        orbit.GetComponent<Orbit>().SpeedUp(speeding);
+    }
 }

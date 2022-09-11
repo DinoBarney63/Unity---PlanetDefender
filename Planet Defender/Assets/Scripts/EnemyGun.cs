@@ -15,8 +15,8 @@ public class EnemyGun : MonoBehaviour
     public float shootOffset = 5;
     public GameObject bulletPrefab;
     public GameObject lazerPrefab;
-    public float shootDelaySecondsMain = 2;
-    public float shootDelaySecondsSub = 10;
+    private float shootDelaySecondsMain = 10;
+    private float shootDelaySecondsSub = 2;
     private float shootDelay;
     public bool main = true;
 

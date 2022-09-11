@@ -53,15 +53,12 @@ public class Player : MonoBehaviour
         {
             // Gose through each enemy and figures out which enemy is the closest to the player
             Enemy[] enemyList = FindObjectsOfType<Enemy>();
-            float distanceToEnemy = 1000;
             distanceToClosestEnemy = 1000;
             Enemy nearestEnemy = null;
 
             foreach (Enemy i in enemyList)
             {
-                float distanceToEnemyx = i.transform.position.x - transform.position.x;
-                float distanceToEnemyy = i.transform.position.y - transform.position.y;
-                distanceToEnemy = Mathf.Sqrt(Mathf.Pow(distanceToEnemyx, 2f) + Mathf.Pow(distanceToEnemyy, 2f));
+                float distanceToEnemy = DistanceToEnemy(i);
                 if (distanceToEnemy < distanceToClosestEnemy)
                 {
                     distanceToClosestEnemy = distanceToEnemy;
@@ -77,6 +74,18 @@ public class Player : MonoBehaviour
             if (distanceToClosestEnemy > 50)
             {
                 nearestEnemy.GetComponent<Enemy>().SpeedUp(30);
+            }
+
+
+            Neutral[] neutralList = FindObjectsOfType<Neutral>();
+
+            foreach (Neutral i in neutralList)
+            {
+                float distanceToNeutral = DistanceToNeutral(i);
+                if (distanceToNeutral > 55)
+                {
+                    i.GetComponent<Neutral>().SpeedUp(10);
+                }
             }
 
             // Health regen timer
@@ -122,7 +131,8 @@ public class Player : MonoBehaviour
     {
         // Reduce players health and if below or equal to 0 then the player is dead
         playerHealth -= damageTaken;
-        regenCountingDown = true;
+        if(damageTaken > 0)
+            regenCountingDown = true;
         if (playerHealth <= 0)
         {
             alive = false;
@@ -184,5 +194,21 @@ public class Player : MonoBehaviour
         playing = true;
         ToggleMainGun();
         ToggleSubGuns();
+    }
+
+    private float DistanceToNeutral(Neutral neutral)
+    {
+        float XDistanceTo = neutral.transform.position.x - transform.position.x;
+        float YDistanceTo = neutral.transform.position.y - transform.position.y;
+        float distanceTo = Mathf.Sqrt(Mathf.Pow(XDistanceTo, 2f) + Mathf.Pow(YDistanceTo, 2f));
+        return distanceTo;
+    }
+
+    private float DistanceToEnemy(Enemy enemy)
+    {
+        float XDistanceTo = enemy.transform.position.x - transform.position.x;
+        float YDistanceTo = enemy.transform.position.y - transform.position.y;
+        float distanceTo = Mathf.Sqrt(Mathf.Pow(XDistanceTo, 2f) + Mathf.Pow(YDistanceTo, 2f));
+        return distanceTo;
     }
 }

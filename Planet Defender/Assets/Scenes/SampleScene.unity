@@ -546,7 +546,8 @@ MonoBehaviour:
   progressBar: {fileID: 37263501}
   progressBarText: {fileID: 1206667201}
   levelingCount: 0
-  levelingMax: 100
+  levelingMax: 0
+  playerLevel: 1
 --- !u!1 &470000080
 GameObject:
   m_ObjectHideFlags: 0

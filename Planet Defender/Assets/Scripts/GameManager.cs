@@ -25,10 +25,13 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI gameOverText;
     public Button restartButton;
     public int playerDifficulty;
+    private int divideDifficultyToGunCount = 15;
     public Slider progressBar;
     public TextMeshProUGUI progressBarText;
-    public float levelingCount = 0.0f;
-    public float levelingMax = 100.0f;
+    public float levelingCount;
+    public float levelingMax;
+    public int playerLevel = 1;
+    private float difficultyToLeveling = 1.1f;
 
     // Start is called before the first frame update
     void Start()
@@ -45,7 +48,7 @@ public class GameManager : MonoBehaviour
         restartButton.gameObject.SetActive(false);
 
         levelingCount = 0;
-        levelingMax = 100;
+        levelingMax = 0;
     }
 
     // Update is called once per frame
@@ -54,13 +57,13 @@ public class GameManager : MonoBehaviour
         enemyCount = FindObjectsOfType<Enemy>().Length;
         neutralCount = FindObjectsOfType<Neutral>().Length;
 
-        if ((spawn || enemyCount < Mathf.FloorToInt(playerDifficulty / 10)) && playing)
+        if ((spawn || enemyCount < Mathf.FloorToInt(playerDifficulty / divideDifficultyToGunCount)) && playing)
         {
             spawn = false;
             SpawnEnemy();
         }
 
-        if ((neutralCount < Mathf.FloorToInt(playerDifficulty / 50)) && playing)
+        if ((neutralCount < Mathf.FloorToInt(playerDifficulty / (divideDifficultyToGunCount * 4))) && playing)
         {
             SpawnNeutral();
         }
@@ -72,7 +75,7 @@ public class GameManager : MonoBehaviour
         Vector3 offset = randomSpawnPos(50, 70);
         float distanceToPlayer = Mathf.Sqrt(Mathf.Pow(offset.x, 2) + Mathf.Pow(offset.y, 2));
         NewEnemyOrbit.transform.position = player.transform.position + offset;
-        NewEnemyOrbit.GetComponentInChildren<Enemy>().SetUp(distanceToPlayer, Mathf.FloorToInt(playerDifficulty / 10));
+        NewEnemyOrbit.GetComponentInChildren<Enemy>().SetUp(distanceToPlayer, Mathf.FloorToInt(playerDifficulty / divideDifficultyToGunCount));
     }
 
     public void SpawnNeutral()
@@ -115,7 +118,9 @@ public class GameManager : MonoBehaviour
         startButtonEasy.gameObject.SetActive(false);
         startButtonMedium.gameObject.SetActive(false);
         startButtonHard.gameObject.SetActive(false);
-        playerDifficulty = Random.Range(difficulty + 2, difficulty * Random.Range(1, difficulty + 2)) + 3 * (difficulty + 2) + 25;
+        playerDifficulty = (divideDifficultyToGunCount * (difficulty + 2)) + Random.Range(difficulty, difficulty * difficulty);
+        levelingMax = difficultyToLeveling * playerDifficulty;
+        playerLevel = 1;
     }
 
     public void GameOver()
@@ -147,7 +152,13 @@ public class GameManager : MonoBehaviour
     public void UpdatePlayerLeveling(int leveingAmount)
     {
         levelingCount += leveingAmount;
+        if (levelingCount >= levelingMax)
+        {
+            levelingCount -= levelingMax;
+            levelingMax = difficultyToLeveling * playerDifficulty;
+            playerLevel += 1;
+        }
         progressBar.value = levelingCount / levelingMax;
-        progressBarText.text = (progressBar.value * 100).ToString("0.0") + "%";
+        progressBarText.text = (progressBar.value * 100).ToString("0.00") + "%";
     }
 }
