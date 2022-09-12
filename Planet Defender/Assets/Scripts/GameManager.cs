@@ -12,7 +12,6 @@ public class GameManager : MonoBehaviour
     public GameObject neutralInOrbitPrefab;
     public int enemyCount;
     public int neutralCount;
-    public bool spawn = false;
     private bool playing = false;
     public bool startGame = false;
     public int playerScore;
@@ -57,9 +56,8 @@ public class GameManager : MonoBehaviour
         enemyCount = FindObjectsOfType<Enemy>().Length;
         neutralCount = FindObjectsOfType<Neutral>().Length;
 
-        if ((spawn || enemyCount < Mathf.FloorToInt(playerDifficulty / divideDifficultyToGunCount)) && playing)
+        if ((enemyCount < Mathf.FloorToInt(playerDifficulty / divideDifficultyToGunCount)) && playing)
         {
-            spawn = false;
             SpawnEnemy();
         }
 
@@ -72,19 +70,27 @@ public class GameManager : MonoBehaviour
     public void SpawnEnemy()
     {
         GameObject NewEnemyOrbit = Instantiate(enemyInOrbitPrefab);
-        Vector3 offset = randomSpawnPos(50, 70);
-        float distanceToPlayer = Mathf.Sqrt(Mathf.Pow(offset.x, 2) + Mathf.Pow(offset.y, 2));
-        NewEnemyOrbit.transform.position = player.transform.position + offset;
-        NewEnemyOrbit.GetComponentInChildren<Enemy>().SetUp(distanceToPlayer, Mathf.FloorToInt(playerDifficulty / divideDifficultyToGunCount));
+        Vector3 spawnOffset = randomSpawnPos(50, 70);
+        float distanceToPlayer = Mathf.Sqrt(Mathf.Pow(spawnOffset.x, 2) + Mathf.Pow(spawnOffset.y, 2));
+        float offset = Random.Range(500, 2000) / 100;
+        if (Random.value > 0.5f)
+            offset *= -1;
+        float distanceToOrbit = distanceToPlayer + offset;
+        NewEnemyOrbit.transform.position = player.transform.position + spawnOffset;
+        NewEnemyOrbit.GetComponentInChildren<Enemy>().SetUp(distanceToOrbit, Mathf.FloorToInt(playerDifficulty / divideDifficultyToGunCount));
     }
 
     public void SpawnNeutral()
     {
         GameObject NewNeutralOrbit = Instantiate(neutralInOrbitPrefab);
-        Vector3 offset = randomSpawnPos(50, 70);
-        float distanceToPlayer = Mathf.Sqrt(Mathf.Pow(offset.x, 2) + Mathf.Pow(offset.y, 2));
-        NewNeutralOrbit.transform.position = player.transform.position + offset;
-        NewNeutralOrbit.GetComponentInChildren<Neutral>().SetUp(distanceToPlayer);
+        Vector3 spawnOffset = randomSpawnPos(50, 70);
+        float distanceToPlayer = Mathf.Sqrt(Mathf.Pow(spawnOffset.x, 2) + Mathf.Pow(spawnOffset.y, 2));
+        float offset = Random.Range(500, 2000) / 100;
+        if (Random.value > 0.5f)
+            offset *= -1;
+        float distanceToOrbit = distanceToPlayer + offset;
+        NewNeutralOrbit.transform.position = player.transform.position + spawnOffset;
+        NewNeutralOrbit.GetComponentInChildren<Neutral>().SetUp(distanceToOrbit);
     }
 
     public Vector3 randomSpawnPos(int low, int high)

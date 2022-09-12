@@ -34,7 +34,8 @@ public class Enemy : MonoBehaviour
         {
             SpawnParts(guns);
             Destroy(orbit);
-            gameManager.GetComponent<GameManager>().UpdatePlayerScore(5, guns);
+            int score = Mathf.RoundToInt(guns * 1.5f);
+            gameManager.GetComponent<GameManager>().UpdatePlayerScore(score, guns);
 
         }
     }
@@ -54,7 +55,7 @@ public class Enemy : MonoBehaviour
             newGun.GetComponent<EnemyGun>().Spawned(gunAngleRad, gunAngleDeg, transform.position);
             newGun.GetComponent<EnemyGun>().main = false;
         }
-        transform.position = orbit.transform.position + new Vector3(0, orbitDistance + Random.Range(-20, 20), 0);
+        transform.position = orbit.transform.position + new Vector3(0, orbitDistance, 0);
     }
 
     public void SpeedUp(float speeding)

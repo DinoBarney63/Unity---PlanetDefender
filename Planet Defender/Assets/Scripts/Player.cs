@@ -55,6 +55,16 @@ public class Player : MonoBehaviour
             Enemy[] enemyList = FindObjectsOfType<Enemy>();
             distanceToClosestEnemy = 1000;
             Enemy nearestEnemy = null;
+            Neutral[] neutralList = FindObjectsOfType<Neutral>();
+
+            foreach (Neutral i in neutralList)
+            {
+                float distanceToNeutral = DistanceToNeutral(i);
+                if (distanceToNeutral > 55)
+                {
+                    i.GetComponent<Neutral>().SpeedUp(10);
+                }
+            }
 
             foreach (Enemy i in enemyList)
             {
@@ -74,18 +84,6 @@ public class Player : MonoBehaviour
             if (distanceToClosestEnemy > 50)
             {
                 nearestEnemy.GetComponent<Enemy>().SpeedUp(30);
-            }
-
-
-            Neutral[] neutralList = FindObjectsOfType<Neutral>();
-
-            foreach (Neutral i in neutralList)
-            {
-                float distanceToNeutral = DistanceToNeutral(i);
-                if (distanceToNeutral > 55)
-                {
-                    i.GetComponent<Neutral>().SpeedUp(10);
-                }
             }
 
             // Health regen timer
@@ -196,7 +194,7 @@ public class Player : MonoBehaviour
         ToggleSubGuns();
     }
 
-    private float DistanceToNeutral(Neutral neutral)
+    public float DistanceToNeutral(Neutral neutral)
     {
         float XDistanceTo = neutral.transform.position.x - transform.position.x;
         float YDistanceTo = neutral.transform.position.y - transform.position.y;
@@ -204,7 +202,7 @@ public class Player : MonoBehaviour
         return distanceTo;
     }
 
-    private float DistanceToEnemy(Enemy enemy)
+    public float DistanceToEnemy(Enemy enemy)
     {
         float XDistanceTo = enemy.transform.position.x - transform.position.x;
         float YDistanceTo = enemy.transform.position.y - transform.position.y;

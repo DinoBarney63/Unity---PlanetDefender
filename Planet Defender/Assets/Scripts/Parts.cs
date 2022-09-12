@@ -20,22 +20,23 @@ public class Parts : MonoBehaviour
 
         if (Random.value > 0.5f)
         {
-            circle.gameObject.SetActive(true);
-            square.gameObject.SetActive(false);
-            health.gameObject.SetActive(false);
+            circle.SetActive(true);
+            square.SetActive(false);
+            health.SetActive(false);
         }
         else
         {
-            circle.gameObject.SetActive(false);
-            square.gameObject.SetActive(true);
-            health.gameObject.SetActive(false);
+            circle.SetActive(false);
+            square.SetActive(true);
+            health.SetActive(false);
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.Normalize(player.transform.position - transform.position) * 0.01f);
+        Vector3 playerPostion = player.transform.position;
+        transform.Translate(Vector3.Normalize(playerPostion - transform.position) * 0.01f);
     }
 
     public void AddValue(int value)
@@ -55,9 +56,9 @@ public class Parts : MonoBehaviour
         if(Random.value > 0.2f)
         {
             healthAmount = partValue;
-            circle.gameObject.SetActive(false);
-            square.gameObject.SetActive(false);
-            health.gameObject.SetActive(true);
+            circle.SetActive(false);
+            square.SetActive(false);
+            health.SetActive(true);
         }
     }
 

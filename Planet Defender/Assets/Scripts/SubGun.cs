@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class SubGun : MonoBehaviour
 {
+    private GameObject player;
     public Camera mainCamera;
     public bool isActive = false;
     public GameObject bulletPrefab;
     public float distanceToClosestEnemy;
+    public float distanceToClosestNeutral;
     private float rotationSpeed = 0.004f;
     private bool between = true;
     private float point1 = 0;
@@ -22,6 +24,8 @@ public class SubGun : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.Find("Player");
+
         // Sets the gun restrictions based on the starting rotation
         float startingAngleDeg = transform.rotation.eulerAngles.z;
 
@@ -44,24 +48,6 @@ public class SubGun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Gose through each enemy and figures out which enemy is the closest to the player
-        Enemy[] enemyList = FindObjectsOfType<Enemy>();
-        float distanceToEnemy = 1000;
-        distanceToClosestEnemy = 1000;
-        Enemy nearestEnemy = null;
-
-        foreach (Enemy i in enemyList)
-        {
-            float distanceToEnemyx = i.transform.position.x - transform.position.x;
-            float distanceToEnemyy = i.transform.position.y - transform.position.y;
-            distanceToEnemy = Mathf.Sqrt(Mathf.Pow(distanceToEnemyx, 2f) + Mathf.Pow(distanceToEnemyy, 2f));
-            if (distanceToEnemy < distanceToClosestEnemy)
-            {
-                distanceToClosestEnemy = distanceToEnemy;
-                nearestEnemy = i;
-            }
-        }
-        
         // If enabled it finds the mouse location and trys to point towards it, if it can then the gun will rotate towards the mouse.
         if (isActive)
         {
@@ -81,11 +67,55 @@ public class SubGun : MonoBehaviour
         }
         else
         {
-            // If the gun is disabled it checks if the glosest enemy is inside it's shooting range
-            // If so it rotates to point it, if it can. Once pointing in the right direction it can fire
+            // Calculates which neutral is the closest to the player
+            Neutral[] neutralList = FindObjectsOfType<Neutral>();
+            distanceToClosestNeutral = 1000;
+            Neutral nearestNeutral = null;
+            foreach (Neutral i in neutralList)
+            {
+                float distanceToNeutral = player.GetComponent<Player>().DistanceToNeutral(i);
+                if (distanceToNeutral < distanceToClosestNeutral)
+                {
+                    distanceToClosestNeutral = distanceToNeutral;
+                    nearestNeutral = i;
+                }
+            }
+
+            // Calculates which enemy is the closest to the player
+            Enemy[] enemyList = FindObjectsOfType<Enemy>();
+            distanceToClosestEnemy = 1000;
+            Enemy nearestEnemy = null;
+            foreach (Enemy i in enemyList)
+            {
+                float distanceToEnemy = player.GetComponent<Player>().DistanceToEnemy(i);
+                if (distanceToEnemy < distanceToClosestEnemy)
+                {
+                    distanceToClosestEnemy = distanceToEnemy;
+                    nearestEnemy = i;
+                }
+            }
+
+            // If the gun is disabled it checks if the closest enemy is inside it's shooting range
+            // If so it rotates to point it, if it can. Once pointing in the right direction it fires
             if (distanceToClosestEnemy <= shootRange)
             {
                 Vector3 playerDirection = transform.position - nearestEnemy.transform.position;
+                Quaternion desiredRotation = Quaternion.LookRotation(Vector3.forward, playerDirection);
+                toRotate = desiredRotation.eulerAngles.z;
+                if ((toRotate >= point1 && toRotate <= point2) == between)
+                    transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, Time.time * rotationSpeed);
+
+                if ((transform.rotation.eulerAngles.z + shootOffset > toRotate) && (transform.rotation.eulerAngles.z - shootOffset < toRotate) && shootDelay < 0)
+                {
+                    Shoot();
+                    shootDelay = shootDelaySeconds;
+                }
+            }
+            else if (distanceToClosestNeutral <= shootRange)
+            {
+                // If the closest enemy is out of range it checks if the closest neutral is inside it's shooting range
+                // If so it rotates to point it, if it can. Once pointing in the right direction it fires
+                Vector3 playerDirection = transform.position - nearestNeutral.transform.position;
                 Quaternion desiredRotation = Quaternion.LookRotation(Vector3.forward, playerDirection);
                 toRotate = desiredRotation.eulerAngles.z;
                 if ((toRotate >= point1 && toRotate <= point2) == between)
