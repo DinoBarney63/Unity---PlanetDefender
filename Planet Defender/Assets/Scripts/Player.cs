@@ -27,9 +27,9 @@ public class Player : MonoBehaviour
     public float distanceToClosestEnemy;
     public int healthLevel = 1;
     public int regenerationLevel = 1;
-    public int damageLevel = 1;
-    public int attackSpeedLevel = 1;
     public int rangeLevel = 1;
+    public int attackSpeedLevel = 1;
+    public int damageLevel = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -213,5 +213,19 @@ public class Player : MonoBehaviour
         float YDistanceTo = enemy.transform.position.y - transform.position.y;
         float distanceTo = Mathf.Sqrt(Mathf.Pow(XDistanceTo, 2f) + Mathf.Pow(YDistanceTo, 2f));
         return distanceTo;
+    }
+
+    public void LevelUp(int upgrade, int level)
+    {
+        if (upgrade == 1)
+            healthLevel += level;
+        else if (upgrade == 2)
+            regenerationLevel += level;
+        else if (upgrade == 3)
+            rangeLevel += level;
+        else if (upgrade == 4)
+            attackSpeedLevel += level;
+        else
+            damageLevel += level;
     }
 }

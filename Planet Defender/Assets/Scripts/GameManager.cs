@@ -16,25 +16,27 @@ public class GameManager : MonoBehaviour
     public bool startGame = false;
     public int playerScore;
     public TextMeshProUGUI titleText;
-    public Button startButtonEasy;
-    public Button startButtonMedium;
-    public Button startButtonHard;
+    public List<Button> startButtons;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI playerHealthText;
     public TextMeshProUGUI gameOverText;
     public Button restartButton;
     public int playerDifficulty;
-    private int divideDifficultyToGunCount = 15;
+    private int divideDifficultyToGunCount = 20;
     public Slider progressBar;
     public TextMeshProUGUI progressBarText;
     public float levelingCount;
     public float levelingMax;
     public int playerLevel = 1;
     private float difficultyToLeveling = 1.1f;
-    public Button upgrade1;
-    public Button upgrade2;
-    public Button upgrade3;
+    public List<Button> upgradeButtons;
     public bool waitingForUpgrade = false;
+    public int option1 = 0;
+    public int option2 = 0;
+    public int option3 = 0;
+    public int level1 = 0;
+    public int level2 = 0;
+    public int level3 = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -42,13 +44,14 @@ public class GameManager : MonoBehaviour
         player = GameObject.Find("Player");
 
         titleText.gameObject.SetActive(true);
-        startButtonEasy.gameObject.SetActive(true);
-        startButtonMedium.gameObject.SetActive(true);
-        startButtonHard.gameObject.SetActive(true);
+        foreach (Button i in startButtons)
+            i.gameObject.SetActive(true);
         scoreText.gameObject.SetActive(true);
         playerHealthText.gameObject.SetActive(true);
         gameOverText.gameObject.SetActive(false);
         restartButton.gameObject.SetActive(false);
+        foreach (Button i in upgradeButtons)
+            i.gameObject.SetActive(false);
 
         levelingCount = 0;
         levelingMax = 0;
@@ -73,11 +76,11 @@ public class GameManager : MonoBehaviour
         if(waitingForUpgrade)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
-                Upgrade1();
+                UpgradeSelected(1);
             if (Input.GetKeyDown(KeyCode.Alpha2))
-                Upgrade2();
+                UpgradeSelected(2);
             if (Input.GetKeyDown(KeyCode.Alpha3))
-                Upgrade3();
+                UpgradeSelected(3);
         }
     }
 
@@ -135,9 +138,8 @@ public class GameManager : MonoBehaviour
         playing = true;
         player.GetComponent<Player>().BeguinGame();
         titleText.gameObject.SetActive(false);
-        startButtonEasy.gameObject.SetActive(false);
-        startButtonMedium.gameObject.SetActive(false);
-        startButtonHard.gameObject.SetActive(false);
+        foreach (Button i in startButtons)
+            i.gameObject.SetActive(false);
         playerDifficulty = (divideDifficultyToGunCount * (difficulty + 2)) + Random.Range(difficulty, difficulty * difficulty);
         levelingMax = difficultyToLeveling * playerDifficulty;
         playerLevel = 1;
@@ -185,24 +187,80 @@ public class GameManager : MonoBehaviour
 
     public void LevelingUp(bool active)
     {
-        upgrade1.gameObject.SetActive(active);
-        upgrade2.gameObject.SetActive(active);
-        upgrade3.gameObject.SetActive(active);
+        if (active)
+        {
+            int upgrade = 0;
+            string upgradeName;
+            int option = 0;
+            int level;
+
+            foreach (Button i in upgradeButtons)
+            {
+                option += 1;
+                if (option == 1)
+                {
+                    upgrade = Random.Range(1, 5);
+                    option1 = upgrade;
+                    level = Random.Range(1, 3);
+                    level1 = level;
+                }
+                else if (option == 2)
+                {
+                    while (upgrade == option1)
+                    {
+                        upgrade = Random.Range(1, 5);
+                    }
+                    option2 = upgrade;
+                    level = Random.Range(1, 3);
+                    level2 = level;
+                }
+                else
+                {
+                    while (upgrade == option2 || upgrade == option1)
+                    {
+                        upgrade = Random.Range(1, 5);
+                    }
+                    option3 = upgrade;
+                    level = Random.Range(1, 3);
+                    level3 = level;
+                } 
+
+                // Somehow options 3 and five are rarer than the others and five is the rarest
+                if (upgrade == 1)
+                    upgradeName = "Health";
+                else if (upgrade == 2)
+                    upgradeName = "Regeneration";
+                else if (upgrade == 3)
+                    upgradeName = "Range";
+                else if (upgrade == 4)
+                    upgradeName = "Attack Speed";
+                else
+                    upgradeName = "Damage";
+                i.GetComponentInChildren<TextMeshProUGUI>().text = upgradeName + ": " + level;
+            }
+        }
+
+        foreach (Button i in upgradeButtons)
+            i.gameObject.SetActive(active);
+
         waitingForUpgrade = active;
     }
 
-    public void Upgrade1()
+    public void UpgradeSelected(int chosenUpgrade)
     {
         LevelingUp(false);
-    }
+        if (chosenUpgrade == 1)
+            player.GetComponent<Player>().LevelUp(option1, level1);
+        else if (chosenUpgrade == 2)
+            player.GetComponent<Player>().LevelUp(option2, level2);
+        else
+            player.GetComponent<Player>().LevelUp(option3, level3);
 
-    public void Upgrade2()
-    {
-        LevelingUp(false);
-    }
-
-    public void Upgrade3()
-    {
-        LevelingUp(false);
+        option1 = 0;
+        option2 = 0;
+        option3 = 0;
+        level1 = 0;
+        level2 = 0;
+        level3 = 0;
     }
 }
