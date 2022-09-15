@@ -14,8 +14,9 @@ public class MainGun : MonoBehaviour
     private float toRotate;
     private float shootRange = 30;
     private float shootOffset = 5;
-    private float shootDelaySeconds = 5;
+    public float shootDelaySeconds = 5;
     private float shootDelay;
+    public int damage = 10;
 
 
     // Start is called before the first frame update
@@ -111,7 +112,7 @@ public class MainGun : MonoBehaviour
         GameObject newBullet = Instantiate(lazerPrefab);
         newBullet.transform.position = transform.position;
         newBullet.transform.rotation = transform.localRotation;
-        newBullet.GetComponent<Bullets>().damage = 10;
+        newBullet.GetComponent<Bullets>().damage = damage;
     }
 
     public void Toggle(bool OnOff)

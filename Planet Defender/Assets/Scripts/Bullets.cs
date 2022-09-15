@@ -5,7 +5,7 @@ using UnityEngine;
 public class Bullets : MonoBehaviour
 {
     private Rigidbody bulletRb;
-    private float bulletSpeed = 15.0f;
+    private float bulletSpeed = 20.0f;
     private GameObject player;
     private float age;
     public int damage = 1;
@@ -56,17 +56,13 @@ public class Bullets : MonoBehaviour
             // If the bullet collides with a bullet shot by the same charcter nothing happens
             if (other.tag == "Bullet")
             {
-                if(playerBullet == other.GetComponent<Bullets>().playerBullet)
-                {
-
-                }else
-                {
+                if(playerBullet != other.GetComponent<Bullets>().playerBullet)
                     Destroy(gameObject);
-                }
             }
             else
             {
-                Destroy(gameObject);
+                if (other.tag != "Part")
+                    Destroy(gameObject);
             }
         }
     }

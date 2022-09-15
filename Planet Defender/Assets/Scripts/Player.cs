@@ -25,6 +25,11 @@ public class Player : MonoBehaviour
     public Button subGunButton;
     public TextMeshProUGUI subGunText;
     public float distanceToClosestEnemy;
+    public int healthLevel = 1;
+    public int regenerationLevel = 1;
+    public int damageLevel = 1;
+    public int attackSpeedLevel = 1;
+    public int rangeLevel = 1;
 
     // Start is called before the first frame update
     void Start()
@@ -139,8 +144,8 @@ public class Player : MonoBehaviour
             gameManager.GetComponent<GameManager>().GameOver();
             playerHealth = 0;
         }
-        else if (playerHealth >= 100)
-            playerHealth = 100;
+        else if (playerHealth >= playerMaxHealth)
+            playerHealth = playerMaxHealth;
         gameManager.GetComponent<GameManager>().DisplayPlayerHealth(playerHealth);
     }
 

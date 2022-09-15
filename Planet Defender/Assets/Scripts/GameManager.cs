@@ -31,6 +31,10 @@ public class GameManager : MonoBehaviour
     public float levelingMax;
     public int playerLevel = 1;
     private float difficultyToLeveling = 1.1f;
+    public Button upgrade1;
+    public Button upgrade2;
+    public Button upgrade3;
+    public bool waitingForUpgrade = false;
 
     // Start is called before the first frame update
     void Start()
@@ -64,6 +68,16 @@ public class GameManager : MonoBehaviour
         if ((neutralCount < Mathf.FloorToInt(playerDifficulty / (divideDifficultyToGunCount * 4))) && playing)
         {
             SpawnNeutral();
+        }
+
+        if(waitingForUpgrade)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+                Upgrade1();
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+                Upgrade2();
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+                Upgrade3();
         }
     }
 
@@ -163,8 +177,32 @@ public class GameManager : MonoBehaviour
             levelingCount -= levelingMax;
             levelingMax = difficultyToLeveling * playerDifficulty;
             playerLevel += 1;
+            LevelingUp(true);
         }
         progressBar.value = levelingCount / levelingMax;
         progressBarText.text = (progressBar.value * 100).ToString("0.00") + "%";
+    }
+
+    public void LevelingUp(bool active)
+    {
+        upgrade1.gameObject.SetActive(active);
+        upgrade2.gameObject.SetActive(active);
+        upgrade3.gameObject.SetActive(active);
+        waitingForUpgrade = active;
+    }
+
+    public void Upgrade1()
+    {
+        LevelingUp(false);
+    }
+
+    public void Upgrade2()
+    {
+        LevelingUp(false);
+    }
+
+    public void Upgrade3()
+    {
+        LevelingUp(false);
     }
 }

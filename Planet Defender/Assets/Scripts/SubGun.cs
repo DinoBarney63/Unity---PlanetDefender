@@ -17,8 +17,9 @@ public class SubGun : MonoBehaviour
     private float toRotate;
     private float shootRange = 25;
     private float shootOffset = 5;
-    private float shootDelaySeconds = 0.75f;
+    public float shootDelaySeconds = 0.75f;
     private float shootDelay;
+    public int damage = 1;
 
 
     // Start is called before the first frame update
@@ -138,7 +139,7 @@ public class SubGun : MonoBehaviour
         GameObject newBullet = Instantiate(bulletPrefab);
         newBullet.transform.position = transform.position;
         newBullet.transform.rotation = transform.localRotation;
-        newBullet.GetComponent<Bullets>().damage = 1;
+        newBullet.GetComponent<Bullets>().damage = damage;
     }
 
     public void Toggle(bool OnOff)

@@ -11,8 +11,8 @@ public class EnemyGun : MonoBehaviour
     private float point1 = 0;
     private float point2 = 360;
     private float toRotate;
-    public float shootRange = 20;
-    public float shootOffset = 5;
+    private float shootRange = 20;
+    private float shootOffset = 5;
     public GameObject bulletPrefab;
     public GameObject lazerPrefab;
     private float shootDelaySecondsMain = 10;

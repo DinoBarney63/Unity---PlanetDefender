@@ -36,7 +36,7 @@ public class Parts : MonoBehaviour
     void Update()
     {
         Vector3 playerPostion = player.transform.position;
-        transform.Translate(Vector3.Normalize(playerPostion - transform.position) * 0.01f);
+        transform.Translate(Vector3.Normalize(playerPostion - transform.position) * 0.05f);
     }
 
     public void AddValue(int value)
@@ -53,7 +53,7 @@ public class Parts : MonoBehaviour
             gameObject.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
         }
 
-        if(Random.value > 0.2f)
+        if(Random.value > 0.6f)
         {
             healthAmount = partValue;
             circle.SetActive(false);
