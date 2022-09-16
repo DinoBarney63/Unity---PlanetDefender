@@ -12,7 +12,7 @@ public class MainGun : MonoBehaviour
     public float distanceToClosestNeutral;
     private float rotationSpeed = 0.004f;
     private float toRotate;
-    private float shootRange = 30;
+    private float shootRange = 25;
     private float shootOffset = 5;
     public float shootDelaySeconds = 5;
     private float shootDelay;
@@ -74,7 +74,7 @@ public class MainGun : MonoBehaviour
 
             // If the gun is disabled it checks if the closest enemy is inside it's shooting range
             // If so it rotates to point it. Once pointing in the right direction it fires
-            if (distanceToClosestEnemy <= shootRange)
+            if (distanceToClosestEnemy <= shootRange + ((player.GetComponent<Player>().rangeLevel - 1) * 10))
             {
                 Vector3 playerDirection = transform.position - nearestEnemy.transform.position;
                 Quaternion desiredRotation = Quaternion.LookRotation(Vector3.forward, playerDirection);
@@ -84,9 +84,9 @@ public class MainGun : MonoBehaviour
                 if ((transform.rotation.eulerAngles.z + shootOffset > toRotate) && (transform.rotation.eulerAngles.z - shootOffset < toRotate) && shootDelay < 0)
                 {
                     Shoot();
-                    shootDelay = shootDelaySeconds;
+                    shootDelay = shootDelaySeconds - (player.GetComponent<Player>().attackSpeedLevel * shootDelaySeconds * 0.1f);
                 }
-            }else if (distanceToClosestNeutral <= shootRange)
+            }else if (distanceToClosestNeutral <= shootRange + ((player.GetComponent<Player>().rangeLevel - 1) * 10))
             {
                 // If the closest enemy is out of range it checks if the closest neutral is inside it's shooting range
                 // If so it rotates to point it. Once pointing in the right direction it fires
@@ -98,7 +98,7 @@ public class MainGun : MonoBehaviour
                 if ((transform.rotation.eulerAngles.z + shootOffset > toRotate) && (transform.rotation.eulerAngles.z - shootOffset < toRotate) && shootDelay < 0)
                 {
                     Shoot();
-                    shootDelay = shootDelaySeconds;
+                    shootDelay = shootDelaySeconds - (player.GetComponent<Player>().attackSpeedLevel * shootDelaySeconds * 0.1f);
                 }
             }
         }
@@ -112,7 +112,7 @@ public class MainGun : MonoBehaviour
         GameObject newBullet = Instantiate(lazerPrefab);
         newBullet.transform.position = transform.position;
         newBullet.transform.rotation = transform.localRotation;
-        newBullet.GetComponent<Bullets>().damage = damage;
+        newBullet.GetComponent<Bullets>().damage = damage * player.GetComponent<Player>().damageLevel;
     }
 
     public void Toggle(bool OnOff)

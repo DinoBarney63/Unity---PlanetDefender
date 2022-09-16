@@ -821,6 +821,7 @@ MonoBehaviour:
   levelingCount: 0
   levelingMax: 0
   playerLevel: 1
+  difficultyToLeveling: 1.1
   upgradeButtons:
   - {fileID: 411048221}
   - {fileID: 1314314311}
@@ -2044,6 +2045,7 @@ MonoBehaviour:
   rangeLevel: 1
   attackSpeedLevel: 1
   damageLevel: 1
+  mainCamera: {fileID: 519420031}
 --- !u!1 &915498246
 GameObject:
   m_ObjectHideFlags: 0

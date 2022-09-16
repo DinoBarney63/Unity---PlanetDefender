@@ -16,6 +16,8 @@ public class Bullets : MonoBehaviour
     {
         bulletRb = GetComponent<Rigidbody>();
         player = GameObject.Find("Player");
+        if (playerBullet)
+            bulletSpeed = player.GetComponent<Player>().rangeLevel * bulletSpeed;
     }
 
     // Update is called once per frame

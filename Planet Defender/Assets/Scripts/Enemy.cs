@@ -32,7 +32,7 @@ public class Enemy : MonoBehaviour
         health -= damageTaken;
         if (health <= 0)
         {
-            SpawnParts(guns);
+            SpawnParts(Mathf.RoundToInt(guns * Mathf.Pow(gameManager.GetComponent<GameManager>().difficultyToLeveling, 2)));
             Destroy(orbit);
             int score = Mathf.RoundToInt(guns * 1.5f);
             gameManager.GetComponent<GameManager>().UpdatePlayerScore(score, guns);

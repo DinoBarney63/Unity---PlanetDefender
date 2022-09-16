@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
     public float levelingCount;
     public float levelingMax;
     public int playerLevel = 1;
-    private float difficultyToLeveling = 1.1f;
+    public float difficultyToLeveling = 1.2f;
     public List<Button> upgradeButtons;
     public bool waitingForUpgrade = false;
     public int option1 = 0;
@@ -112,21 +112,21 @@ public class GameManager : MonoBehaviour
 
     public Vector3 randomSpawnPos(int low, int high)
     {
-        int numberA = Random.Range(low, high);
+        int A = Random.Range(low, high);
         if (Random.value > 0.5f)
-            numberA *= -1;
-        int numberB = Random.Range(-high, high);
+            A *= -1;
+        int B = Random.Range(-high, high);
         int x;
         int y;
 
         if(Random.value > 0.5f)
         {
-            x = numberA;
-            y = numberB;
+            x = A;
+            y = B;
         }else
         {
-            x = numberB;
-            y = numberA;
+            x = B;
+            y = A;
         }
 
         Vector3 position = new (x, y, 0);

@@ -30,6 +30,7 @@ public class Player : MonoBehaviour
     public int rangeLevel = 1;
     public int attackSpeedLevel = 1;
     public int damageLevel = 1;
+    public Camera mainCamera;
 
     // Start is called before the first frame update
     void Start()
@@ -65,7 +66,7 @@ public class Player : MonoBehaviour
             foreach (Neutral i in neutralList)
             {
                 float distanceToNeutral = DistanceToNeutral(i);
-                if (distanceToNeutral > 55)
+                if (distanceToNeutral > (55 + ((rangeLevel - 1) * 10)))
                 {
                     i.GetComponent<Neutral>().SpeedUp(10);
                 }
@@ -79,14 +80,14 @@ public class Player : MonoBehaviour
                     distanceToClosestEnemy = distanceToEnemy;
                     nearestEnemy = i;
                 }
-                if (distanceToEnemy > 55)
+                if (distanceToEnemy > (55 + ((rangeLevel - 1) * 10)))
                 {
                     i.GetComponent<Enemy>().SpeedUp(10);
                 }
             }
 
             // If the closest enemy is further than 50 its rotation speed is increased until in range 
-            if (distanceToClosestEnemy > 50)
+            if (distanceToClosestEnemy > (50 + ((rangeLevel - 1) * 10)))
             {
                 nearestEnemy.GetComponent<Enemy>().SpeedUp(30);
             }
@@ -218,14 +219,29 @@ public class Player : MonoBehaviour
     public void LevelUp(int upgrade, int level)
     {
         if (upgrade == 1)
+        {
             healthLevel += level;
+            playerMaxHealth = ((healthLevel - 1) * 20) + 100;
+            Damage(level * -20);
+        }
         else if (upgrade == 2)
+        {
             regenerationLevel += level;
+            regenCountdownMax = 5 - ((regenerationLevel - 1) * 0.5f);
+            regenTimeMax = 1 - ((regenerationLevel - 1) * 0.05f);
+        }
         else if (upgrade == 3)
+        {
             rangeLevel += level;
+            mainCamera.orthographicSize = 20 + ((rangeLevel - 1) * 5);
+        }
         else if (upgrade == 4)
+        {
             attackSpeedLevel += level;
+        }
         else
+        {
             damageLevel += level;
+        }
     }
 }
