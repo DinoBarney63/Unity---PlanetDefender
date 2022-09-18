@@ -26,13 +26,13 @@ public class Neutral : MonoBehaviour
         if (health <= 0)
         {
             Destroy(orbit);
-            gameManager.GetComponent<GameManager>().UpdatePlayerScore(2, 0);
+            gameManager.GetComponent<GameManager>().UpdatePlayerScore(3, 0);
         }
     }
 
     public void SetUp(float orbitDistance)
     {
-        transform.position = orbit.transform.position + new Vector3(0, orbitDistance + Random.Range(-20, 20), 0);
+        transform.position = orbit.transform.position + new Vector3(0, orbitDistance, 0);
     }
 
     public void SpeedUp(float speeding)

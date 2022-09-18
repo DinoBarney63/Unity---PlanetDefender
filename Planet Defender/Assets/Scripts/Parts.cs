@@ -42,17 +42,9 @@ public class Parts : MonoBehaviour
     public void AddValue(int value)
     {
         partValue = value;
-        if (value == 5)
-        {
-            gameObject.transform.localScale = new Vector3(0.75f, 0.75f, 0.75f);
-        }else if (value == 3)
-        {
-            gameObject.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-        }else
-        {
-            gameObject.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
-        }
-
+        float size = partValue * 0.1f;
+        gameObject.transform.localScale = new Vector3(size, size, size);
+        
         if(Random.value > 0.6f)
         {
             healthAmount = partValue;

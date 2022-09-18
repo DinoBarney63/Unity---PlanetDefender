@@ -19,11 +19,21 @@ public class EnemyGun : MonoBehaviour
     private float shootDelaySecondsSub = 2;
     private float shootDelay;
     public bool main = true;
+    public int enemyPower = 1;
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("Player");
+        float scale = 0.5f + ((enemyPower - 1) * 0.125f);
+        if (main)
+            scale = 0.75f + ((enemyPower - 1) * 0.125f);
+        transform.localScale = new Vector3(scale, scale, scale);
+
+        if (main)
+            shootDelay = shootDelaySecondsMain;
+        else
+            shootDelay = shootDelaySecondsSub;
     }
 
     // Update is called once per frame
@@ -55,8 +65,8 @@ public class EnemyGun : MonoBehaviour
                     shootDelay = shootDelaySecondsSub;
                 }
             }
+            shootDelay -= Time.deltaTime;
         }
-        shootDelay -= Time.deltaTime;
     }
 
     // Sub gun spawning
@@ -90,8 +100,8 @@ public class EnemyGun : MonoBehaviour
         newBullet.transform.position = transform.position;
         newBullet.transform.rotation = transform.localRotation;
         if(main)
-            newBullet.GetComponent<Bullets>().damage = 5;
+            newBullet.GetComponent<Bullets>().damage = 2 * enemyPower;
         else
-            newBullet.GetComponent<Bullets>().damage = 1;
+            newBullet.GetComponent<Bullets>().damage = enemyPower;
     }
 }

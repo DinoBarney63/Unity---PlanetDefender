@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
     public float levelingCount;
     public float levelingMax;
     public int playerLevel = 1;
-    public float difficultyToLeveling = 1.2f;
+    public float difficultyToLeveling = 1.1f;
     public List<Button> upgradeButtons;
     public bool waitingForUpgrade = false;
     public int option1 = 0;
@@ -89,12 +89,13 @@ public class GameManager : MonoBehaviour
         GameObject NewEnemyOrbit = Instantiate(enemyInOrbitPrefab);
         Vector3 spawnOffset = randomSpawnPos(50, 70);
         float distanceToPlayer = Mathf.Sqrt(Mathf.Pow(spawnOffset.x, 2) + Mathf.Pow(spawnOffset.y, 2));
-        float offset = Random.Range(500, 2000) / 100;
+        float offset = Random.Range(500, 2000 + 1) / 100;
         if (Random.value > 0.5f)
             offset *= -1;
         float distanceToOrbit = distanceToPlayer + offset;
         NewEnemyOrbit.transform.position = player.transform.position + spawnOffset;
-        NewEnemyOrbit.GetComponentInChildren<Enemy>().SetUp(distanceToOrbit, Mathf.FloorToInt(playerDifficulty / divideDifficultyToGunCount));
+        int enemyGuns = Mathf.FloorToInt(playerDifficulty / divideDifficultyToGunCount);
+        NewEnemyOrbit.GetComponentInChildren<Enemy>().SetUp(distanceToOrbit, enemyGuns);
     }
 
     public void SpawnNeutral()
@@ -102,7 +103,7 @@ public class GameManager : MonoBehaviour
         GameObject NewNeutralOrbit = Instantiate(neutralInOrbitPrefab);
         Vector3 spawnOffset = randomSpawnPos(50, 70);
         float distanceToPlayer = Mathf.Sqrt(Mathf.Pow(spawnOffset.x, 2) + Mathf.Pow(spawnOffset.y, 2));
-        float offset = Random.Range(500, 2000) / 100;
+        float offset = Random.Range(500, 2000 + 1) / 100;
         if (Random.value > 0.5f)
             offset *= -1;
         float distanceToOrbit = distanceToPlayer + offset;
@@ -112,10 +113,10 @@ public class GameManager : MonoBehaviour
 
     public Vector3 randomSpawnPos(int low, int high)
     {
-        int A = Random.Range(low, high);
+        int A = Random.Range(low, high + 1);
         if (Random.value > 0.5f)
             A *= -1;
-        int B = Random.Range(-high, high);
+        int B = Random.Range(-high, high + 1);
         int x;
         int y;
 
@@ -140,7 +141,7 @@ public class GameManager : MonoBehaviour
         titleText.gameObject.SetActive(false);
         foreach (Button i in startButtons)
             i.gameObject.SetActive(false);
-        playerDifficulty = (divideDifficultyToGunCount * (difficulty + 2)) + Random.Range(difficulty, difficulty * difficulty);
+        playerDifficulty = (divideDifficultyToGunCount * (difficulty + 2)) + Random.Range(difficulty, (difficulty * difficulty) + 1);
         levelingMax = difficultyToLeveling * playerDifficulty;
         playerLevel = 1;
     }
@@ -166,7 +167,7 @@ public class GameManager : MonoBehaviour
     {
         playerScore += scoreToAdd;
         scoreText.text = "Score: " + playerScore;
-        playerDifficulty += Random.Range(1, enemyGunCount);
+        playerDifficulty += Random.Range(1, enemyGunCount + 1);
 
         
     }
@@ -193,39 +194,45 @@ public class GameManager : MonoBehaviour
             string upgradeName;
             int option = 0;
             int level;
-
+            
             foreach (Button i in upgradeButtons)
             {
                 option += 1;
                 if (option == 1)
                 {
-                    upgrade = Random.Range(1, 5);
+                    upgrade = Random.Range(1, 6 + 1);
+                    if (upgrade == 6)
+                        upgrade = Random.Range(1, 6 + 1);
                     option1 = upgrade;
-                    level = Random.Range(1, 3);
+                    level = Random.Range(1, 3 + 1);
                     level1 = level;
                 }
                 else if (option == 2)
                 {
                     while (upgrade == option1)
                     {
-                        upgrade = Random.Range(1, 5);
+                        upgrade = Random.Range(1, 6 + 1);
+                        if (upgrade == 6)
+                            upgrade = Random.Range(1, 6 + 1);
                     }
                     option2 = upgrade;
-                    level = Random.Range(1, 3);
+                    level = Random.Range(1, 3 + 1);
                     level2 = level;
                 }
                 else
                 {
                     while (upgrade == option2 || upgrade == option1)
                     {
-                        upgrade = Random.Range(1, 5);
+                        upgrade = Random.Range(1, 6 + 1);
+                        if (upgrade == 6)
+                            upgrade = Random.Range(1, 6 + 1);
                     }
                     option3 = upgrade;
-                    level = Random.Range(1, 3);
+                    level = Random.Range(1, 3 + 1);
                     level3 = level;
-                } 
+                }
 
-                // Somehow options 3 and five are rarer than the others and five is the rarest
+
                 if (upgrade == 1)
                     upgradeName = "Health";
                 else if (upgrade == 2)
@@ -234,8 +241,10 @@ public class GameManager : MonoBehaviour
                     upgradeName = "Range";
                 else if (upgrade == 4)
                     upgradeName = "Attack Speed";
-                else
+                else if (upgrade == 5)
                     upgradeName = "Damage";
+                else
+                    upgradeName = "Everything";
                 i.GetComponentInChildren<TextMeshProUGUI>().text = upgradeName + ": " + level;
             }
         }

@@ -47,13 +47,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distanceToPlayer: 0
-  shootRange: 20
-  shootOffset: 5
   bulletPrefab: {fileID: 146110498514957662, guid: 1bfb93396e4fc1c429edeb5259c30c69, type: 3}
   lazerPrefab: {fileID: 146110498514957662, guid: 1ed296057a7dbdc4ab05c995d6798cd9, type: 3}
-  shootDelaySecondsMain: 2
-  shootDelaySecondsSub: 10
   main: 1
+  enemyPower: 1
 --- !u!1 &1227927319051693226
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,6 +413,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 25
+  enemyMainGun: {fileID: 1227927319000888741}
   enemyGunPrefab: {fileID: 5200114918343956249, guid: 11978f8832e8ba84e81c1ab1577fc3d1, type: 3}
   orbit: {fileID: 1227927319272014001}
   partsPrefab: {fileID: 6147294305763868589, guid: 99e040cd005524a48b585e0be83bca61, type: 3}
+  enemyPower: 1

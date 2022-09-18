@@ -124,9 +124,9 @@ public class Player : MonoBehaviour
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.G))
+            if (Input.GetKeyDown(KeyCode.W))
                 ToggleMainGun();
-            if (Input.GetKeyDown(KeyCode.H))
+            if (Input.GetKeyDown(KeyCode.E))
                 ToggleSubGuns();
         }
     }
@@ -233,14 +233,32 @@ public class Player : MonoBehaviour
         else if (upgrade == 3)
         {
             rangeLevel += level;
-            mainCamera.orthographicSize = 20 + ((rangeLevel - 1) * 5);
+            mainCamera.orthographicSize = 20 + ((rangeLevel - 1) * 2.5f);
         }
         else if (upgrade == 4)
         {
             attackSpeedLevel += level;
         }
+        else if (upgrade == 5)
+        {
+            damageLevel += level;
+        }
         else
         {
+            // Health
+            healthLevel += level;
+            playerMaxHealth = ((healthLevel - 1) * 20) + 100;
+            Damage(level * -20);
+            // Regeneration
+            regenerationLevel += level;
+            regenCountdownMax = 5 - ((regenerationLevel - 1) * 0.5f);
+            regenTimeMax = 1 - ((regenerationLevel - 1) * 0.05f);
+            // Range
+            rangeLevel += level;
+            mainCamera.orthographicSize = 20 + ((rangeLevel - 1) * 2.5f);
+            // Attack Speed
+            attackSpeedLevel += level;
+            // Damage
             damageLevel += level;
         }
     }

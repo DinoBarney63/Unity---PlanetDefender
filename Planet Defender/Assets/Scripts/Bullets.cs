@@ -25,10 +25,10 @@ public class Bullets : MonoBehaviour
     {
         // Moves forward until far distanced from the player
         bulletRb.AddForce(transform.up * -1 * bulletSpeed);
-        if (Mathf.Abs(transform.position.x) > player.transform.position.x + 60)
+        if (Mathf.Abs(transform.position.x) > player.transform.position.x + 60 + (player.GetComponent<Player>().rangeLevel * 5))
         {
             Destroy(gameObject);
-        }else if (Mathf.Abs(transform.position.y) > player.transform.position.y + 60)
+        }else if (Mathf.Abs(transform.position.y) > player.transform.position.y + 60 + (player.GetComponent<Player>().rangeLevel * 5))
         {
             Destroy(gameObject);
         }

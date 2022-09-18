@@ -20,7 +20,7 @@ public class Orbit : MonoBehaviour
         Quaternion desiredRotation = Quaternion.LookRotation(Vector3.forward, playerDirection);
         transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, 1);
         startingAngle = transform.rotation.eulerAngles.z;
-        double speedOffset = Random.Range(-10, 10) * 0.1;
+        double speedOffset = Random.Range(-10, 10 + 1) * 0.1;
         speed = 1.5f + (float)speedOffset;
         clockwise = Random.value > 0.5f;
         rotating = true;
