@@ -816,12 +816,13 @@ MonoBehaviour:
   gameOverText: {fileID: 470000081}
   restartButton: {fileID: 1434803175}
   playerDifficulty: 0
+  initalPlayerDifficulty: 0
   progressBar: {fileID: 37263501}
   progressBarText: {fileID: 1206667201}
   levelingCount: 0
   levelingMax: 0
   playerLevel: 1
-  difficultyToLeveling: 1.1
+  difficultyToLeveling: 1.2
   upgradeButtons:
   - {fileID: 411048221}
   - {fileID: 1314314311}

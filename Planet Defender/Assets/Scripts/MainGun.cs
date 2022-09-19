@@ -40,7 +40,7 @@ public class MainGun : MonoBehaviour
             if (Input.GetMouseButton(1) && shootDelay < 0)
             {
                 Shoot();
-                shootDelay = shootDelaySeconds - (player.GetComponent<Player>().attackSpeedLevel * shootDelaySeconds * 0.1f);
+                shootDelay = shootDelaySeconds * Mathf.Pow(0.8f, player.GetComponent<Player>().attackSpeedLevel);
             }
         }else
         {
@@ -74,7 +74,7 @@ public class MainGun : MonoBehaviour
 
             // If the gun is disabled it checks if the closest enemy is inside it's shooting range
             // If so it rotates to point it. Once pointing in the right direction it fires
-            if (distanceToClosestEnemy <= shootRange + ((player.GetComponent<Player>().rangeLevel - 1) * 5))
+            if (distanceToClosestEnemy <= shootRange + ((player.GetComponent<Player>().rangeLevel - 1) * 2))
             {
                 Vector3 playerDirection = transform.position - nearestEnemy.transform.position;
                 Quaternion desiredRotation = Quaternion.LookRotation(Vector3.forward, playerDirection);
@@ -84,9 +84,9 @@ public class MainGun : MonoBehaviour
                 if ((transform.rotation.eulerAngles.z + shootOffset > toRotate) && (transform.rotation.eulerAngles.z - shootOffset < toRotate) && shootDelay < 0)
                 {
                     Shoot();
-                    shootDelay = shootDelaySeconds - (player.GetComponent<Player>().attackSpeedLevel * shootDelaySeconds * 0.1f);
+                    shootDelay = shootDelaySeconds * Mathf.Pow(0.8f, player.GetComponent<Player>().attackSpeedLevel);
                 }
-            }else if (distanceToClosestNeutral <= shootRange + ((player.GetComponent<Player>().rangeLevel - 1) * 5))
+            }else if (distanceToClosestNeutral <= shootRange + ((player.GetComponent<Player>().rangeLevel - 1) * 2))
             {
                 // If the closest enemy is out of range it checks if the closest neutral is inside it's shooting range
                 // If so it rotates to point it. Once pointing in the right direction it fires
@@ -98,7 +98,7 @@ public class MainGun : MonoBehaviour
                 if ((transform.rotation.eulerAngles.z + shootOffset > toRotate) && (transform.rotation.eulerAngles.z - shootOffset < toRotate) && shootDelay < 0)
                 {
                     Shoot();
-                    shootDelay = shootDelaySeconds - (player.GetComponent<Player>().attackSpeedLevel * shootDelaySeconds * 0.1f);
+                    shootDelay = shootDelaySeconds * Mathf.Pow(0.8f, player.GetComponent<Player>().attackSpeedLevel);
                 }
             }
         }

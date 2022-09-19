@@ -25,10 +25,6 @@ public class EnemyGun : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("Player");
-        float scale = 0.5f + ((enemyPower - 1) * 0.125f);
-        if (main)
-            scale = 0.75f + ((enemyPower - 1) * 0.125f);
-        transform.localScale = new Vector3(scale, scale, scale);
 
         if (main)
             shootDelay = shootDelaySecondsMain;
@@ -70,10 +66,11 @@ public class EnemyGun : MonoBehaviour
     }
 
     // Sub gun spawning
-    public void Spawned(float startingAngleRad, float startingAngleDeg, Vector3 enemyPos)
+    public void Spawned(float startingAngleDeg, Vector3 enemyPos)
     {
         // Sets position and rotation restrictions based on starting rotation
         transform.Rotate(0, 0, startingAngleDeg);
+        float startingAngleRad = (startingAngleDeg / 180 * Mathf.PI) - (Mathf.PI / 2);
         transform.position = new Vector3 (enemyPos.x + 1.5f * Mathf.Cos(startingAngleRad), enemyPos.y + 1.5f * Mathf.Sin(startingAngleRad), 0);
 
         point1 = startingAngleDeg - 100;

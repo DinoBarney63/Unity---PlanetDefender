@@ -22,13 +22,14 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI gameOverText;
     public Button restartButton;
     public int playerDifficulty;
+    public int initalPlayerDifficulty;
     private int divideDifficultyToGunCount = 20;
     public Slider progressBar;
     public TextMeshProUGUI progressBarText;
     public float levelingCount;
     public float levelingMax;
     public int playerLevel = 1;
-    public float difficultyToLeveling = 1.1f;
+    public float difficultyToLeveling = 1.2f;
     public List<Button> upgradeButtons;
     public bool waitingForUpgrade = false;
     public int option1 = 0;
@@ -141,7 +142,9 @@ public class GameManager : MonoBehaviour
         titleText.gameObject.SetActive(false);
         foreach (Button i in startButtons)
             i.gameObject.SetActive(false);
-        playerDifficulty = (divideDifficultyToGunCount * (difficulty + 2)) + Random.Range(difficulty, (difficulty * difficulty) + 1);
+        initalPlayerDifficulty = difficulty;
+        playerDifficulty = (divideDifficultyToGunCount * (2 * difficulty + 2)) + Random.Range(difficulty, (difficulty * difficulty) + 1);
+        difficultyToLeveling += difficulty * 0.2f;
         levelingMax = difficultyToLeveling * playerDifficulty;
         playerLevel = 1;
     }

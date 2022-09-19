@@ -6,12 +6,9 @@ public class Enemy : MonoBehaviour
 {
     private GameManager gameManager;
     public int health = 25;
-    public GameObject enemyMainGun;
     public GameObject enemyGunPrefab;
     private int guns;
-    private float spreadRad = 0;
     private float spreadDeg = 0;
-    private float gunAngleRad = 0;
     private float gunAngleDeg = 90;
     public GameObject orbit;
     public GameObject partsPrefab;
@@ -21,7 +18,6 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        enemyMainGun.GetComponent<EnemyGun>().enemyPower = enemyPower;
     }
 
     // Update is called once per frame
@@ -47,25 +43,25 @@ public class Enemy : MonoBehaviour
     {
         guns = gunsCount;
         int gunCount = gunsCount;
-        while (gunCount > 13)
+        while (gunCount > 11)
         {
             enemyPower += 1;
-            gunCount -= 10;
+            gunCount -= 8;
         }
-        health = 25 + (enemyPower * 10);
+        health = (enemyPower * 10) + 5;
         // Spawns in sub-guns based on gunCount
-        spreadRad = Mathf.PI * 2 / gunCount;
         spreadDeg = 360 / gunCount;
         for (int i = 0; i < gunCount; i++)
         {
-            gunAngleRad += spreadRad;
             gunAngleDeg += spreadDeg;
             GameObject newGun = Instantiate(enemyGunPrefab);
             newGun.transform.parent = transform;
-            newGun.GetComponent<EnemyGun>().Spawned(gunAngleRad, gunAngleDeg, transform.position);
+            newGun.GetComponent<EnemyGun>().Spawned(gunAngleDeg, transform.position);
             newGun.GetComponent<EnemyGun>().main = false;
             newGun.GetComponent<EnemyGun>().enemyPower = enemyPower;
         }
+        float size = (enemyPower * 0.1f) + 0.8f;
+        transform.localScale = new Vector3(size, size, size);
         transform.position = orbit.transform.position + new Vector3(0, orbitDistance, 0);
     }
 
@@ -80,20 +76,20 @@ public class Enemy : MonoBehaviour
         int spawning = points;
         while (loop)
         {
-            if (spawning >= 7)
+            if (spawning >= 17)
             {
-                SpawnLevelPart(7);
-                spawning -= 7;
+                SpawnLevelPart(17);
+                spawning -= 17;
+            }
+            else if (spawning >= 11)
+            {
+                SpawnLevelPart(11);
+                spawning -= 11;
             }
             else if (spawning >= 5)
             {
                 SpawnLevelPart(5);
                 spawning -= 5;
-            }
-            else if (spawning >= 3)
-            {
-                SpawnLevelPart(3);
-                spawning -= 3;
             }
             else if (spawning >= 1)
             {

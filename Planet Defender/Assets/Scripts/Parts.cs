@@ -42,7 +42,7 @@ public class Parts : MonoBehaviour
     public void AddValue(int value)
     {
         partValue = value;
-        float size = partValue * 0.1f;
+        float size = Mathf.Pow(0.9f, 20 - partValue);
         gameObject.transform.localScale = new Vector3(size, size, size);
         
         if(Random.value > 0.6f)

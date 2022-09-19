@@ -66,7 +66,7 @@ public class Player : MonoBehaviour
             foreach (Neutral i in neutralList)
             {
                 float distanceToNeutral = DistanceToNeutral(i);
-                if (distanceToNeutral > (55 + ((rangeLevel - 1) * 10)))
+                if (distanceToNeutral > (55 + ((rangeLevel - 1) * 5)))
                 {
                     i.GetComponent<Neutral>().SpeedUp(10);
                 }
@@ -80,14 +80,14 @@ public class Player : MonoBehaviour
                     distanceToClosestEnemy = distanceToEnemy;
                     nearestEnemy = i;
                 }
-                if (distanceToEnemy > (55 + ((rangeLevel - 1) * 10)))
+                if (distanceToEnemy > (55 + ((rangeLevel - 1) * 5)))
                 {
                     i.GetComponent<Enemy>().SpeedUp(10);
                 }
             }
 
             // If the closest enemy is further than 50 its rotation speed is increased until in range 
-            if (distanceToClosestEnemy > (50 + ((rangeLevel - 1) * 10)))
+            if (distanceToClosestEnemy > (50 + ((rangeLevel - 1) * 5)))
             {
                 nearestEnemy.GetComponent<Enemy>().SpeedUp(30);
             }
@@ -227,13 +227,13 @@ public class Player : MonoBehaviour
         else if (upgrade == 2)
         {
             regenerationLevel += level;
-            regenCountdownMax = 5 - ((regenerationLevel - 1) * 0.5f);
-            regenTimeMax = 1 - ((regenerationLevel - 1) * 0.05f);
+            regenCountdownMax = 5 * Mathf.Pow(0.8f, regenerationLevel);
+            regenTimeMax = Mathf.Pow(0.8f, regenerationLevel);
         }
         else if (upgrade == 3)
         {
             rangeLevel += level;
-            mainCamera.orthographicSize = 20 + ((rangeLevel - 1) * 2.5f);
+            mainCamera.orthographicSize = 45 - (25 * Mathf.Pow(0.8f, rangeLevel));
         }
         else if (upgrade == 4)
         {
@@ -251,11 +251,11 @@ public class Player : MonoBehaviour
             Damage(level * -20);
             // Regeneration
             regenerationLevel += level;
-            regenCountdownMax = 5 - ((regenerationLevel - 1) * 0.5f);
-            regenTimeMax = 1 - ((regenerationLevel - 1) * 0.05f);
+            regenCountdownMax = 5 * Mathf.Pow(0.8f, regenerationLevel);
+            regenTimeMax = Mathf.Pow(0.8f, regenerationLevel);
             // Range
             rangeLevel += level;
-            mainCamera.orthographicSize = 20 + ((rangeLevel - 1) * 2.5f);
+            mainCamera.orthographicSize = 45 - (25 * Mathf.Pow(0.8f, rangeLevel));
             // Attack Speed
             attackSpeedLevel += level;
             // Damage
