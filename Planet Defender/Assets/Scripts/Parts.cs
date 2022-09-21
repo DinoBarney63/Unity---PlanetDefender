@@ -43,6 +43,8 @@ public class Parts : MonoBehaviour
     {
         partValue = value;
         float size = Mathf.Pow(0.9f, 20 - partValue);
+        if (size > 1)
+            size = 1;
         gameObject.transform.localScale = new Vector3(size, size, size);
         
         if(Random.value > 0.6f)

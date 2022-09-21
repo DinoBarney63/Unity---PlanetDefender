@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
     public TextMeshProUGUI mainGunText;
     public Button subGunButton;
     public TextMeshProUGUI subGunText;
-    public float distanceToClosestEnemy;
+    private float distanceToClosestEnemy;
     public int healthLevel = 1;
     public int regenerationLevel = 1;
     public int rangeLevel = 1;
@@ -66,7 +66,7 @@ public class Player : MonoBehaviour
             foreach (Neutral i in neutralList)
             {
                 float distanceToNeutral = DistanceToNeutral(i);
-                if (distanceToNeutral > (55 + ((rangeLevel - 1) * 5)))
+                if (distanceToNeutral > 105 - (50 * Mathf.Pow(0.8f, rangeLevel)))
                 {
                     i.GetComponent<Neutral>().SpeedUp(10);
                 }
@@ -80,14 +80,14 @@ public class Player : MonoBehaviour
                     distanceToClosestEnemy = distanceToEnemy;
                     nearestEnemy = i;
                 }
-                if (distanceToEnemy > (55 + ((rangeLevel - 1) * 5)))
+                if (distanceToEnemy > 105 - (50 * Mathf.Pow(0.8f, rangeLevel)))
                 {
                     i.GetComponent<Enemy>().SpeedUp(10);
                 }
             }
 
             // If the closest enemy is further than 50 its rotation speed is increased until in range 
-            if (distanceToClosestEnemy > (50 + ((rangeLevel - 1) * 5)))
+            if (distanceToClosestEnemy > 100 - (50 * Mathf.Pow(0.8f, rangeLevel)))
             {
                 nearestEnemy.GetComponent<Enemy>().SpeedUp(30);
             }

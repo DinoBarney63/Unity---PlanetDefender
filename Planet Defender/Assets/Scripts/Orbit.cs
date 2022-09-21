@@ -6,7 +6,7 @@ public class Orbit : MonoBehaviour
 {
     private GameObject player;
     public bool rotating = false;
-    public float speed = 1.0f;
+    public float speed;
     public bool clockwise = true;
     private int direction;
     public float startingAngle;

@@ -31,10 +31,10 @@ public class Enemy : MonoBehaviour
         health -= damageTaken;
         if (health <= 0)
         {
-            SpawnParts(Mathf.RoundToInt(guns * Mathf.Pow(gameManager.GetComponent<GameManager>().difficultyToLeveling, 2)));
+            SpawnParts(Mathf.RoundToInt(guns * gameManager.GetComponent<GameManager>().difficultyToLeveling * 50));
             Destroy(orbit);
             int score = Mathf.RoundToInt(guns * 1.5f);
-            gameManager.GetComponent<GameManager>().UpdatePlayerScore(score, guns);
+            gameManager.GetComponent<GameManager>().UpdatePlayerScore(score);
 
         }
     }
@@ -76,7 +76,12 @@ public class Enemy : MonoBehaviour
         int spawning = points;
         while (loop)
         {
-            if (spawning >= 17)
+            if (spawning > 40)
+            {
+                SpawnLevelPart(spawning);
+                spawning = 0;
+            }
+            else if (spawning >= 17)
             {
                 SpawnLevelPart(17);
                 spawning -= 17;

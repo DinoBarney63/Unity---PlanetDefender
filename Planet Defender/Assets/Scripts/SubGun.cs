@@ -15,7 +15,7 @@ public class SubGun : MonoBehaviour
     private float point1 = 0;
     private float point2 = 360;
     private float toRotate;
-    private float shootRange = 20;
+    private float shootRange = 15;
     private float shootOffset = 5;
     public float shootDelaySeconds = 0.75f;
     private float shootDelay;
@@ -98,7 +98,7 @@ public class SubGun : MonoBehaviour
 
             // If the gun is disabled it checks if the closest enemy is inside it's shooting range
             // If so it rotates to point it, if it can. Once pointing in the right direction it fires
-            if (distanceToClosestEnemy <= shootRange + ((player.GetComponent<Player>().rangeLevel - 1) * 2))
+            if (distanceToClosestEnemy <= shootRange + 15 - (15 * Mathf.Pow(0.8f, player.GetComponent<Player>().rangeLevel)))
             {
                 Vector3 playerDirection = transform.position - nearestEnemy.transform.position;
                 Quaternion desiredRotation = Quaternion.LookRotation(Vector3.forward, playerDirection);
@@ -112,7 +112,7 @@ public class SubGun : MonoBehaviour
                     shootDelay = shootDelaySeconds * Mathf.Pow(0.8f, player.GetComponent<Player>().attackSpeedLevel);
                 }
             }
-            else if (distanceToClosestNeutral <= shootRange + ((player.GetComponent<Player>().rangeLevel - 1) * 2))
+            else if (distanceToClosestNeutral <= shootRange + 15 - (15 * Mathf.Pow(0.8f, player.GetComponent<Player>().rangeLevel)))
             {
                 // If the closest enemy is out of range it checks if the closest neutral is inside it's shooting range
                 // If so it rotates to point it, if it can. Once pointing in the right direction it fires

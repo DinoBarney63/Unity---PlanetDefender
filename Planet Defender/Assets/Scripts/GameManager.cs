@@ -29,7 +29,7 @@ public class GameManager : MonoBehaviour
     public float levelingCount;
     public float levelingMax;
     public int playerLevel = 1;
-    public float difficultyToLeveling = 1.2f;
+    public float difficultyToLeveling;
     public List<Button> upgradeButtons;
     public bool waitingForUpgrade = false;
     public int option1 = 0;
@@ -144,8 +144,8 @@ public class GameManager : MonoBehaviour
             i.gameObject.SetActive(false);
         initalPlayerDifficulty = difficulty;
         playerDifficulty = (divideDifficultyToGunCount * (2 * difficulty + 2)) + Random.Range(difficulty, (difficulty * difficulty) + 1);
-        difficultyToLeveling += difficulty * 0.2f;
-        levelingMax = difficultyToLeveling * playerDifficulty;
+        difficultyToLeveling = difficulty * 0.02f;
+        levelingMax = difficultyToLeveling * Mathf.Pow(playerDifficulty, 2);
         playerLevel = 1;
     }
 
@@ -166,11 +166,11 @@ public class GameManager : MonoBehaviour
         playerHealthText.text = "Health: " + playerHealth;
     }
 
-    public void UpdatePlayerScore(int scoreToAdd, int enemyGunCount)
+    public void UpdatePlayerScore(int scoreToAdd)
     {
         playerScore += scoreToAdd;
         scoreText.text = "Score: " + playerScore;
-        playerDifficulty += Random.Range(1, enemyGunCount + 1);
+        playerDifficulty += Random.Range(initalPlayerDifficulty, (divideDifficultyToGunCount / 5) + Random.Range(0, initalPlayerDifficulty) - 1);
 
         
     }
@@ -181,7 +181,7 @@ public class GameManager : MonoBehaviour
         if (levelingCount >= levelingMax)
         {
             levelingCount -= levelingMax;
-            levelingMax = difficultyToLeveling * playerDifficulty;
+            levelingMax = difficultyToLeveling * Mathf.Pow(playerDifficulty, 2);
             playerLevel += 1;
             LevelingUp(true);
         }
