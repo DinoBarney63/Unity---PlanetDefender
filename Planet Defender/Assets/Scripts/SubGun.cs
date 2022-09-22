@@ -11,6 +11,7 @@ public class SubGun : MonoBehaviour
     public float distanceToClosestEnemy;
     public float distanceToClosestNeutral;
     private float rotationSpeed = 0.004f;
+    private float startingAngleDeg;
     private bool between = true;
     private float point1 = 0;
     private float point2 = 360;
@@ -28,7 +29,7 @@ public class SubGun : MonoBehaviour
         player = GameObject.Find("Player");
 
         // Sets the gun restrictions based on the starting rotation
-        float startingAngleDeg = transform.rotation.eulerAngles.z;
+        startingAngleDeg = transform.rotation.eulerAngles.z;
 
         point1 = startingAngleDeg - 100;
         if (point1 < 0)
@@ -50,6 +51,7 @@ public class SubGun : MonoBehaviour
     void Update()
     {
         // If enabled it finds the mouse location and trys to point towards it, if it can then the gun will rotate towards the mouse.
+        // Otherwise it will rotate to its default position
         if (isActive)
         {
             Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
@@ -58,6 +60,11 @@ public class SubGun : MonoBehaviour
             toRotate = desiredRotation.eulerAngles.z;
             if ((toRotate >= point1 && toRotate <= point2) == between)
                 transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, Time.time * rotationSpeed);
+            else
+            {
+                Vector3 defaultRotation = new(0, 0, startingAngleDeg);
+                //transform.eulerAngles = Vector3.Lerp(transform.rotation.eulerAngles, defaultRotation, Time.time * rotationSpeed);
+            }
 
             // If the gun is pointed close to where the mouse is and the mouse is clicked then the gun fires.
             if ((transform.rotation.eulerAngles.z + shootOffset > toRotate) && (transform.rotation.eulerAngles.z - shootOffset < toRotate) && Input.GetMouseButton(0) && shootDelay < 0)
@@ -127,6 +134,11 @@ public class SubGun : MonoBehaviour
                     Shoot();
                     shootDelay = shootDelaySeconds * Mathf.Pow(0.8f, player.GetComponent<Player>().attackSpeedLevel);
                 }
+            }
+            else
+            {
+                Vector3 defaultRotation = new(0, 0, startingAngleDeg);
+                transform.eulerAngles = Vector3.Lerp(transform.rotation.eulerAngles, defaultRotation, Time.time * rotationSpeed);
             }
         }
 

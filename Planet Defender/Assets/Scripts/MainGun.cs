@@ -17,6 +17,7 @@ public class MainGun : MonoBehaviour
     public float shootDelaySeconds = 5;
     private float shootDelay;
     public int damage = 10;
+    public List<GameObject> Bars;
 
 
     // Start is called before the first frame update
@@ -103,6 +104,18 @@ public class MainGun : MonoBehaviour
             }
         }
 
+        float total = shootDelaySeconds * Mathf.Pow(0.8f, player.GetComponent<Player>().attackSpeedLevel);
+        float parts = total / Bars.Count;
+
+        foreach (GameObject Bar in Bars)
+        {
+            if(Bars.IndexOf(Bar) * parts > shootDelay)
+            {
+                Bar.GetComponent<Renderer>().material.color = Color.red;
+            }
+        }
+
+
         shootDelay -= Time.deltaTime;
     }
 
@@ -113,6 +126,10 @@ public class MainGun : MonoBehaviour
         newBullet.transform.position = transform.position;
         newBullet.transform.rotation = transform.localRotation;
         newBullet.GetComponent<Bullets>().damage = damage * player.GetComponent<Player>().damageLevel;
+        foreach (GameObject Bar in Bars)
+        {
+            Bar.GetComponent<Renderer>().material.color = new Color(0.4f, 0, 0, 1);
+        }
     }
 
     public void Toggle(bool OnOff)
