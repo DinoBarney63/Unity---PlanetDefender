@@ -7,6 +7,7 @@ public class Neutral : MonoBehaviour
     private GameManager gameManager;
     public int health = 15;
     public GameObject orbit;
+    public GameObject partsPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +26,7 @@ public class Neutral : MonoBehaviour
         health -= damageTaken;
         if (health <= 0)
         {
+            SpawnLevelPart();
             Destroy(orbit);
             gameManager.GetComponent<GameManager>().UpdatePlayerScore(3);
         }
@@ -38,5 +40,14 @@ public class Neutral : MonoBehaviour
     public void SpeedUp(float speeding)
     {
         orbit.GetComponent<Orbit>().SpeedUp(speeding);
+    }
+
+    private void SpawnLevelPart()
+    {
+        GameObject newPart = Instantiate(partsPrefab);
+        newPart.GetComponent<Parts>().AddValue(5, true);
+        float positionx = transform.position.x + (Random.Range(-20, 20 + 1) / 10);
+        float positiony = transform.position.y + (Random.Range(-20, 20 + 1) / 10);
+        newPart.transform.position = new Vector3(positionx, positiony, 0);
     }
 }

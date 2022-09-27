@@ -39,20 +39,23 @@ public class Parts : MonoBehaviour
         transform.Translate(Vector3.Normalize(playerPostion - transform.position) * 0.05f);
     }
 
-    public void AddValue(int value)
+    public void AddValue(int value, bool heal)
     {
         partValue = value;
         float size = Mathf.Pow(0.9f, 20 - partValue);
         if (size > 1)
             size = 1;
         gameObject.transform.localScale = new Vector3(size, size, size);
-        
-        if(Random.value > 0.6f)
+
+        if (heal)
         {
             healthAmount = partValue;
             circle.SetActive(false);
             square.SetActive(false);
             health.SetActive(true);
+        } else if (Random.value > 0.6f)
+        {
+            healthAmount = partValue;
         }
     }
 

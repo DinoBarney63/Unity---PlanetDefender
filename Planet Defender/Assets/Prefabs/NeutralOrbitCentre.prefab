@@ -194,3 +194,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 15
   orbit: {fileID: 1227927319272014001}
+  partsPrefab: {fileID: 6147294305763868589, guid: 99e040cd005524a48b585e0be83bca61, type: 3}

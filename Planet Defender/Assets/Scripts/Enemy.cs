@@ -111,7 +111,7 @@ public class Enemy : MonoBehaviour
     private void SpawnLevelPart(int level)
     {
         GameObject newPart = Instantiate(partsPrefab);
-        newPart.GetComponent<Parts>().AddValue(level);
+        newPart.GetComponent<Parts>().AddValue(level, false);
         float positionx = transform.position.x + (Random.Range(-20, 20 + 1) / 10);
         float positiony = transform.position.y + (Random.Range(-20, 20 + 1) / 10);
         newPart.transform.position = new Vector3(positionx, positiony, 0);
