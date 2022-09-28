@@ -76,20 +76,20 @@ public class Enemy : MonoBehaviour
         int spawning = points;
         while (loop)
         {
-            if (spawning > 40)
+            if (spawning > 63)
             {
                 SpawnLevelPart(spawning);
                 spawning = 0;
             }
-            else if (spawning >= 17)
+            else if (spawning >= 29)
             {
-                SpawnLevelPart(17);
-                spawning -= 17;
+                SpawnLevelPart(21);
+                spawning -= 21;
             }
-            else if (spawning >= 11)
+            else if (spawning >= 13)
             {
-                SpawnLevelPart(11);
-                spawning -= 11;
+                SpawnLevelPart(13);
+                spawning -= 13;
             }
             else if (spawning >= 5)
             {

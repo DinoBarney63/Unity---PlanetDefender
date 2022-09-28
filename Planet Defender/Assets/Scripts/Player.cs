@@ -68,7 +68,7 @@ public class Player : MonoBehaviour
                 float distanceToNeutral = DistanceToNeutral(i);
                 if (distanceToNeutral > 105 - (50 * Mathf.Pow(0.8f, rangeLevel)))
                 {
-                    i.GetComponent<Neutral>().SpeedUp(10);
+                    i.GetComponent<Neutral>().SpeedUp(15);
                 }
             }
 
@@ -82,11 +82,11 @@ public class Player : MonoBehaviour
                 }
                 if (distanceToEnemy > 105 - (50 * Mathf.Pow(0.8f, rangeLevel)))
                 {
-                    i.GetComponent<Enemy>().SpeedUp(10);
+                    i.GetComponent<Enemy>().SpeedUp(15);
                 }
             }
 
-            // If the closest enemy is further than 50 its rotation speed is increased until in range 
+            // If the closest enemy is not on screen its rotation speed is increased until the enemy is close to being on the screen 
             if (distanceToClosestEnemy > 100 - (50 * Mathf.Pow(0.8f, rangeLevel)))
             {
                 nearestEnemy.GetComponent<Enemy>().SpeedUp(30);

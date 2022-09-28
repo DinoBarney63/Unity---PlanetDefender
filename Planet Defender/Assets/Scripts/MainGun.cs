@@ -110,9 +110,7 @@ public class MainGun : MonoBehaviour
         foreach (GameObject Bar in Bars)
         {
             if(Bars.IndexOf(Bar) * parts > shootDelay)
-            {
                 Bar.GetComponent<Renderer>().material.color = Color.red;
-            }
         }
 
 
@@ -123,13 +121,10 @@ public class MainGun : MonoBehaviour
     {
         // Creates a new bullet and sets its rotation and position to the guns
         GameObject newBullet = Instantiate(lazerPrefab);
-        newBullet.transform.position = transform.position;
-        newBullet.transform.rotation = transform.localRotation;
+        newBullet.transform.SetPositionAndRotation(transform.position, transform.localRotation);
         newBullet.GetComponent<Bullets>().damage = damage * player.GetComponent<Player>().damageLevel;
         foreach (GameObject Bar in Bars)
-        {
             Bar.GetComponent<Renderer>().material.color = new Color(0.4f, 0, 0, 1);
-        }
     }
 
     public void Toggle(bool OnOff)

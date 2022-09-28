@@ -149,8 +149,7 @@ public class SubGun : MonoBehaviour
     {
         // Creates a new bullet and sets its rotation and position to the guns
         GameObject newBullet = Instantiate(bulletPrefab);
-        newBullet.transform.position = transform.position;
-        newBullet.transform.rotation = transform.localRotation;
+        newBullet.transform.SetPositionAndRotation(transform.position, transform.localRotation);
         newBullet.GetComponent<Bullets>().damage = damage * player.GetComponent<Player>().damageLevel;
     }
 
