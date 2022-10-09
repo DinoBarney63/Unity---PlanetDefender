@@ -66,7 +66,7 @@ public class Player : MonoBehaviour
             foreach (Neutral i in neutralList)
             {
                 float distanceToNeutral = DistanceToNeutral(i);
-                if (distanceToNeutral > 105 - (50 * Mathf.Pow(0.8f, rangeLevel)))
+                if (distanceToNeutral > 95 - (40 * Mathf.Pow(0.8f, rangeLevel)))
                 {
                     i.GetComponent<Neutral>().SpeedUp(15);
                 }
@@ -80,14 +80,14 @@ public class Player : MonoBehaviour
                     distanceToClosestEnemy = distanceToEnemy;
                     nearestEnemy = i;
                 }
-                if (distanceToEnemy > 105 - (50 * Mathf.Pow(0.8f, rangeLevel)))
+                if (distanceToEnemy > 95 - (40 * Mathf.Pow(0.8f, rangeLevel)))
                 {
                     i.GetComponent<Enemy>().SpeedUp(15);
                 }
             }
 
             // If the closest enemy is not on screen its rotation speed is increased until the enemy is close to being on the screen 
-            if (distanceToClosestEnemy > 100 - (50 * Mathf.Pow(0.8f, rangeLevel)))
+            if (distanceToClosestEnemy > 90 - (40 * Mathf.Pow(0.8f, rangeLevel)))
             {
                 nearestEnemy.GetComponent<Enemy>().SpeedUp(30);
             }
@@ -233,7 +233,7 @@ public class Player : MonoBehaviour
         else if (upgrade == 3)
         {
             rangeLevel += level;
-            mainCamera.orthographicSize = 45 - (25 * Mathf.Pow(0.8f, rangeLevel));
+            mainCamera.orthographicSize = 40 - (20 * Mathf.Pow(0.8f, rangeLevel));
         }
         else if (upgrade == 4)
         {
@@ -255,7 +255,7 @@ public class Player : MonoBehaviour
             regenTimeMax = Mathf.Pow(0.8f, regenerationLevel);
             // Range
             rangeLevel += level;
-            mainCamera.orthographicSize = 45 - (25 * Mathf.Pow(0.8f, rangeLevel));
+            mainCamera.orthographicSize = 40 - (20 * Mathf.Pow(0.8f, rangeLevel));
             // Attack Speed
             attackSpeedLevel += level;
             // Damage

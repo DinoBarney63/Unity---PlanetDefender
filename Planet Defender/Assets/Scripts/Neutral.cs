@@ -8,6 +8,7 @@ public class Neutral : MonoBehaviour
     public int health = 15;
     public GameObject orbit;
     public GameObject partsPrefab;
+    private int neutralValue = 15;
 
     // Start is called before the first frame update
     void Start()
@@ -26,15 +27,17 @@ public class Neutral : MonoBehaviour
         health -= damageTaken;
         if (health <= 0)
         {
-            SpawnLevelPart();
+            SpawnParts(neutralValue / 3);
             Destroy(orbit);
             gameManager.GetComponent<GameManager>().UpdatePlayerScore(3);
         }
     }
 
-    public void SetUp(float orbitDistance)
+    public void SetUp(float orbitDistance, int points)
     {
         transform.position = orbit.transform.position + new Vector3(0, orbitDistance, 0);
+        health = points;
+        neutralValue = points;
     }
 
     public void SpeedUp(float speeding)
@@ -42,10 +45,41 @@ public class Neutral : MonoBehaviour
         orbit.GetComponent<Orbit>().SpeedUp(speeding);
     }
 
-    private void SpawnLevelPart()
+    private void SpawnParts(int points)
+    {
+        bool loop = true;
+        int spawning = points;
+        while (loop)
+        {
+            if (spawning > 500)
+            {
+                SpawnLevelPart(spawning);
+                spawning = 0;
+            }
+            else if (spawning > 0)
+            {
+                if (spawning >= 25)
+                {
+                    SpawnLevelPart(25);
+                    spawning -= 25;
+                }
+                else
+                {
+                    SpawnLevelPart(spawning);
+                    spawning = 0;
+                }
+            }
+            else if (spawning <= 0)
+            {
+                loop = false;
+            }
+        }
+    }
+
+    private void SpawnLevelPart(int level)
     {
         GameObject newPart = Instantiate(partsPrefab);
-        newPart.GetComponent<Parts>().AddValue(5, true);
+        newPart.GetComponent<Parts>().AddValue(level, true);
         float positionx = transform.position.x + (Random.Range(-20, 20 + 1) / 10);
         float positiony = transform.position.y + (Random.Range(-20, 20 + 1) / 10);
         newPart.transform.position = new Vector3(positionx, positiony, 0);

@@ -13,7 +13,6 @@ public class GameManager : MonoBehaviour
     public int enemyCount;
     public int neutralCount;
     private bool playing = false;
-    public bool startGame = false;
     public int playerScore;
     public TextMeshProUGUI titleText;
     public List<Button> startButtons;
@@ -109,7 +108,8 @@ public class GameManager : MonoBehaviour
             offset *= -1;
         float distanceToOrbit = distanceToPlayer + offset;
         NewNeutralOrbit.transform.position = player.transform.position + spawnOffset;
-        NewNeutralOrbit.GetComponentInChildren<Neutral>().SetUp(distanceToOrbit);
+        int value = Mathf.FloorToInt(playerDifficulty / divideDifficultyToGunCount);
+        NewNeutralOrbit.GetComponentInChildren<Neutral>().SetUp(distanceToOrbit, value);
     }
 
     public Vector3 randomSpawnPos(int low, int high)
@@ -145,7 +145,7 @@ public class GameManager : MonoBehaviour
         initalPlayerDifficulty = difficulty;
         playerDifficulty = (divideDifficultyToGunCount * (2 * difficulty + 2)) + Random.Range(difficulty, (difficulty * difficulty) + 1);
         difficultyToLeveling = difficulty * 0.02f;
-        levelingMax = difficultyToLeveling * Mathf.Pow(playerDifficulty, 2);
+        levelingMax = 0.75f * difficultyToLeveling * Mathf.Pow(playerDifficulty, 2);
         playerLevel = 1;
     }
 
@@ -181,7 +181,7 @@ public class GameManager : MonoBehaviour
         if (levelingCount >= levelingMax)
         {
             levelingCount -= levelingMax;
-            levelingMax = difficultyToLeveling * Mathf.Pow(playerDifficulty, 2);
+            levelingMax = 0.75f * difficultyToLeveling * Mathf.Pow(playerDifficulty, 2);
             playerLevel += 1;
             LevelingUp(true);
         }
