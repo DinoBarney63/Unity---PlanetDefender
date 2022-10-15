@@ -47,13 +47,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distanceToPlayer: 0
-  shootRange: 20
-  shootOffset: 5
   bulletPrefab: {fileID: 146110498514957662, guid: 1bfb93396e4fc1c429edeb5259c30c69, type: 3}
   lazerPrefab: {fileID: 146110498514957662, guid: 1ed296057a7dbdc4ab05c995d6798cd9, type: 3}
-  shootDelaySecondsMain: 2
-  shootDelaySecondsSub: 10
   main: 1
+  enemyPower: 1
+  shootRange: 20
+  damage: 1
+  barrelAndBody:
+  - {fileID: 5200114919996579412}
+  - {fileID: 5200114919236989105}
+  colour: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &5200114919236989105
 GameObject:
   m_ObjectHideFlags: 0

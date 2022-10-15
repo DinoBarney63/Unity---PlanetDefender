@@ -145,7 +145,7 @@ public class GameManager : MonoBehaviour
         initalPlayerDifficulty = difficulty;
         playerDifficulty = (divideDifficultyToGunCount * (2 * difficulty + 2)) + Random.Range(difficulty, (difficulty * difficulty) + 1);
         difficultyToLeveling = difficulty * 0.02f;
-        levelingMax = 0.75f * difficultyToLeveling * Mathf.Pow(playerDifficulty, 2);
+        levelingMax = 0.5f * difficultyToLeveling * Mathf.Pow(playerDifficulty, 2);
         playerLevel = 1;
     }
 
@@ -181,7 +181,7 @@ public class GameManager : MonoBehaviour
         if (levelingCount >= levelingMax)
         {
             levelingCount -= levelingMax;
-            levelingMax = 0.75f * difficultyToLeveling * Mathf.Pow(playerDifficulty, 2);
+            levelingMax = 0.5f * difficultyToLeveling * Mathf.Pow(playerDifficulty, 2);
             playerLevel += 1;
             LevelingUp(true);
         }

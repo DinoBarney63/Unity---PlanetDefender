@@ -11,7 +11,6 @@ public class EnemyGun : MonoBehaviour
     private float point1 = 0;
     private float point2 = 360;
     private float toRotate;
-    private float shootRange = 20;
     private float shootOffset = 5;
     public GameObject bulletPrefab;
     public GameObject lazerPrefab;
@@ -20,6 +19,10 @@ public class EnemyGun : MonoBehaviour
     private float shootDelay;
     public bool main = true;
     public int enemyPower = 1;
+    public float shootRange = 20;
+    public int damage = 1;
+    public List<GameObject> barrelAndBody;
+    public Color colour;
 
     // Start is called before the first frame update
     void Start()
@@ -27,7 +30,14 @@ public class EnemyGun : MonoBehaviour
         player = GameObject.Find("Player");
 
         if (main)
+        {
             shootDelay = shootDelaySecondsMain;
+            colour = GetComponentInParent<Enemy>().gunColours[GetComponentInParent<Enemy>().type];
+            foreach (GameObject i in barrelAndBody)
+            {
+                i.GetComponent<SpriteRenderer>().color = colour;
+            }
+        }
         else
             shootDelay = shootDelaySecondsSub;
     }
@@ -87,7 +97,13 @@ public class EnemyGun : MonoBehaviour
             point2 = temp;
             between = false;
         }
-        
+
+        // Changes the colour of the sub-sun based on the parent
+        colour = GetComponentInParent<Enemy>().gunColours[GetComponentInParent<Enemy>().type];
+        foreach (GameObject i in barrelAndBody)
+        {
+            i.GetComponent<SpriteRenderer>().color = colour;
+        }
     }
 
     public void Shoot(GameObject projectile)
@@ -97,8 +113,8 @@ public class EnemyGun : MonoBehaviour
         newBullet.transform.position = transform.position;
         newBullet.transform.rotation = transform.localRotation;
         if(main)
-            newBullet.GetComponent<Bullets>().damage = 2 * enemyPower;
+            newBullet.GetComponent<Bullets>().damage = 2 * enemyPower * damage;
         else
-            newBullet.GetComponent<Bullets>().damage = enemyPower;
+            newBullet.GetComponent<Bullets>().damage = enemyPower * damage;
     }
 }
