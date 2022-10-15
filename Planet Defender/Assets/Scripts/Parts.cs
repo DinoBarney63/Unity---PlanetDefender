@@ -17,19 +17,6 @@ public class Parts : MonoBehaviour
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         player = GameObject.Find("Player");
-
-        if (Random.value > 0.5f)
-        {
-            circle.SetActive(true);
-            square.SetActive(false);
-            health.SetActive(false);
-        }
-        else
-        {
-            circle.SetActive(false);
-            square.SetActive(true);
-            health.SetActive(false);
-        }
     }
 
     // Update is called once per frame
@@ -50,12 +37,19 @@ public class Parts : MonoBehaviour
         if (heal)
         {
             healthAmount = partValue;
-            circle.SetActive(false);
-            square.SetActive(false);
             health.SetActive(true);
         } else if (Random.value > 0.6f)
         {
             healthAmount = partValue;
+            health.SetActive(true);
+        }
+        else if (Random.value > 0.5f)
+        {
+            circle.SetActive(true);
+        }
+        else
+        {
+            square.SetActive(true);
         }
     }
 

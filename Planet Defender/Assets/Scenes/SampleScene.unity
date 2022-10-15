@@ -800,11 +800,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7793d554df3c0cb469384cf74cdc89fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyInOrbitPrefab: {fileID: 1227927319272014001, guid: 60989a017f740e14cbcd3b618d3601ed, type: 3}
-  neutralInOrbitPrefab: {fileID: 1227927319272014001, guid: ebe7db3eaf832374d963245dce632624, type: 3}
+  defaultEnemyPrefab: {fileID: 1227927319272014001, guid: 60989a017f740e14cbcd3b618d3601ed, type: 3}
+  neutralPrefab: {fileID: 1227927319272014001, guid: 99c0c19d220081940b1f68e5195dfe9a, type: 3}
   enemyCount: 0
   neutralCount: 0
-  startGame: 0
   playerScore: 0
   titleText: {fileID: 1958661597}
   startButtons:

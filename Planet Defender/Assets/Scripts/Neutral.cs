@@ -9,17 +9,27 @@ public class Neutral : MonoBehaviour
     public GameObject orbit;
     public GameObject partsPrefab;
     private int neutralValue = 15;
+    public List<GameObject> types;
+    public int type = 0;
+    public float speed;
+    private int direction;
 
     // Start is called before the first frame update
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        double speedOffset = Random.Range(-10, 10 + 1) * 0.1;
+        speed = 0.5f + (float)speedOffset;
+        if (Random.value > 0.5f)
+            direction = -1;
+        else
+            direction = 1;
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.eulerAngles = new Vector3(0, 0, 0);
+        transform.Rotate(0, 0, speed * direction * Time.deltaTime);
     }
 
     public void Damage(int damageTaken)
@@ -38,6 +48,8 @@ public class Neutral : MonoBehaviour
         transform.position = orbit.transform.position + new Vector3(0, orbitDistance, 0);
         health = points;
         neutralValue = points;
+        type = Random.Range(0, types.Count);
+        types[type].SetActive(true);
     }
 
     public void SpeedUp(float speeding)

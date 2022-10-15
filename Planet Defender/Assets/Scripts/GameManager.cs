@@ -8,8 +8,8 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     private GameObject player;
-    public GameObject enemyInOrbitPrefab;
-    public GameObject neutralInOrbitPrefab;
+    public GameObject defaultEnemyPrefab;
+    public GameObject neutralPrefab;
     public int enemyCount;
     public int neutralCount;
     private bool playing = false;
@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
 
     public void SpawnEnemy()
     {
-        GameObject NewEnemyOrbit = Instantiate(enemyInOrbitPrefab);
+        GameObject NewEnemyOrbit = Instantiate(defaultEnemyPrefab);
         Vector3 spawnOffset = randomSpawnPos(50, 70);
         float distanceToPlayer = Mathf.Sqrt(Mathf.Pow(spawnOffset.x, 2) + Mathf.Pow(spawnOffset.y, 2));
         float offset = Random.Range(500, 2000 + 1) / 100;
@@ -100,7 +100,7 @@ public class GameManager : MonoBehaviour
 
     public void SpawnNeutral()
     {
-        GameObject NewNeutralOrbit = Instantiate(neutralInOrbitPrefab);
+        GameObject NewNeutralOrbit = Instantiate(neutralPrefab);
         Vector3 spawnOffset = randomSpawnPos(50, 70);
         float distanceToPlayer = Mathf.Sqrt(Mathf.Pow(spawnOffset.x, 2) + Mathf.Pow(spawnOffset.y, 2));
         float offset = Random.Range(500, 2000 + 1) / 100;
