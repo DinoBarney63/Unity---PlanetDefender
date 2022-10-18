@@ -9,17 +9,15 @@ public class Orbit : MonoBehaviour
     public float speed;
     public bool clockwise = true;
     private int direction;
-    public float startingAngle;
     
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("Player");
-
+        // Points away from the player and decides the rotation speed and direction and then beguins rotating
         Vector3 playerDirection = transform.position - player.transform.position;
         Quaternion desiredRotation = Quaternion.LookRotation(Vector3.forward, playerDirection);
         transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, 1);
-        startingAngle = transform.rotation.eulerAngles.z;
         double speedOffset = Random.Range(-10, 10 + 1) * 0.1;
         speed = 1.5f + (float)speedOffset;
         clockwise = Random.value > 0.5f;
@@ -29,6 +27,7 @@ public class Orbit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Rotates
         if(rotating)
         {
             if (clockwise)

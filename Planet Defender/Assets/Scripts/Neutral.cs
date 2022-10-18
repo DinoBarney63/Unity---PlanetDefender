@@ -18,6 +18,7 @@ public class Neutral : MonoBehaviour
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        // Set the planets rotation speed and direction
         double speedOffset = Random.Range(-10, 10 + 1) * 0.1;
         speed = 0.5f + (float)speedOffset;
         if (Random.value > 0.5f)
@@ -29,6 +30,7 @@ public class Neutral : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Slowly rotates itself
         transform.Rotate(0, 0, speed * direction * Time.deltaTime);
     }
 
@@ -37,6 +39,7 @@ public class Neutral : MonoBehaviour
         health -= damageTaken;
         if (health <= 0)
         {
+            // When the neutral is destroyed, it spawns parts, updates the score and deletes itself
             SpawnParts(neutralValue / 3);
             Destroy(orbit);
             gameManager.GetComponent<GameManager>().UpdatePlayerScore(3);
@@ -45,6 +48,7 @@ public class Neutral : MonoBehaviour
 
     public void SetUp(float orbitDistance, int points)
     {
+        // Sets the orbiting distance, health, value, and type
         transform.position = orbit.transform.position + new Vector3(0, orbitDistance, 0);
         health = points;
         neutralValue = points;
@@ -63,6 +67,9 @@ public class Neutral : MonoBehaviour
         int spawning = points;
         while (loop)
         {
+            // If the amount to spawn is above 500 it is put into one part to reduce lag in the later stages of the game
+            // Otherwise smaller parts are spawned with their maxes at 50
+            // Once all parts have been spawned the loop is ended
             if (spawning > 500)
             {
                 SpawnLevelPart(spawning);

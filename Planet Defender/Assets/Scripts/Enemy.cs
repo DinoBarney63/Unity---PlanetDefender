@@ -29,6 +29,8 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Makes sure that the enemy is always pointing up
+        // If the enemy is pointing the wrong way the enemy guns will break
         transform.eulerAngles = new Vector3(0, 0, 0);
     }
 
@@ -37,6 +39,7 @@ public class Enemy : MonoBehaviour
         health -= damageTaken;
         if (health <= 0)
         {
+            // When the enemy is destroyed, it spawns parts, updates the score and deletes itself
             SpawnParts(Mathf.RoundToInt(guns * gameManager.GetComponent<GameManager>().difficultyToLeveling * 50));
             Destroy(orbit);
             int score = Mathf.RoundToInt(guns * 1.5f);
@@ -56,21 +59,21 @@ public class Enemy : MonoBehaviour
             gunCount -= 8;
         }
 
-        // initiates multipliers (0 means no change)
-        // Decides enemy type  (33% chance for special type)
+        // Decides if the the enemy is a special type (33% chance)
         if (Random.value > 0.6f)
         {
+            // Selects the special type of enemy
             type = Random.Range(1, 4); // 1 to 3 (4 is excluded in random.range)
-            
         }
 
+        // Aplies the adjustments to the enemy based on values put into the lists
         health = (enemyPower * 10) + 5 + (healthMultiplier[type] * 5);
         int enemyDamage = 1 + damageMultiplier[type];
         float enemyRange = 15 + (rangeMultiplier[type] * 5);
 
         types[type].SetActive(true);
 
-        // Sets the main gun
+        // Updates the main gun of the enemy
         GetComponentInChildren<EnemyGun>().enemyPower = enemyPower;
         GetComponentInChildren<EnemyGun>().damage = enemyDamage;
         GetComponentInChildren<EnemyGun>().shootRange = enemyRange;
@@ -79,6 +82,7 @@ public class Enemy : MonoBehaviour
         spreadDeg = 360 / gunCount;
         for (int i = 0; i < gunCount; i++)
         {
+            // After spawning in the sub guns are given their properties (Power, damage, range)
             gunAngleDeg += spreadDeg;
             GameObject newGun = Instantiate(enemyGunPrefab);
             newGun.transform.parent = transform;
@@ -88,8 +92,10 @@ public class Enemy : MonoBehaviour
             newGun.GetComponent<EnemyGun>().damage = enemyDamage;
             newGun.GetComponent<EnemyGun>().shootRange = enemyRange;
         }
+        // Enemy size is set based on the enemy's power
         float size = (enemyPower * 0.1f) + 0.8f;
         transform.localScale = new Vector3(size, size, size);
+        // Sets the distance away from it's orbit point
         transform.position = orbit.transform.position + new Vector3(0, orbitDistance, 0);
     }
 
@@ -104,6 +110,9 @@ public class Enemy : MonoBehaviour
         int spawning = points;
         while (loop)
         {
+            // If the amount to spawn is above 500 it is put into one part to reduce lag in the later stages of the game
+            // Otherwise smaller parts are spawned with their maxes at 50
+            // Once all parts have been spawned the loop is ended
             if (spawning > 500)
             {
                 SpawnLevelPart(spawning);
@@ -130,6 +139,7 @@ public class Enemy : MonoBehaviour
 
     private void SpawnLevelPart(int level)
     {
+        // Spawns the part, gives it it's value and give it and moves to the enemy's position
         GameObject newPart = Instantiate(partsPrefab);
         newPart.GetComponent<Parts>().AddValue(level, false);
         float positionx = transform.position.x + (Random.Range(-20, 20 + 1) / 10);

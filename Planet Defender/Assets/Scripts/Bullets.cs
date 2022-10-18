@@ -23,7 +23,8 @@ public class Bullets : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Moves forward until far distanced from the player
+        // Moves bullet forward
+        // If the bullet is further than outside the player's veiw the bullet is destroyed
         bulletRb.AddForce(force: -1 * bulletSpeed * transform.up);
         if (Mathf.Abs(transform.position.x) > player.transform.position.x + 60 + (player.GetComponent<Player>().rangeLevel * 5))
         {
@@ -38,7 +39,8 @@ public class Bullets : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // Waits a small delay so it dosent collide with it's inital shooter
+        // If the age of the bullets is less than 0.05 nothing happens
+        // This is so the bullet won't trigger with it's inital shooter
         if (age > 0.05)
         {
             // When collides with a player, a enemy or a neutral it deals damage to them
@@ -63,6 +65,7 @@ public class Bullets : MonoBehaviour
             }
             else
             {
+                // The bullet is unable to collide with part objects
                 if (!other.CompareTag("Part"))
                     Destroy(gameObject);
             }

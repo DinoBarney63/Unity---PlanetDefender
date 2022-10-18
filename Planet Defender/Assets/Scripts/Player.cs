@@ -37,9 +37,8 @@ public class Player : MonoBehaviour
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         playerHealth = playerMaxHealth;
-        alive = true;
 
-        //Disables guns until the game beguins
+        //Disables all guns until the game beguins
         mainGunActive = false;
         subGunActive = false;
         mainGun.GetComponent<MainGun>().Toggle(false);
@@ -57,12 +56,14 @@ public class Player : MonoBehaviour
     {
         if (playing)
         {
-            // Gose through each enemy and figures out which enemy is the closest to the player
+            // Goes through each enemy and figures out which enemy is the closest to the player
             Enemy[] enemyList = FindObjectsOfType<Enemy>();
             distanceToClosestEnemy = 1000;
             Enemy nearestEnemy = null;
             Neutral[] neutralList = FindObjectsOfType<Neutral>();
 
+            // Checks each Neutral and sees if it is close to being on the player screen
+            // If the Neurtal is further away its rotation is sped up until within range
             foreach (Neutral i in neutralList)
             {
                 float distanceToNeutral = DistanceToNeutral(i);
@@ -72,6 +73,9 @@ public class Player : MonoBehaviour
                 }
             }
 
+            // Checks each enemy and sees which one is the closest to the player
+            // Checks each Enemy and sees if it is close to being on the player screen
+            // If the Enemy is further away its rotation is sped up until within range
             foreach (Enemy i in enemyList)
             {
                 float distanceToEnemy = DistanceToEnemy(i);
@@ -86,14 +90,14 @@ public class Player : MonoBehaviour
                 }
             }
 
-            // If the closest enemy is not on screen its rotation speed is increased until the enemy is close to being on the screen 
+            // If the closest Enemy not about to be on screen  its rotation is sped up until the Enemy is close to be on the screen
             if (distanceToClosestEnemy > 90 - (40 * Mathf.Pow(0.8f, rangeLevel)))
             {
                 nearestEnemy.GetComponent<Enemy>().SpeedUp(30);
             }
 
             // Health regen timer
-            // If the inital timer is counting down...
+            // If the inital timer is counting down and the player is not at max health
             if (regenCountingDown && playerHealth != playerMaxHealth)
             {
                 // If the timer is above 0 then the timer is decreased by time
@@ -101,7 +105,7 @@ public class Player : MonoBehaviour
                     regenCountdown -= Time.deltaTime;
                 else
                 {
-                    // Otherwise the timer is set to 0 and the inital timer is deactivated
+                    // Otherwise the timer is less than 0 and the inital timer is deactivated
                     regenCountdown = regenCountdownMax;
                     regenTime = regenTimeMax;
                     regenCountingDown = false;
@@ -109,7 +113,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-                // Since the initial timer is deactivated then the second timer can run
+                // As the initial timer is deactivated then the second timer can run
                 // If this timer is above 0 then the timer is decreased by time
                 if (regenTime > 0)
                     regenTime -= Time.deltaTime;
@@ -133,10 +137,11 @@ public class Player : MonoBehaviour
 
     public void Damage(int damageTaken)
     {
-        // Reduce players health and if below or equal to 0 then the player is dead
+        // Reduces the player's health and resets the regen countdown
         playerHealth -= damageTaken;
         if(damageTaken > 0)
             regenCountingDown = true;
+        // If below or equal to 0 then the player is dead
         if (playerHealth <= 0)
         {
             alive = false;
@@ -145,15 +150,19 @@ public class Player : MonoBehaviour
             gameManager.GetComponent<GameManager>().GameOver();
             playerHealth = 0;
         }
+        // If the player's health is above the player's max health it is set to the player's max health
         else if (playerHealth >= playerMaxHealth)
             playerHealth = playerMaxHealth;
+        // Update the display
         gameManager.GetComponent<GameManager>().DisplayPlayerHealth(playerHealth);
     }
 
     public void ToggleMainGun()
     {
+        // If the game is active
         if (playing)
         {
+            // Toggles between the two states
             if(!mainGunActive)
             {
                 mainGun.GetComponent<MainGun>().Toggle(true);
@@ -172,9 +181,11 @@ public class Player : MonoBehaviour
 
     public void ToggleSubGuns()
     {
+        // If the game is active
         if (playing)
         {
-           if (!subGunActive)
+            // Toggles between the two states
+            if (!subGunActive)
             {
                 foreach (GameObject i in subGuns)
                     i.GetComponent<SubGun>().Toggle(true);
@@ -220,31 +231,37 @@ public class Player : MonoBehaviour
     {
         if (upgrade == 1)
         {
+            // Health
             healthLevel += level;
             playerMaxHealth = ((healthLevel - 1) * 20) + 100;
             Damage(level * -20);
         }
         else if (upgrade == 2)
         {
+            // Regeneration
             regenerationLevel += level;
             regenCountdownMax = 5 * Mathf.Pow(0.8f, regenerationLevel);
             regenTimeMax = Mathf.Pow(0.8f, regenerationLevel);
         }
         else if (upgrade == 3)
         {
+            // Range
             rangeLevel += level;
             mainCamera.orthographicSize = 40 - (20 * Mathf.Pow(0.8f, rangeLevel));
         }
         else if (upgrade == 4)
         {
+            // Attack Speed
             attackSpeedLevel += level;
         }
         else if (upgrade == 5)
         {
+            // Damage
             damageLevel += level;
         }
         else
         {
+            // Everything
             // Health
             healthLevel += level;
             playerMaxHealth = ((healthLevel - 1) * 20) + 100;

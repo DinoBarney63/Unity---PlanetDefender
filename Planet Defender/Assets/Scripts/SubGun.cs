@@ -60,11 +60,6 @@ public class SubGun : MonoBehaviour
             toRotate = desiredRotation.eulerAngles.z;
             if ((toRotate >= point1 && toRotate <= point2) == between)
                 transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, Time.time * rotationSpeed);
-            else
-            {
-                Vector3 defaultRotation = new(0, 0, startingAngleDeg);
-                //transform.eulerAngles = Vector3.Lerp(transform.rotation.eulerAngles, defaultRotation, Time.time * rotationSpeed);
-            }
 
             // If the gun is pointed close to where the mouse is and the mouse is clicked then the gun fires.
             if ((transform.rotation.eulerAngles.z + shootOffset > toRotate) && (transform.rotation.eulerAngles.z - shootOffset < toRotate) && Input.GetMouseButton(0) && shootDelay < 0)
@@ -137,6 +132,7 @@ public class SubGun : MonoBehaviour
             }
             else
             {
+                // If the sub-gun is unable to find a target is rotates to it's default position
                 Vector3 defaultRotation = new(0, 0, startingAngleDeg);
                 transform.eulerAngles = Vector3.Lerp(transform.rotation.eulerAngles, defaultRotation, Time.time * rotationSpeed);
             }
@@ -147,7 +143,7 @@ public class SubGun : MonoBehaviour
 
     public void Shoot()
     {
-        // Creates a new bullet and sets its rotation and position to the guns
+        // Creates a new bullet and sets its rotation and position to the guns and sets the damage
         GameObject newBullet = Instantiate(bulletPrefab);
         newBullet.transform.SetPositionAndRotation(transform.position, transform.localRotation);
         newBullet.GetComponent<Bullets>().damage = damage * player.GetComponent<Player>().damageLevel;
@@ -155,6 +151,7 @@ public class SubGun : MonoBehaviour
 
     public void Toggle(bool OnOff)
     {
+        // Enables and disables the gun
         isActive = OnOff;
     }
 }

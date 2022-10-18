@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     private GameObject player;
-    public GameObject defaultEnemyPrefab;
+    public GameObject enemyPrefab;
     public GameObject neutralPrefab;
     public int enemyCount;
     public int neutralCount;
@@ -60,19 +60,16 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Checks the enemy and neurtal count if below the required amount new enemies and/or neutrals are spawned
         enemyCount = FindObjectsOfType<Enemy>().Length;
         neutralCount = FindObjectsOfType<Neutral>().Length;
 
         if ((enemyCount < Mathf.FloorToInt(playerDifficulty / divideDifficultyToGunCount)) && playing)
-        {
             SpawnEnemy();
-        }
-
         if ((neutralCount < Mathf.FloorToInt(playerDifficulty / (divideDifficultyToGunCount * 4))) && playing)
-        {
             SpawnNeutral();
-        }
 
+        // When upgrades are avalable hotkeys can be used to select the upgrade
         if(waitingForUpgrade)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -86,7 +83,9 @@ public class GameManager : MonoBehaviour
 
     public void SpawnEnemy()
     {
-        GameObject NewEnemyOrbit = Instantiate(defaultEnemyPrefab);
+        // Spawns the enemy orbit gives it a position and calculates the distance the enemy should be from the centre
+        // Then calculates the strenght of the enemy and give the info the enemy
+        GameObject NewEnemyOrbit = Instantiate(enemyPrefab);
         Vector3 spawnOffset = randomSpawnPos(50, 70);
         float distanceToPlayer = Mathf.Sqrt(Mathf.Pow(spawnOffset.x, 2) + Mathf.Pow(spawnOffset.y, 2));
         float offset = Random.Range(500, 2000 + 1) / 100;
@@ -94,12 +93,14 @@ public class GameManager : MonoBehaviour
             offset *= -1;
         float distanceToOrbit = distanceToPlayer + offset;
         NewEnemyOrbit.transform.position = player.transform.position + spawnOffset;
-        int enemyGuns = Mathf.FloorToInt(playerDifficulty / divideDifficultyToGunCount);
-        NewEnemyOrbit.GetComponentInChildren<Enemy>().SetUp(distanceToOrbit, enemyGuns);
+        int enemyStrenght = Mathf.FloorToInt(playerDifficulty / divideDifficultyToGunCount);
+        NewEnemyOrbit.GetComponentInChildren<Enemy>().SetUp(distanceToOrbit, enemyStrenght);
     }
 
     public void SpawnNeutral()
     {
+        // Spawns the neutral orbit gives it a position and calculates the distance the neutral should be from the centre
+        // Then calculates the value of the neutral and give the info the neutral
         GameObject NewNeutralOrbit = Instantiate(neutralPrefab);
         Vector3 spawnOffset = randomSpawnPos(50, 70);
         float distanceToPlayer = Mathf.Sqrt(Mathf.Pow(spawnOffset.x, 2) + Mathf.Pow(spawnOffset.y, 2));
@@ -114,6 +115,7 @@ public class GameManager : MonoBehaviour
 
     public Vector3 randomSpawnPos(int low, int high)
     {
+        // Calculates a random spawn position of the enemies and neutrals in a square perimeter []
         int A = Random.Range(low, high + 1);
         if (Random.value > 0.5f)
             A *= -1;
@@ -121,12 +123,10 @@ public class GameManager : MonoBehaviour
         int x;
         int y;
 
-        if(Random.value > 0.5f)
-        {
+        if(Random.value > 0.5f) {
             x = A;
             y = B;
-        }else
-        {
+        }else {
             x = B;
             y = A;
         }
@@ -137,6 +137,7 @@ public class GameManager : MonoBehaviour
 
     public void BeguinGame(int difficulty)
     {
+        // Starts the game, hides the title text and buttons and sets the player's difficulty based on the difficulty selected
         playing = true;
         player.GetComponent<Player>().BeguinGame();
         titleText.gameObject.SetActive(false);
@@ -151,6 +152,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        // Stops the game and brings up the game over text and retry button
         playing = false;
         gameOverText.gameObject.SetActive(true);
         restartButton.gameObject.SetActive(true);
@@ -168,15 +170,17 @@ public class GameManager : MonoBehaviour
 
     public void UpdatePlayerScore(int scoreToAdd)
     {
+        // Adds the score and adds to the player's difficulty
         playerScore += scoreToAdd;
         scoreText.text = "Score: " + playerScore;
         playerDifficulty += Random.Range(initalPlayerDifficulty, (divideDifficultyToGunCount / 5) + Random.Range(0, initalPlayerDifficulty) - 1);
-
-        
     }
 
     public void UpdatePlayerLeveling(int leveingAmount)
     {
+        // Updates the leveing of the player, if the leveing is over the amount required the player levels up and the amount is reset
+        // The levels required for the next level is set to a new higher amount base on the player's difficulty
+        // Then the bar is updated along with its text
         levelingCount += leveingAmount;
         if (levelingCount >= levelingMax)
         {
@@ -191,8 +195,12 @@ public class GameManager : MonoBehaviour
 
     public void LevelingUp(bool active)
     {
+        // If the player is going to be leveling up
         if (active)
         {
+            // Creates three random upgrades if the upgrade is the same compared to the others it is re-rolled
+            // The level is also random, but dose not matter if identical to another upgrade
+            // Upgrade 6 (Everything) is rare, so it is re-rolled a seconde time making it harder to get
             int upgrade = 0;
             string upgradeName;
             int option = 0;
@@ -235,7 +243,7 @@ public class GameManager : MonoBehaviour
                     level3 = level;
                 }
 
-
+                // The numbers generated for the upgrades are then turned into text to be displayed on their upgrade buttons
                 if (upgrade == 1)
                     upgradeName = "Health";
                 else if (upgrade == 2)
@@ -251,7 +259,7 @@ public class GameManager : MonoBehaviour
                 i.GetComponentInChildren<TextMeshProUGUI>().text = upgradeName + ": " + level;
             }
         }
-
+        // Enables or disables the buttons and the waiting for upgrade variable depending if it is the beguining or end of leveling up
         foreach (Button i in upgradeButtons)
             i.gameObject.SetActive(active);
 
@@ -260,6 +268,8 @@ public class GameManager : MonoBehaviour
 
     public void UpgradeSelected(int chosenUpgrade)
     {
+        // Once an upgrade is selected the leveing up sequence is ended
+        // The upgrade selected is applied and the rest is discarded
         LevelingUp(false);
         if (chosenUpgrade == 1)
             player.GetComponent<Player>().LevelUp(option1, level1);

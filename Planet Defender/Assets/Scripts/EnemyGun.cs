@@ -28,7 +28,7 @@ public class EnemyGun : MonoBehaviour
     void Start()
     {
         player = GameObject.Find("Player");
-
+        // If the gun is a main it is given its main gun delay and coloured otherwise it is given the sub-gun delay
         if (main)
         {
             shootDelay = shootDelaySecondsMain;
@@ -45,22 +45,25 @@ public class EnemyGun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Claculates the distance to the player
         float distanceToPlayerx = player.transform.position.x - transform.position.x;
         float distanceToPlayery = player.transform.position.y - transform.position.y;
         distanceToPlayer = Mathf.Sqrt(Mathf.Pow(distanceToPlayerx, 2f) + Mathf.Pow(distanceToPlayery, 2f));
 
-        // Checks if the player is within firing range. If so the the gun is pointed towards the player and once pointed it fires
+        // Checks if the player is within firing range. If so the the gun is pointed towards the player and once pointed it fires one the delay is up
+        // Also the shoot delay only counts down while in range of the player
         if (distanceToPlayer <= shootRange && player.GetComponent<Player>().alive)
         {
             Vector3 playerDirection = transform.position - player.transform.position;
             Quaternion desiredRotation = Quaternion.LookRotation(Vector3.forward, playerDirection);
             toRotate = desiredRotation.eulerAngles.z;
+            // Checks to see if the gun cna turn to the position required
             if ((toRotate >= point1 && toRotate <= point2) == between)
                 transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, Time.time * rotationSpeed);
 
             if ((transform.rotation.eulerAngles.z + shootOffset > toRotate) && (transform.rotation.eulerAngles.z - shootOffset < toRotate) && shootDelay < 0 && player.GetComponent<Player>().alive)
             {
-                // Main gun shoots lazers and sub-gun shoots bullets
+                // Main gun shoots lazers and sub-gun shoots bullets and then the delay is reset
                 if (main)
                 {
                     Shoot(lazerPrefab);

@@ -29,7 +29,7 @@ public class MainGun : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // If enabled it finds the mouse location and trys to point towards it, if it can then the gun will rotate towards the mouse.
+        // If the gun is enabled it finds the mouse location and trys to point towards it, if it can then the gun will rotate towards the mouse.
         if (isActive)
         {
             Vector3 mousePos = mainCamera.ScreenToWorldPoint(Input.mousePosition);
@@ -45,7 +45,8 @@ public class MainGun : MonoBehaviour
             }
         }else
         {
-            // Calculates which neutral is the closest to the player
+            // If the main gun is on auto
+            // It calculates which neutral is the closest to the player
             Neutral[] neutralList = FindObjectsOfType<Neutral>();
             distanceToClosestNeutral = 1000;
             Neutral nearestNeutral = null;
@@ -104,31 +105,32 @@ public class MainGun : MonoBehaviour
             }
         }
 
+        // Chandes the colour of the bars on the main gun based on how much longer the gun has to wait to reload
         float total = shootDelaySeconds * Mathf.Pow(0.8f, player.GetComponent<Player>().attackSpeedLevel);
         float parts = total / Bars.Count;
-
         foreach (GameObject Bar in Bars)
         {
             if(Bars.IndexOf(Bar) * parts > shootDelay)
                 Bar.GetComponent<Renderer>().material.color = Color.red;
         }
 
-
         shootDelay -= Time.deltaTime;
     }
 
     public void Shoot()
     {
-        // Creates a new bullet and sets its rotation and position to the guns
+        // Creates a new bullet and sets its rotation and position to the guns and sets its damage
         GameObject newBullet = Instantiate(lazerPrefab);
         newBullet.transform.SetPositionAndRotation(transform.position, transform.localRotation);
         newBullet.GetComponent<Bullets>().damage = damage * player.GetComponent<Player>().damageLevel;
+        // All bars are darkened as the gun has just been fired
         foreach (GameObject Bar in Bars)
             Bar.GetComponent<Renderer>().material.color = new Color(0.4f, 0, 0, 1);
     }
 
     public void Toggle(bool OnOff)
     {
+        // Enables and disables the gun
         isActive = OnOff;
     }
 }
