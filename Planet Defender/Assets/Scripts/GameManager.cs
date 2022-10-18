@@ -38,6 +38,7 @@ public class GameManager : MonoBehaviour
     public int level2 = 0;
     public int level3 = 0;
     public GameObject info;
+    public GameObject panel;
 
     // Start is called before the first frame update
     void Start()
@@ -53,6 +54,7 @@ public class GameManager : MonoBehaviour
         foreach (Button i in upgradeButtons)
             i.gameObject.SetActive(false);
         info.SetActive(true);
+        panel.SetActive(false);
 
         levelingCount = 0;
         levelingMax = 0;
@@ -291,6 +293,8 @@ public class GameManager : MonoBehaviour
     {
         titleText.gameObject.SetActive(false);
         startButtons.SetActive(false);
+
+        panel.SetActive(true);
 
         if (type == 1)
         {

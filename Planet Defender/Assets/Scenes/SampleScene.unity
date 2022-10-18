@@ -1005,6 +1005,7 @@ MonoBehaviour:
   level2: 0
   level3: 0
   info: {fileID: 328386836}
+  panel: {fileID: 839306320}
 --- !u!1 &316819598
 GameObject:
   m_ObjectHideFlags: 0
