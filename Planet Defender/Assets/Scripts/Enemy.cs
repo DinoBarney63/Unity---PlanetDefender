@@ -67,14 +67,13 @@ public class Enemy : MonoBehaviour
         }
 
         // Aplies the adjustments to the enemy based on values put into the lists
-        health = (enemyPower * 10) + 5 + (healthMultiplier[type] * 5);
-        int enemyDamage = 1 + damageMultiplier[type];
-        float enemyRange = 15 + (rangeMultiplier[type] * 5);
+        health = 5 + enemyPower * 5 * (2 + healthMultiplier[type]);
+        int enemyDamage = enemyPower + damageMultiplier[type];
+        float enemyRange = 5 * (3 + enemyPower + (rangeMultiplier[type] * 2));
 
         types[type].SetActive(true);
 
         // Updates the main gun of the enemy
-        GetComponentInChildren<EnemyGun>().enemyPower = enemyPower;
         GetComponentInChildren<EnemyGun>().damage = enemyDamage;
         GetComponentInChildren<EnemyGun>().shootRange = enemyRange;
 
@@ -88,7 +87,6 @@ public class Enemy : MonoBehaviour
             newGun.transform.parent = transform;
             newGun.GetComponent<EnemyGun>().Spawned(gunAngleDeg, transform.position);
             newGun.GetComponent<EnemyGun>().main = false;
-            newGun.GetComponent<EnemyGun>().enemyPower = enemyPower;
             newGun.GetComponent<EnemyGun>().damage = enemyDamage;
             newGun.GetComponent<EnemyGun>().shootRange = enemyRange;
         }

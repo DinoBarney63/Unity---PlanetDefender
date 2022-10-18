@@ -50,7 +50,7 @@ public class Neutral : MonoBehaviour
     {
         // Sets the orbiting distance, health, value, and type
         transform.position = orbit.transform.position + new Vector3(0, orbitDistance, 0);
-        health = points;
+        health = points * 2;
         neutralValue = points;
         type = Random.Range(0, types.Count);
         types[type].SetActive(true);

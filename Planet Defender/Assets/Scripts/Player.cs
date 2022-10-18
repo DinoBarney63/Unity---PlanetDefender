@@ -46,9 +46,9 @@ public class Player : MonoBehaviour
             i.GetComponent<SubGun>().Toggle(false);
 
         mainGunText.text = "Main: Disabled";
-        mainGunText.color = Color.red;
+        mainGunText.color = Color.black;
         subGunText.text = "Sub: Disabled";
-        subGunText.color = Color.red;
+        subGunText.color = Color.black;
     }
 
     // Update is called once per frame
@@ -168,13 +168,13 @@ public class Player : MonoBehaviour
                 mainGun.GetComponent<MainGun>().Toggle(true);
                 mainGunActive = true;
                 mainGunText.text = "Main: Manual";
-                mainGunText.color = Color.green;
+                mainGunText.color = Color.black;
             }else
             {
                 mainGun.GetComponent<MainGun>().Toggle(false);
                 mainGunActive = false;
                 mainGunText.text = "Main: Auto";
-                mainGunText.color = Color.red;
+                mainGunText.color = Color.white;
             }
         }
     }
@@ -191,7 +191,7 @@ public class Player : MonoBehaviour
                     i.GetComponent<SubGun>().Toggle(true);
                 subGunActive = true;
                 subGunText.text = "Sub: Manual";
-                subGunText.color = Color.green;
+                subGunText.color = Color.black;
             }
             else
             {
@@ -199,7 +199,7 @@ public class Player : MonoBehaviour
                     i.GetComponent<SubGun>().Toggle(false);
                 subGunActive = false;
                 subGunText.text = "Sub: Auto";
-                subGunText.color = Color.red;
+                subGunText.color = Color.white;
             }
         }
     }

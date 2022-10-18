@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     private bool playing = false;
     public int playerScore;
     public TextMeshProUGUI titleText;
-    public List<Button> startButtons;
+    public GameObject startButtons;
     public TextMeshProUGUI scoreText;
     public TextMeshProUGUI playerHealthText;
     public TextMeshProUGUI gameOverText;
@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
     public int level1 = 0;
     public int level2 = 0;
     public int level3 = 0;
+    public GameObject info;
 
     // Start is called before the first frame update
     void Start()
@@ -44,14 +45,14 @@ public class GameManager : MonoBehaviour
         player = GameObject.Find("Player");
 
         titleText.gameObject.SetActive(true);
-        foreach (Button i in startButtons)
-            i.gameObject.SetActive(true);
+        startButtons.SetActive(true);
         scoreText.gameObject.SetActive(true);
         playerHealthText.gameObject.SetActive(true);
         gameOverText.gameObject.SetActive(false);
         restartButton.gameObject.SetActive(false);
         foreach (Button i in upgradeButtons)
             i.gameObject.SetActive(false);
+        info.SetActive(true);
 
         levelingCount = 0;
         levelingMax = 0;
@@ -86,7 +87,7 @@ public class GameManager : MonoBehaviour
         // Spawns the enemy orbit gives it a position and calculates the distance the enemy should be from the centre
         // Then calculates the strenght of the enemy and give the info the enemy
         GameObject NewEnemyOrbit = Instantiate(enemyPrefab);
-        Vector3 spawnOffset = randomSpawnPos(50, 70);
+        Vector3 spawnOffset = RandomSpawnPos(50, 70);
         float distanceToPlayer = Mathf.Sqrt(Mathf.Pow(spawnOffset.x, 2) + Mathf.Pow(spawnOffset.y, 2));
         float offset = Random.Range(500, 2000 + 1) / 100;
         if (Random.value > 0.5f)
@@ -102,7 +103,7 @@ public class GameManager : MonoBehaviour
         // Spawns the neutral orbit gives it a position and calculates the distance the neutral should be from the centre
         // Then calculates the value of the neutral and give the info the neutral
         GameObject NewNeutralOrbit = Instantiate(neutralPrefab);
-        Vector3 spawnOffset = randomSpawnPos(50, 70);
+        Vector3 spawnOffset = RandomSpawnPos(50, 70);
         float distanceToPlayer = Mathf.Sqrt(Mathf.Pow(spawnOffset.x, 2) + Mathf.Pow(spawnOffset.y, 2));
         float offset = Random.Range(500, 2000 + 1) / 100;
         if (Random.value > 0.5f)
@@ -113,7 +114,7 @@ public class GameManager : MonoBehaviour
         NewNeutralOrbit.GetComponentInChildren<Neutral>().SetUp(distanceToOrbit, value);
     }
 
-    public Vector3 randomSpawnPos(int low, int high)
+    public Vector3 RandomSpawnPos(int low, int high)
     {
         // Calculates a random spawn position of the enemies and neutrals in a square perimeter []
         int A = Random.Range(low, high + 1);
@@ -141,8 +142,8 @@ public class GameManager : MonoBehaviour
         playing = true;
         player.GetComponent<Player>().BeguinGame();
         titleText.gameObject.SetActive(false);
-        foreach (Button i in startButtons)
-            i.gameObject.SetActive(false);
+        startButtons.SetActive(false);
+        info.SetActive(false);
         initalPlayerDifficulty = difficulty;
         playerDifficulty = (divideDifficultyToGunCount * (2 * difficulty + 2)) + Random.Range(difficulty, (difficulty * difficulty) + 1);
         difficultyToLeveling = difficulty * 0.02f;
@@ -284,5 +285,24 @@ public class GameManager : MonoBehaviour
         level1 = 0;
         level2 = 0;
         level3 = 0;
+    }
+
+    public void Infomation(int type)
+    {
+        titleText.gameObject.SetActive(false);
+        startButtons.SetActive(false);
+
+        if (type == 1)
+        {
+
+        }
+        else if (type == 2)
+        {
+
+        }
+        else if (type == 3)
+        {
+
+        }
     }
 }

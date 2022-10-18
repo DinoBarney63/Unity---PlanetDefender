@@ -18,7 +18,6 @@ public class EnemyGun : MonoBehaviour
     private float shootDelaySecondsSub = 2;
     private float shootDelay;
     public bool main = true;
-    public int enemyPower = 1;
     public float shootRange = 20;
     public int damage = 1;
     public List<GameObject> barrelAndBody;
@@ -116,8 +115,8 @@ public class EnemyGun : MonoBehaviour
         newBullet.transform.position = transform.position;
         newBullet.transform.rotation = transform.localRotation;
         if(main)
-            newBullet.GetComponent<Bullets>().damage = 2 * enemyPower * damage;
+            newBullet.GetComponent<Bullets>().damage = 2 * damage;
         else
-            newBullet.GetComponent<Bullets>().damage = enemyPower * damage;
+            newBullet.GetComponent<Bullets>().damage = damage;
     }
 }
