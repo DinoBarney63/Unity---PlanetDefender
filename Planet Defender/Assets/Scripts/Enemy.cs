@@ -67,9 +67,9 @@ public class Enemy : MonoBehaviour
         }
 
         // Aplies the adjustments to the enemy based on values put into the lists
-        health = 5 + enemyPower * 5 * (2 + healthMultiplier[type]);
+        health = 5 * (1 + enemyPower + (healthMultiplier[type] * 2));
         int enemyDamage = enemyPower + damageMultiplier[type];
-        float enemyRange = 5 * (3 + enemyPower + (rangeMultiplier[type] * 2));
+        float enemyRange = 2.5f * (6 + enemyPower + (rangeMultiplier[type] * 4));
 
         types[type].SetActive(true);
 

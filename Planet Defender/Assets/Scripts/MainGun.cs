@@ -12,7 +12,7 @@ public class MainGun : MonoBehaviour
     public float distanceToClosestNeutral;
     private float rotationSpeed = 0.004f;
     private float toRotate;
-    private float shootRange = 15;
+    private float shootRange = 20;
     private float shootOffset = 2.5f;
     public float shootDelaySeconds = 5;
     private float shootDelay;

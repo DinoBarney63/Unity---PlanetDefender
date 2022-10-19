@@ -38,7 +38,13 @@ public class GameManager : MonoBehaviour
     public int level2 = 0;
     public int level3 = 0;
     public GameObject info;
+    public List<Button> infoButtons;
     public GameObject panel;
+    public GameObject controlsText;
+    public GameObject neutralInfo;
+    public GameObject enemyInfo;
+    public GameObject verson;
+    public GameObject MyName;
 
     // Start is called before the first frame update
     void Start()
@@ -55,6 +61,11 @@ public class GameManager : MonoBehaviour
             i.gameObject.SetActive(false);
         info.SetActive(true);
         panel.SetActive(false);
+        controlsText.SetActive(false);
+        neutralInfo.SetActive(false);
+        enemyInfo.SetActive(false);
+        verson.SetActive(true);
+        MyName.SetActive(true);
 
         levelingCount = 0;
         levelingMax = 0;
@@ -146,6 +157,8 @@ public class GameManager : MonoBehaviour
         titleText.gameObject.SetActive(false);
         startButtons.SetActive(false);
         info.SetActive(false);
+        verson.SetActive(false);
+        MyName.SetActive(false);
         initalPlayerDifficulty = difficulty;
         playerDifficulty = (divideDifficultyToGunCount * (2 * difficulty + 2)) + Random.Range(difficulty, (difficulty * difficulty) + 1);
         difficultyToLeveling = difficulty * 0.02f;
@@ -159,6 +172,8 @@ public class GameManager : MonoBehaviour
         playing = false;
         gameOverText.gameObject.SetActive(true);
         restartButton.gameObject.SetActive(true);
+        verson.SetActive(true);
+        MyName.SetActive(true);
     }
 
     public void RestartGame()
@@ -294,19 +309,30 @@ public class GameManager : MonoBehaviour
         titleText.gameObject.SetActive(false);
         startButtons.SetActive(false);
 
+        foreach(Button i in infoButtons)
+        {
+            //i.GetComponent<Button>().colors = ColorBlock.defaultColorBlock;
+            i.GetComponentInChildren<TextMeshProUGUI>().color = Color.black;
+        }
+
+        infoButtons[type - 1].GetComponentInChildren<TextMeshProUGUI>().color = Color.red;
+        controlsText.SetActive(false);
+        neutralInfo.SetActive(false);
+        enemyInfo.SetActive(false);
+
         panel.SetActive(true);
 
         if (type == 1)
         {
-
+            controlsText.SetActive(true);
         }
         else if (type == 2)
         {
-
+            neutralInfo.SetActive(true);
         }
         else if (type == 3)
         {
-
+            enemyInfo.SetActive(true);
         }
     }
 }

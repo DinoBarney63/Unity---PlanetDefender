@@ -16,7 +16,7 @@ public class SubGun : MonoBehaviour
     private float point1 = 0;
     private float point2 = 360;
     private float toRotate;
-    private float shootRange = 10;
+    private float shootRange = 15;
     private float shootOffset = 2.5f;
     public float shootDelaySeconds = 0.75f;
     private float shootDelay;
